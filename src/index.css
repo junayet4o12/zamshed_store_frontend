@@ -13,10 +13,32 @@
     font-weight: 400 !important;
     font-size: 14px !important;
 }
+
 .swiper-button-next {
     color: white !important;
     font-weight: 400 !important;
     background: #000;
     width: 20px !important;
     height: 30px !important;
+}
+
+.categories {
+    transform-origin: top;
+    transform: scaleY(0);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.categoryParent:hover .categories {
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.navLinkStyle {
+    transform: scale(0);  
+    transition: transform 0.3s ease; /* Add transition for smooth effect */
+}
+
+.navLinkParent:hover .navLinkStyle {
+    transform: scale(1); 
 }

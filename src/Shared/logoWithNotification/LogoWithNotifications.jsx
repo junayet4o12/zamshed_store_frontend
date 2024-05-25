@@ -1,0 +1,15 @@
+/* eslint-disable react/prop-types */
+
+const LogoWithNotifications = ({ Logo, notification, userLogo }) => {
+    return (
+
+        <p className=" text-white w-max p-1 text-2xl relative cursor-pointer">
+            <Logo />
+            {!userLogo && <span className="text-sm absolute -top-0.5 -left-0.5 bg-secondary flex justify-center items-center size-[18px] rounded-full text-black">{notification}</span>}
+
+        </p>
+
+    );
+};
+
+export default LogoWithNotifications;
