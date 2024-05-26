@@ -53,7 +53,7 @@ const CategoryMarque = () => {
             <Swiper
                 slidesPerView={5}
                 breakpoints={{
-                    320: { // when window width is >= 320px
+                    0: { // when window width is >= 320px
                         slidesPerView: 1,
                         spaceBetween: 10,
                     },
