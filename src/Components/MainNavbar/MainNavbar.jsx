@@ -12,10 +12,10 @@ const MainNavbar = () => {
 
 
     return (
-        <div className='w-full'>
-            <div className="w-full flex items-center text-sm px-2 mt-5 gap-7">
+        <div className='w-full bg-white pb-3 lg:pb-0'>
+            <div className="w-full flex items-center text-sm px-2 mt-5 gap-7 py-3">
                 <img className='h-10 lg:h-14' src={logo} alt="" />
-                <span className='hidden  lg:block'><Categories /></span>
+                <span className='hidden  lg:block z-10'><Categories /></span>
                 <span className='hidden  lg:block w-full'><NavbarSearchBar /></span>
                 <div className='flex h-[50px] justify-center items-center gap-3  ml-auto'>
                     <button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex'><CiUser /></button>
