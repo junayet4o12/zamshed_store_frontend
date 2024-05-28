@@ -55,29 +55,24 @@ const CategoryMarque = () => {
                 breakpoints={{
                     0: { // when window width is >= 320px
                         slidesPerView: 1,
-                        spaceBetween: 10,
                     },
                     550: { // when window width is >= 480px
                         slidesPerView: 2,
-                        spaceBetween: 10,
                     },
                     790: { // when window width is >= 768px
                         slidesPerView: 3,
-                        spaceBetween: 10,
                     },
                     1024: { // when window width is >= 1024px
                         slidesPerView: 4,
-                        spaceBetween: 10,
                     },
                     1270: { // when window width is >= 1024px
                         slidesPerView: 5,
-                        spaceBetween: 10,
                     },
                 }}
-                spaceBetween={30}
                 freeMode={true}
 
                 modules={[FreeMode, Pagination]}
+                className='marqueStyle'
             >
                 {
                     categories?.map((category, idx) => <SwiperSlide key={idx}><div className="flex items-center gap-3   px-3 text-sm font-medium">
@@ -92,9 +87,6 @@ const CategoryMarque = () => {
                 }
 
             </Swiper>
-            <div className='w-max mt-[50px] bg-white shadow-2xl pt-2 flex gap-5'>
-
-            </div>
         </div>
     );
 };

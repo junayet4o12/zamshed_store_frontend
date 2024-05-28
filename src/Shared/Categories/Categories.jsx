@@ -1,47 +1,9 @@
 import { GoChevronDown } from "react-icons/go";
 import { TbMenuDeep } from "react-icons/tb";
-import { PiBread, PiCookingPot, PiGrainsLight } from "react-icons/pi";
-import { GiHotSpices, GiKetchup } from "react-icons/gi";
-import { TbMilk } from "react-icons/tb";
-import vegetables from '../../assets/potato.svg'
-import coldDrinks from '../../assets/cold-drinks.svg'
+import { categories } from "../productCategoriesArray/categories";
 
 const Categories = () => {
-    const categories = [
-        {
-            icon: <img className="w-6" src={vegetables} />,
-            value: 'Vegetables'
-        },
-        {
-            icon: <PiGrainsLight />,
-            value: 'Grains and Cereals'
-        },
-        {
-            icon: <PiCookingPot />,
-            value: 'Cooking Essentials'
-        },
-        {
-            icon: <GiHotSpices />,
-            value: 'Spices and Herbs'
-        },
-        {
-            icon: <TbMilk />,
-            value: 'Dairy Products'
-        },
-        {
-            icon: <PiBread />,
-            value: 'Bakery Items'
-        },
-        {
-            icon: <GiKetchup />,
-            value: 'Sauces and Condiments'
-        },
-        {
-            icon: <img className="w-6" src={coldDrinks} />,
-            value: 'Cold Drinks'
-        },
-
-    ]
+   
     return (
         <div className='min-w-[230px] max-w-[230px] h-[50px] border border-primary rounded-full p-2 px-5 flex gap-3 items-center justify-between cursor-pointer relative categoryParent'>
             <div className='flex items-center gap-3 '>

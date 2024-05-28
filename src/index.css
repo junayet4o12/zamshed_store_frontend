@@ -42,6 +42,17 @@
     /* Add transition for smooth effect */
 }
 
+.active .navLinkStyle {
+    transform: scale(1);
+}
+.active .navLinkParent {
+    padding-left: 16px;
+    color: #1b8057;
+}
+.navLinkParent:hover{
+    padding-left: 16px;
+    color: #1b8057;
+}
 .navLinkParent:hover .navLinkStyle {
     transform: scale(1);
 }

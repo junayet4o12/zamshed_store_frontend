@@ -5,8 +5,9 @@ import { CiUser } from "react-icons/ci";
 import LogoWithNotifications from "../../Shared/logoWithNotification/LogoWithNotifications";
 import whiteLogo from '../../assets/whiteLogo.png'
 import { FaFacebookF, FaWhatsapp, FaGoogle } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 const NavbarMenu = () => {
-    const LinkStyle = `flex items-center gap-2 hover:text-primary cursor-pointer navLinkParent transition-all duration-300 hover:pl-4 relative`
+    const LinkStyle = `flex items-center gap-2 cursor-pointer navLinkParent transition-all duration-300 relative`
     const StylingComponents = <div className="w-1.5 h-1.5 bg-primary navLinkStyle absolute left-0"></div>
     return (
         <div className="w-80 max-w-[65%] min-h-full bg-base-200 text-base-content">
@@ -35,10 +36,12 @@ const NavbarMenu = () => {
                 </div>
                 <div className='bg-white min-h-screen w-full'>
                     <ul className="py-10 px-5 flex flex-col gap-3 font-medium text-base">
-                        <li className={`${LinkStyle}`}>
-                            {StylingComponents}
-                            Home
-                        </li>
+                        <NavLink to={'/'}>
+                            <li className={`${LinkStyle}`}>
+                                {StylingComponents}
+                                Home
+                            </li>
+                        </NavLink>
                         <li className={`${LinkStyle}`}>
                             {StylingComponents}
                             Shop
@@ -55,6 +58,18 @@ const NavbarMenu = () => {
                             {StylingComponents}
                             Contact
                         </li>
+                        <NavLink to={'/addProduct'}>
+                            <li className={`${LinkStyle}`}>
+                                {StylingComponents}
+                                Add Product
+                            </li>
+                        </NavLink>
+                        <NavLink to={'updateProduct'}>
+                            <li className={`${LinkStyle}`}>
+                                {StylingComponents}
+                                Update Product
+                            </li>
+                        </NavLink>
                     </ul>
                 </div>
             </div>
