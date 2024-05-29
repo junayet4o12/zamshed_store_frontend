@@ -42,10 +42,12 @@ const NavbarMenu = () => {
                                 Home
                             </li>
                         </NavLink>
-                        <li className={`${LinkStyle}`}>
-                            {StylingComponents}
-                            Shop
-                        </li>
+                        <NavLink to={'/gallery'}>
+                            <li className={`${LinkStyle}`}>
+                                {StylingComponents}
+                                Gallery
+                            </li>
+                        </NavLink>
                         <li className={`${LinkStyle}`}>
                             {StylingComponents}
                             About Us

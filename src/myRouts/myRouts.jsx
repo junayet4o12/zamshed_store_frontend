@@ -3,6 +3,7 @@ import Home from '../Pages/Home/Home';
 import MainLayout from '../MainLayout/MainLayout';
 import AddProduct from '../Pages/AddProduct/AddProduct';
 import UpdateProduct from '../Pages/UpdateProduct/UpdateProduct';
+import Gallery from '../Pages/Gallery/Gallery';
 
 export const myRouts = createBrowserRouter([
     {
@@ -14,12 +15,16 @@ export const myRouts = createBrowserRouter([
                 element: <Home />
             },
             {
+                path: '/gallery',
+                element: <Gallery />
+            },
+            {
                 path: '/addProduct',
-                element: <AddProduct/>
+                element: <AddProduct />
             },
             {
                 path: '/updateProduct',
-                element: <UpdateProduct/>
+                element: <UpdateProduct />
             }
         ]
     },

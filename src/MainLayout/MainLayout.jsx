@@ -4,7 +4,7 @@ import MainNavbar from "../Components/MainNavbar/MainNavbar";
 
 const MainLayout = () => {
     return (
-        <div className="relative">
+        <div className="relative pb-10">
             <section className="hidden subxl:block">
                 <AddressNavbar />
             </section>

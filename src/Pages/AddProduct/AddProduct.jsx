@@ -13,6 +13,7 @@ import selectPhoto from '../../assets/selectPhoto.png'
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 const AddProduct = () => {
     const axiosPublic = useAxiosPublic()
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
@@ -90,38 +91,53 @@ const AddProduct = () => {
             console.log('error');
             return
         }
-        const image = { image: productImage0 }
-        let productImage = ''
-        const res = await axios.post(imgHostingApi, image, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        Swal.fire({
+            title: "Are you sure to add this?",
+            text: " The product will be presented to clients. You can also modify or remove the product later. ",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#1b8057",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Add Product"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const toastId = toast.loading("Product is Adding...");
+                const image = { image: productImage0 }
+                let productImage = ''
+                const res = await axios.post(imgHostingApi, image, {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                })
+                try {
+                    productImage = res?.data?.data?.display_url
+                    console.log(productImage);
+                }
+                catch (err) {
+                    toast.error(err?.message, { id: toastId });
+                    return
+                }
+                const productData = { name, productImage, category, measurement, price, addedTime }
+                console.log(productData);
+                axiosPublic.post('/addProducts', productData)
+                    .then(res => {
+                        console.log(res?.data);
+                        toast.success("Product Added Successfully!!", { id: toastId });
+                        setSelectedCategory('Select Categories')
+                        setSelectedMeasurementType('Select Measurement')
+                        setProductImagePlaceholder(selectPhoto)
+                        setProductFile0('')
+                        setProductImage('')
+                        e.target.name.value = ''
+                        e.target.price.value = ''
+                        document.getElementById('image').value = ''
+                    })
+                    .catch(err => {
+                        toast.error(err?.message, { id: toastId });
+                    })
             }
-        })
-        try {
-            productImage = res?.data?.data?.display_url
-            console.log(productImage);
-        }
-        catch (err) {
-            // toast.error(err?.message, { id: toastId });
-            return
-        }
-        const productData = { name, productImage, category, measurement, price, addedTime }
-        console.log(productData);
-        axiosPublic.post('/addProducts', productData)
-            .then(res => {
-                console.log(res?.data);
-                setSelectedCategory('Select Categories')
-                setSelectedMeasurementType('Select Measurement')
-                setProductImagePlaceholder(selectPhoto)
-                setProductFile0('')
-                setProductImage('')
-                e.target.name.value = ''
-                e.target.price.value = ''
-                document.getElementById('image').value = ''
-            })
-            .catch(err => {
-                console.log(err?.message);
-            })
+        });
+
 
     }
     return (
@@ -137,7 +153,7 @@ const AddProduct = () => {
                 </div>
                 <div className="flex flex-col gap-2">
                     {labelMaker('Product Image')}
-                    <ProductImageInputField allImgData={{ ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0, handleProductImage }} />
+                    <ProductImageInputField allImgData={{ ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0, productFile0, handleProductImage }} />
                     <p className="text-sm text-red-500">{productImageError}</p>
                 </div>
                 <div onClick={handleShowCategory} className="flex flex-col gap-2">

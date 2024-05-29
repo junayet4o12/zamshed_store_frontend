@@ -1,15 +1,21 @@
 /* eslint-disable react/prop-types */
 // import React from 'react';
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const ProductImageInputField = ({ allImgData }) => {
+    const [imageInputValue, setImageInputValue] = useState('')
     const imageInput = useRef(null)
-    const { ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0,  handleProductImage } = allImgData
+    const { ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, productFile0, setProductFile0, handleProductImage } = allImgData
 
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
+        if (!file) {
+            document.getElementById('image').files = imageInputValue
+            return
+        }
+        setImageInputValue(document.getElementById('image').files)
         const reader = new FileReader();
         reader.onload = (event) => {
             // setPhotoError('')
