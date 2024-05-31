@@ -12,9 +12,13 @@ import {
 } from "react-router-dom";
 import { myRouts } from './myRouts/myRouts.jsx';
 import { Toaster } from 'react-hot-toast';
+import { Provider } from 'react-redux';
+import store from './Redux/store.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Toaster />
-    <RouterProvider router={myRouts} />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <Toaster />
+      <RouterProvider router={myRouts} />
+    </React.StrictMode>
+  </Provider>,
 )

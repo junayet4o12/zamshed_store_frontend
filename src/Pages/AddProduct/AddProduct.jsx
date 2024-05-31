@@ -14,8 +14,10 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
 const AddProduct = () => {
     const axiosPublic = useAxiosPublic()
+    const {allProductRefetch} = useAllProductsRefetch()
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
     const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
     const [showCategory, setShowCategory] = useState(false)
@@ -131,6 +133,7 @@ const AddProduct = () => {
                         e.target.name.value = ''
                         e.target.price.value = ''
                         document.getElementById('image').value = ''
+                        allProductRefetch()
                     })
                     .catch(err => {
                         toast.error(err?.message, { id: toastId });

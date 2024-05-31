@@ -9,7 +9,7 @@ const MainLayout = () => {
                 <AddressNavbar />
             </section>
             <section className="sticky top-0 z-10">
-                <MainNavbar/>
+                <MainNavbar />
             </section>
             <Outlet></Outlet>
         </div>

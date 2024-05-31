@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../../Shared/ProductCard/ProductCard";
 import Title from "../../Shared/Title/Title";
+import Loading from "../../Shared/Loading/Loading";
+import { useGetAllProductsQuery } from "../../Redux/features/api/allBaseApi";
 
 const AllProducts = () => {
-    const [allProducts, setAllProducts] = useState([])
-    useEffect(() => {
-        fetch('http://localhost:3000/allProducts')
-            .then(res => res.json())
-            .then(data => {
-                setAllProducts(data)
-            })
-    }, [])
+    const { data: allProducts, isLoading, isError, error } = useGetAllProductsQuery()
+    if(isLoading){
+        return <Loading/>
+    }
     return (
         <div className="px-2">
             <div className="px-10"><Title text={'All Products'} /></div>

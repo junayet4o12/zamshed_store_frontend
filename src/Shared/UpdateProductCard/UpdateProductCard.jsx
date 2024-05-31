@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { IoIosHeartEmpty } from "react-icons/io";
 import ButtonLight from "../Button/ButtonLight";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ productDetails }) => {
+const UpdateProductCard = ({ productDetails }) => {
     const { addedTime, category, name, price, productImage, _id } = productDetails
     return (
         <div className="p-3 rounded-lg border border-gray-600 text-gray-600 w-[200px] space-y-3 min-h-full flex flex-col justify-between galleryParent">
@@ -24,8 +25,10 @@ const ProductCard = ({ productDetails }) => {
                         <h2>{category}</h2>
                     </div>
                 </div>
-                <div className="flex justify-center items-center ">
-                    <ButtonLight text={'Buy'} />
+                <div className="flex justify-center items-center">
+                    <Link to={`/updateProduct/${name}/${_id}`}>
+                        <ButtonLight text={'Update'} />
+                    </Link>
                 </div>
             </div>
 
@@ -33,4 +36,4 @@ const ProductCard = ({ productDetails }) => {
     );
 };
 
-export default ProductCard;
+export default UpdateProductCard;

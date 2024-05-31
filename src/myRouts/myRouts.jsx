@@ -4,6 +4,7 @@ import MainLayout from '../MainLayout/MainLayout';
 import AddProduct from '../Pages/AddProduct/AddProduct';
 import UpdateProduct from '../Pages/UpdateProduct/UpdateProduct';
 import Gallery from '../Pages/Gallery/Gallery';
+import UpdateSingleProduct from '../Pages/UpdateSingleForm/UpdateSingleProduct';
 
 export const myRouts = createBrowserRouter([
     {
@@ -25,7 +26,11 @@ export const myRouts = createBrowserRouter([
             {
                 path: '/updateProduct',
                 element: <UpdateProduct />
-            }
+            },
+            {
+                path: '/updateProduct/:name/:id',
+                element: <UpdateSingleProduct/>
+            },
         ]
     },
 ]);
