@@ -16,10 +16,11 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
+import { useUpdateProductMutation } from "../../Redux/features/api/allBaseApi";
 const UpdateProductForm = ({ productData, refetch }) => {
+    const [updateProduct, all] = useUpdateProductMutation()
     const navigate = useNavigate()
-    const {allProductRefetch} = useAllProductsRefetch()
-    console.log(allProductRefetch);
+    const { allProductRefetch } = useAllProductsRefetch()
     const { name, productImage: incomingProductImage, price, category, addedTime, measurement, _id } = productData
     const axiosPublic = useAxiosPublic()
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
@@ -131,19 +132,19 @@ const UpdateProductForm = ({ productData, refetch }) => {
                     }
                 }
                 const productData = { name, productImage, category, measurement, price }
-                axiosPublic.put(`/updateProducts/${_id}`, productData)
-                    .then(res => {
-                        console.log(res?.data);
-                        toast.success("Product Updated Successfully!!", { id: toastId });
-                        refetch()
-                        allProductRefetch()
-                        navigate('/updateProduct')
-                        
-                        
-                    })
-                    .catch(err => {
-                        toast.error(err?.message, { id: toastId });
-                    })
+                updateProduct({ data: productData, id: _id })
+                .then(res => {
+                    console.log(res);
+                    toast.success("Product Updated Successfully!!", { id: toastId });
+                    refetch()
+                    allProductRefetch()
+                    navigate('/manageProducts')
+
+
+                })
+                .catch(err => {
+                    toast.error(err?.message, { id: toastId });
+                })  
             }
         });
 

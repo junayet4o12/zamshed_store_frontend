@@ -13,8 +13,29 @@ const allBaseApi = createApi({
         getSingleProduct: builder.query({
             query: (id) => `/singleProduct/${id}`
         }),
+        addProduct: builder.mutation({
+            query: (product)=> ({
+                url:'/addProducts',
+                method: 'POST',
+                body: product
+            })
+        }),
+        updateProduct: builder.mutation({
+            query: ({data, id})=> ({
+                url:`/updateProducts/${id}`,
+                method: 'PUT',
+                body: data
+            })
+        }),
+        deleteProducts: builder.mutation({
+            query: (id)=> ({
+                url:`/deleteProducts/${id}`,
+                method: 'DELETE',
+                body: ''
+            })
+        }),
     })
 })
-export const { useGetAllProductsQuery,useGetSingleProductQuery } = allBaseApi
+export const { useGetAllProductsQuery,useGetSingleProductQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation } = allBaseApi
 
 export default allBaseApi

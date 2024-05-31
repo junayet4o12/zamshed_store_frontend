@@ -24,7 +24,7 @@ export const myRouts = createBrowserRouter([
                 element: <AddProduct />
             },
             {
-                path: '/updateProduct',
+                path: '/manageProducts',
                 element: <UpdateProduct />
             },
             {

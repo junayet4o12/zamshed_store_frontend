@@ -15,9 +15,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
+import { useAddProductMutation } from "../../Redux/features/api/allBaseApi";
 const AddProduct = () => {
     const axiosPublic = useAxiosPublic()
-    const {allProductRefetch} = useAllProductsRefetch()
+    const { allProductRefetch } = useAllProductsRefetch()
+    const [addProduct, { data }] = useAddProductMutation()
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
     const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
     const [showCategory, setShowCategory] = useState(false)
@@ -113,7 +115,6 @@ const AddProduct = () => {
                 })
                 try {
                     productImage = res?.data?.data?.display_url
-                    console.log(productImage);
                 }
                 catch (err) {
                     toast.error(err?.message, { id: toastId });
@@ -121,7 +122,7 @@ const AddProduct = () => {
                 }
                 const productData = { name, productImage, category, measurement, price, addedTime }
                 console.log(productData);
-                axiosPublic.post('/addProducts', productData)
+                addProduct(productData)
                     .then(res => {
                         console.log(res?.data);
                         toast.success("Product Added Successfully!!", { id: toastId });
@@ -140,8 +141,6 @@ const AddProduct = () => {
                     })
             }
         });
-
-
     }
     return (
         <div className="px-2 space-y-5 pb-10">

@@ -66,10 +66,10 @@ const NavbarMenu = () => {
                                 Add Product
                             </li>
                         </NavLink>
-                        <NavLink to={'updateProduct'}>
+                        <NavLink to={'manageProducts'}>
                             <li className={`${LinkStyle}`}>
                                 {StylingComponents}
-                                Update Product
+                                Manage Products
                             </li>
                         </NavLink>
                     </ul>
