@@ -14,7 +14,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@tanstack/react-query": "^5.37.1",
     "axios": "^1.7.2",
-    "firebase": "^10.12.1",
+    "firebase": "^10.12.2",
     "framer-motion": "^11.2.6",
     "hamburger-react": "^2.5.1",
     "localforage": "^1.10.0",

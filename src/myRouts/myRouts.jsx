@@ -5,6 +5,7 @@ import AddProduct from '../Pages/AddProduct/AddProduct';
 import UpdateProduct from '../Pages/UpdateProduct/UpdateProduct';
 import Gallery from '../Pages/Gallery/Gallery';
 import UpdateSingleProduct from '../Pages/UpdateSingleForm/UpdateSingleProduct';
+import PrivateRouts from '../PrivateRouts/PrivateRouts';
 
 export const myRouts = createBrowserRouter([
     {
@@ -21,7 +22,7 @@ export const myRouts = createBrowserRouter([
             },
             {
                 path: '/addProduct',
-                element: <AddProduct />
+                element: <PrivateRouts><AddProduct /></PrivateRouts>
             },
             {
                 path: '/manageProducts',

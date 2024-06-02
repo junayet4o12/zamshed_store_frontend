@@ -13,6 +13,9 @@ const allBaseApi = createApi({
         getSingleProduct: builder.query({
             query: (id) => `/singleProduct/${id}`
         }),
+        getCategoryWiseProductsCount: builder.query({
+            query: (category) => `/categoryWiseProductsCount/${category}`
+        }),
         addProduct: builder.mutation({
             query: (product)=> ({
                 url:'/addProducts',
@@ -36,6 +39,6 @@ const allBaseApi = createApi({
         }),
     })
 })
-export const { useGetAllProductsQuery,useGetSingleProductQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation } = allBaseApi
+export const { useGetAllProductsQuery,useGetSingleProductQuery,useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation } = allBaseApi
 
 export default allBaseApi
