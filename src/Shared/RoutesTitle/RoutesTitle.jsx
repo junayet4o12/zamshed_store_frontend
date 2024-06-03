@@ -10,7 +10,7 @@ const RoutesTitle = ({ removeLastElement = false, productName='' }) => {
     }
     if(productName){
         pathArray.pop()
-        pathArray.push(productName)
+        pathArray.push(productName) 
     }
     return (
         <h2 className="font-medium capitalize flex gap-2 flex-wrap">

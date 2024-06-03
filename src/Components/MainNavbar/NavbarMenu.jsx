@@ -6,20 +6,47 @@ import LogoWithNotifications from "../../Shared/logoWithNotification/LogoWithNot
 import whiteLogo from '../../assets/whiteLogo.png'
 import { FaFacebookF, FaWhatsapp, FaGoogle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-const NavbarMenu = () => {
+import { MdOutlineLogout } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "firebase/auth";
+import auth from "../../../firebase/firebase.config";
+import { removeUserData } from "../../Redux/features/userSlice/userSlice";
+import toast from "react-hot-toast";
+const NavbarMenu = ({setOpenMenu}) => {
+    const dispatch = useDispatch()
+    const { email } = useSelector(state => state.userSlice)
+    console.log(email);
     const LinkStyle = `flex items-center gap-2 cursor-pointer navLinkParent transition-all duration-300 relative`
     const StylingComponents = <div className="w-1.5 h-1.5 bg-primary navLinkStyle absolute left-0"></div>
+    const handleLogOut = () => {
+        const toastId = toast.loading("Logging Out...");
+        signOut(auth)
+            .then(res => {
+                
+                dispatch(removeUserData())
+                toast.success("Logged Out!!", { id: toastId });
+            })
+            .catch(err => {
+                toast.error(err?.message, { id: toastId });
+                console.log(err.message);
+            })
+    }
     return (
         <div className="w-80 max-w-[65%] min-h-full bg-base-200 text-base-content">
             <div className='flex min-h-full'>
                 <div className=' w-[70px] min-h-screen bg-primary flex justify-between flex-col'>
                     <div className="pt-10 flex flex-col items-center gap-5">
-                        <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={0} />
-                        <LogoWithNotifications Logo={BsArrowRepeat} notification={0} />
-                        <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
-                        <LogoWithNotifications
-                            userLogo={true}
-                            Logo={CiUser} notification={0} />
+
+                        {
+                            email && <>
+                                <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={0} />
+                                <LogoWithNotifications Logo={BsArrowRepeat} notification={0} />
+                                <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
+                                <LogoWithNotifications
+                                    userLogo={true}
+                                    Logo={CiUser} notification={0} />
+                            </>
+                        }
                     </div>
                     <div className=" pb-10 flex flex-col gap-3 items-center">
                         <img className="h-[130px] w-max" src={whiteLogo} alt="" />
@@ -36,8 +63,8 @@ const NavbarMenu = () => {
                 </div>
                 <div className='bg-white min-h-screen w-full'>
                     <ul className="py-10 px-5 flex flex-col gap-3 font-medium text-base">
-                        <NavLink to={'/'}>
-                            <li className={`${LinkStyle}`}>
+                        <NavLink  to={'/'}>
+                            <li  className={`${LinkStyle}`}>
                                 {StylingComponents}
                                 Home
                             </li>
@@ -60,18 +87,31 @@ const NavbarMenu = () => {
                             {StylingComponents}
                             Contact
                         </li>
-                        <NavLink to={'/addProduct'}>
+                        {
+                            email && <>
+                                <NavLink to={'/addProduct'}>
+                                    <li className={`${LinkStyle}`}>
+                                        {StylingComponents}
+                                        Add Product
+                                    </li>
+                                </NavLink>
+                                <NavLink to={'/manageProducts'}>
+                                    <li className={`${LinkStyle}`}>
+                                        {StylingComponents}
+                                        Manage Products
+                                    </li>
+                                </NavLink>
+                            </>
+                        }
+                        {!email && <NavLink to={'/login'}>
                             <li className={`${LinkStyle}`}>
                                 {StylingComponents}
-                                Add Product
+                                Login
                             </li>
-                        </NavLink>
-                        <NavLink to={'manageProducts'}>
-                            <li className={`${LinkStyle}`}>
-                                {StylingComponents}
-                                Manage Products
-                            </li>
-                        </NavLink>
+                        </NavLink>}
+                        {email && <li onClick={handleLogOut} className={`flex items-center gap-2 cursor-pointer text-red-500 transition-all duration-300 relative bg-primary/10 hover:bg-primary/20 w-max pr-3 pl-1 py-1 rounded-md`}>
+                            Logout <span className="text-lg"><MdOutlineLogout /></span>
+                        </li>}
                     </ul>
                 </div>
             </div>

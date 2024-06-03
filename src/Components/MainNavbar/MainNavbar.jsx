@@ -1,6 +1,5 @@
 import logo from '../../assets/logo.png'
-import { CiUser } from "react-icons/ci";
-import { BsArrowRepeat } from "react-icons/bs";
+import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { Fade as Hamburger } from 'hamburger-react'
 import { useState } from 'react';
@@ -8,8 +7,11 @@ import Categories from '../../Shared/Categories/Categories';
 import NavbarSearchBar from '../../Shared/NavbarSearchBar/NavbarSearchBar';
 import NavbarMenu from './NavbarMenu';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/LogoWithNotificationBlackVersion';
+import { useSelector } from 'react-redux';
 const MainNavbar = () => {
     const navigate = useNavigate()
+    const { email } = useSelector(state => state.userSlice)
     const [isOpen, setOpenMenu] = useState(false)
     const location = useLocation();
     const isHome = location?.pathname === '/' // Current path
@@ -24,10 +26,15 @@ const MainNavbar = () => {
                     </>
                 }
                 <div className='flex h-[50px] justify-center items-center gap-3  ml-auto'>
-                    <button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex'><CiUser /></button>
-                    <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
-                    <button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><BsArrowRepeat /></button>
-                    <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>
+                    {
+                        email && <>
+                            <button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex'><CiUser /></button>
+                            <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
+                            <button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={0} /></button>
+                            <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>
+                        </>
+                    }
+                    
                     <div className='z-20'>
                         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                         <div className="drawer-content">
@@ -38,7 +45,7 @@ const MainNavbar = () => {
                         </div>
                         <div className="drawer-side">
                             <label onClick={() => setOpenMenu(false)} htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-                            <NavbarMenu />
+                            <NavbarMenu setOpenMenu={setOpenMenu} />
                         </div>
                     </div>
                 </div>

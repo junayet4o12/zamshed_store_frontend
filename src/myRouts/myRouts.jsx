@@ -6,6 +6,8 @@ import UpdateProduct from '../Pages/UpdateProduct/UpdateProduct';
 import Gallery from '../Pages/Gallery/Gallery';
 import UpdateSingleProduct from '../Pages/UpdateSingleForm/UpdateSingleProduct';
 import PrivateRouts from '../PrivateRouts/PrivateRouts';
+import LogIn from '../Pages/LogIn/LogIn';
+import Register from '../Pages/Register/Register';
 
 export const myRouts = createBrowserRouter([
     {
@@ -15,6 +17,14 @@ export const myRouts = createBrowserRouter([
             {
                 path: '/',
                 element: <Home />
+            },
+            {
+                path: '/login',
+                element: <LogIn />
+            },
+            {
+                path: '/register',
+                element: <Register />
             },
             {
                 path: '/gallery',

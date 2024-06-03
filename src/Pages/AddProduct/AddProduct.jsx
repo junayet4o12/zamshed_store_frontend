@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
 import { useAddProductMutation } from "../../Redux/features/api/allBaseApi";
+import InputLabel from "../../Shared/InputLabel/InputLabel";
 const AddProduct = () => {
     const axiosPublic = useAxiosPublic()
     const { allProductRefetch } = useAllProductsRefetch()
@@ -36,9 +37,6 @@ const AddProduct = () => {
     const [priceError, setPriceError] = useState('');
 
     const inputStyle = `w-full max-w-[600px] border border-gray-500 outline-none focus:border-primary px-4 py-2.5 rounded-md font-medium`
-    const labelMaker = (text) => {
-        return <label>{text} <span className="text-red-500 font-bold">*</span></label>
-    }
     const handleShowCategory = () => {
         setShowCMeasurementType(false)
         setShowCategory(!showCategory)
@@ -149,17 +147,19 @@ const AddProduct = () => {
             <form onSubmit={handleSubmit} className="w-full max-w-[600px] mx-auto space-y-5">
                 <Title text={'Add Product'} />
                 <div className="flex flex-col gap-2">
-                    {labelMaker('Product Name')}
+                    <InputLabel text={'Product Name'} />
                     <input type="text" className={`${inputStyle}`} placeholder="Name" name="name" />
                     <p className="text-sm text-red-500">{productNameError}</p>
                 </div>
                 <div className="flex flex-col gap-2">
-                    {labelMaker('Product Image')}
+                    
+                    <InputLabel text={'Product Image'} />
                     <ProductImageInputField allImgData={{ ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0, productFile0, handleProductImage }} />
                     <p className="text-sm text-red-500">{productImageError}</p>
                 </div>
                 <div onClick={handleShowCategory} className="flex flex-col gap-2">
-                    {labelMaker('Product Category')}
+                    
+                    <InputLabel text={'Product Category'} />
                     <div className='h-[48px] border border-gray-500 hover:border-primary rounded-md p-2 px-5 flex gap-3 items-center justify-between cursor-pointer relative'>
                         <div className='flex items-center gap-3 '>
                             <p className='text-2xl rotate-180 -scale-y-100 scale-x-[1.3] w-max text-primary'><TbMenuDeep /></p>
@@ -175,7 +175,8 @@ const AddProduct = () => {
                     <p className="text-sm text-red-500">{categoryError}</p>
                 </div>
                 <div onClick={handleShowMeasurement} className="flex flex-col gap-2 ">
-                    {labelMaker('Select Measurement')}
+                    
+                    <InputLabel text={'Select Measurement'} />
                     <div className='h-[48px] border border-gray-500 hover:border-primary rounded-md p-2 px-5 flex gap-3 items-center justify-between cursor-pointer relative bg-white'>
                         <div className='flex items-center gap-3 '>
                             <p className='text-2xl rotate-180 -scale-y-100 scale-x-[1.3] w-max text-primary'><TbMenuDeep /></p>
@@ -191,7 +192,8 @@ const AddProduct = () => {
                     <p className="text-sm text-red-500">{measurementError}</p>
                 </div>
                 <div className="flex flex-col gap-2">
-                    {labelMaker('Price (BDT)')}
+                    
+                    <InputLabel text={'Price (BDT)'} />
                     <input type="number" className={`${inputStyle}`} placeholder="Price" name="price" />
                     <p className="text-sm text-red-500">{priceError}</p>
                 </div>
