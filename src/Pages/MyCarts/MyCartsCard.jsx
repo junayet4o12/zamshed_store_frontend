@@ -1,20 +1,25 @@
 /* eslint-disable react/prop-types */
 
-import { IoIosHeartEmpty } from "react-icons/io";
-import { useGetSingleProductQuery } from "../../Redux/features/api/allBaseApi";
-import Loading from "../../Shared/Loading/Loading";
+import { useDispatch } from "react-redux";
+import ButtonDanger from "../../Shared/Button/ButtonDanger";
+import { removeSingleProduct } from "../../localStorage/addtoCart";
+import { restoreAddToCartData } from "../../Redux/features/productsInCartSlice/productsInCartSlice";
+
 
 const MyCartsCard = ({ data }) => {
-    const { id, unitValue, unitType } = data;
-    const { data: productData, isLoading } = useGetSingleProductQuery(id)
-    if (isLoading) {
-        return <Loading />
-    }
+    const dispatch = useDispatch()
+    const { id, unitValue, unitType, addedTime: localStorageAddedTime } = data[0] || {};
+    const productData = data[1] || {};
     const { name, productImage, price, category, addedTime, measurement, _id } = productData
 
     const priceForKg = measurement === 'Kilogram' ? unitType === 'Kg' ? unitValue * price : unitValue * price / 1000 : ''
     const priceForQuantity = measurement === 'Quantity' ? unitValue * price : ''
     const priceForLitre = measurement === 'Litre' ? unitType === 'Litre' ? unitValue * price : unitValue * price / 1000 : ''
+    const realPrice = measurement === 'Kilogram' ? priceForKg : measurement === 'Quantity' ? priceForQuantity : priceForLitre
+    const handleRemove = () => {
+        removeSingleProduct({ id, unitValue, unitType, addedTime: localStorageAddedTime })
+        dispatch(restoreAddToCartData())
+    }
     return (
         <div>
             <div className="p-3 rounded-lg border border-gray-600 text-gray-600 w-[250px] space-y-3 min-h-full flex flex-col justify-between galleryParent">
@@ -32,12 +37,14 @@ const MyCartsCard = ({ data }) => {
                             <h2>Unit: {unitValue} {unitType}</h2>
                         </div>
                         <div className="text-black font-semibold">
-                            {measurement === 'Kilogram' && <h2>Price: {priceForKg} BDT</h2>}
-                            {measurement === 'Litre' && <h2>Price: {priceForLitre} BDT</h2>}
-                            {measurement === 'Quantity' && <h2>Price: {priceForQuantity} BDT</h2>}
+                            <h2>Price: {realPrice} BDT</h2>
+
                         </div>
                         <div className="text-sm text-black font-semibold">
                             <h2>{category}</h2>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <button onClick={handleRemove}><ButtonDanger text={'Remove'} /></button>
                         </div>
                     </div>
                 </div>

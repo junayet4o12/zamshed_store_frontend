@@ -41,7 +41,8 @@ const AddToCartProductModal = ({ handleCloseModal, openAddToCartModal, productDe
         const productData = {
             id: _id,
             unitValue,
-            unitType
+            unitType,
+            addedTime: new Date().getTime()
         }
         addSingleProduct(productData)
         dispatch(restoreAddToCartData())

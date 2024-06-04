@@ -7,10 +7,12 @@ import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
 import { useDeleteProductsMutation } from "../../Redux/features/api/allBaseApi";
+import { useDispatch } from "react-redux";
+import { restoreAddToCartData } from "../../Redux/features/productsInCartSlice/productsInCartSlice";
 
 const UpdateProductCard = ({ productDetails, refetch }) => {
-    const [deleteProduct, {data}] = useDeleteProductsMutation()
-    const axiosPublic = useAxiosPublic()
+    const dispatch = useDispatch()
+    const [deleteProduct, { data }] = useDeleteProductsMutation()
     const { addedTime, category, name, price, productImage, _id, measurement } = productDetails
     const showingMeasurementText = measurement === 'Quantity' ? 'Per Peace' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre'
     const handleDelete = () => {
@@ -26,14 +28,15 @@ const UpdateProductCard = ({ productDetails, refetch }) => {
             if (result.isConfirmed) {
                 const toastId = toast.loading("Product is Deleting...");
                 deleteProduct(_id)
-                .then(res => {
-                    toast.success("Deleted Successfully!!", { id: toastId });
-                    refetch()
-                })
-                .catch(err => {
-                    toast.error(err?.message, { id: toastId });
-                })
-                   
+                    .then(res => {
+                        toast.success("Deleted Successfully!!", { id: toastId });
+                        refetch()
+                        dispatch(restoreAddToCartData())
+                    })
+                    .catch(err => {
+                        toast.error(err?.message, { id: toastId });
+                    })
+
             }
         });
     }

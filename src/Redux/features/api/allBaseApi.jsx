@@ -37,6 +37,13 @@ const allBaseApi = createApi({
                 body: ''
             })
         }),
+        getCartProducts: builder.mutation({
+            query: (data)=> ({
+                url:`/cartProducts`,
+                method: 'POST',
+                body: data
+            })
+        }),
         addUsers: builder.mutation({
             query: (data)=> ({
                 url:`/addUsers`,
@@ -46,6 +53,6 @@ const allBaseApi = createApi({
         }),
     })
 })
-export const { useGetAllProductsQuery,useGetSingleProductQuery,useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useAddUsersMutation } = allBaseApi
+export const { useGetAllProductsQuery,useGetSingleProductQuery,useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation,useGetCartProductsMutation, useAddUsersMutation } = allBaseApi
 
 export default allBaseApi

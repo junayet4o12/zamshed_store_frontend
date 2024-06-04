@@ -12,7 +12,7 @@ export const removeAllProduct = () => {
 }
 export const removeSingleProduct = (data) => {
     const previousProducts = addedToCart()
-    const newProducts = previousProducts.filter(productId => data.id !== productId)
+    const newProducts = previousProducts.filter(product => !(data?.id === product?.id && data?.addedTime === product?.addedTime))
     localStorage.setItem('zamshedStoreCartProducts', JSON.stringify(newProducts));
 }
 

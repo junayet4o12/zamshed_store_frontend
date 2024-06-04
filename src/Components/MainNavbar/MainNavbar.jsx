@@ -2,15 +2,24 @@ import logo from '../../assets/logo.png'
 import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { Fade as Hamburger } from 'hamburger-react'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Categories from '../../Shared/Categories/Categories';
 import NavbarSearchBar from '../../Shared/NavbarSearchBar/NavbarSearchBar';
 import NavbarMenu from './NavbarMenu';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/LogoWithNotificationBlackVersion';
 import { useSelector } from 'react-redux';
+import { useGetCartProductsMutation } from '../../Redux/features/api/allBaseApi';
 const MainNavbar = () => {
-    const {addedToCartData} = useSelector(state=> state.productsInCartSlice)
+    const { addedToCartData } = useSelector(state => state.productsInCartSlice)
+    const productIdArray = addedToCartData.map(data => data.id);
+    const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
+    useEffect(() => {
+        getCartProduct(productIdArray)
+    }, [addedToCartData])
+    const allCartProducts = data || [];
+    const allCartProductsIdArray = allCartProducts?.map(item => item?._id)
+    const newAllProductsData = addedToCartData.filter(item => allCartProductsIdArray.includes(item.id));
     const navigate = useNavigate()
     const { email } = useSelector(state => state.userSlice)
     const [isOpen, setOpenMenu] = useState(false)
@@ -31,11 +40,11 @@ const MainNavbar = () => {
                         email && <>
                             <button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex'><CiUser /></button>
                             <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
-                            <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={addedToCartData?.length || 0} /></button></Link>
+                            <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={newAllProductsData?.length || 0} /></button></Link>
                             <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>
                         </>
                     }
-                    
+
                     <div className='z-20'>
                         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                         <div className="drawer-content">

@@ -12,9 +12,19 @@ import { signOut } from "firebase/auth";
 import auth from "../../../firebase/firebase.config";
 import { removeUserData } from "../../Redux/features/userSlice/userSlice";
 import toast from "react-hot-toast";
+import { useGetCartProductsMutation } from "../../Redux/features/api/allBaseApi";
+import { useEffect } from "react";
 const NavbarMenu = ({setOpenMenu}) => {
     const dispatch = useDispatch()
-    const {addedToCartData} = useSelector(state=> state.productsInCartSlice)
+    const { addedToCartData } = useSelector(state => state.productsInCartSlice)
+    const productIdArray = addedToCartData.map(data => data.id);
+    const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
+    useEffect(() => {
+        getCartProduct(productIdArray)
+    }, [addedToCartData])
+    const allCartProducts = data || [];
+    const allCartProductsIdArray = allCartProducts?.map(item => item?._id)
+    const newAllProductsData = addedToCartData.filter(item => allCartProductsIdArray.includes(item.id));
     const { email } = useSelector(state => state.userSlice)
     console.log(email);
     const LinkStyle = `flex items-center gap-2 cursor-pointer navLinkParent transition-all duration-300 relative`
@@ -40,7 +50,7 @@ const NavbarMenu = ({setOpenMenu}) => {
 
                         {
                             email && <>
-                                <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={addedToCartData?.length || 0} />
+                                <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={newAllProductsData?.length || 0} />
                                 <LogoWithNotifications Logo={BsArrowRepeat} notification={0} />
                                 <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
                                 <LogoWithNotifications
