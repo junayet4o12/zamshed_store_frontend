@@ -10,6 +10,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/LogoWithNotificationBlackVersion';
 import { useSelector } from 'react-redux';
 const MainNavbar = () => {
+    const {addedToCartData} = useSelector(state=> state.productsInCartSlice)
     const navigate = useNavigate()
     const { email } = useSelector(state => state.userSlice)
     const [isOpen, setOpenMenu] = useState(false)
@@ -30,7 +31,7 @@ const MainNavbar = () => {
                         email && <>
                             <button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex'><CiUser /></button>
                             <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
-                            <button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={0} /></button>
+                            <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={addedToCartData?.length || 0} /></button></Link>
                             <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>
                         </>
                     }

@@ -8,11 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { createUser, makeDefault } from "../../Redux/features/userSlice/userSlice";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useAddUsersMutation } from "../../Redux/features/api/allBaseApi";
 
 const Register = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { isLoading, isError, error, email } = useSelector(state => state.userSlice)
+    const [addUsers] = useAddUsersMutation()
+    const { isLoading, isError, error, email, name } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         dispatch(makeDefault())
@@ -31,6 +33,12 @@ const Register = () => {
 
     const onSubmit = async ({ name, email, password }) => {
         console.log(email, password);
+        const userData = {
+            name,
+            email,
+            addedTime: new Date().getTime()
+        }
+        addUsers(userData)
         dispatch(createUser({ email, password, name }))
     }
     return (

@@ -6,4 +6,4 @@ const ButtonDanger = ({text}) => {
     );
 };
 
-export default ButtonDanger;
+export default ButtonDanger; 

@@ -37,8 +37,15 @@ const allBaseApi = createApi({
                 body: ''
             })
         }),
+        addUsers: builder.mutation({
+            query: (data)=> ({
+                url:`/addUsers`,
+                method: 'POST',
+                body: data
+            })
+        }),
     })
 })
-export const { useGetAllProductsQuery,useGetSingleProductQuery,useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation } = allBaseApi
+export const { useGetAllProductsQuery,useGetSingleProductQuery,useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useAddUsersMutation } = allBaseApi
 
 export default allBaseApi

@@ -8,6 +8,7 @@ import UpdateSingleProduct from '../Pages/UpdateSingleForm/UpdateSingleProduct';
 import PrivateRouts from '../PrivateRouts/PrivateRouts';
 import LogIn from '../Pages/LogIn/LogIn';
 import Register from '../Pages/Register/Register';
+import MyCarts from '../Pages/MyCarts/MyCarts';
 
 export const myRouts = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ export const myRouts = createBrowserRouter([
             {
                 path: '/updateProduct/:name/:id',
                 element: <UpdateSingleProduct/>
+            },
+            {
+                path: '/myCarts',
+                element: <MyCarts/>
             },
         ]
     },

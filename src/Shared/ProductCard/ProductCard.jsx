@@ -1,10 +1,20 @@
 /* eslint-disable react/prop-types */
 import { IoIosHeartEmpty } from "react-icons/io";
 import ButtonLight from "../Button/ButtonLight";
+import { addSingleProduct } from "../../localStorage/addtoCart";
+import { useState } from "react";
+import AddToCartProductModal from "../AddToCartProductModal/AddToCartProductModal";
 
 const ProductCard = ({ productDetails }) => {
+    const [openAddToCartModal, setOpenAddToCartModal] = useState(false)
     const { addedTime, category, name, price, productImage, _id, measurement } = productDetails
     const showingMeasurementText = measurement === 'Quantity' ? 'Per Peace' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre'
+    const handleBuy = () => {
+        setOpenAddToCartModal(true)
+    }
+    const handleCloseModal = () => {
+        setOpenAddToCartModal(false)
+    }
     return (
         <div className="p-3 rounded-lg border border-gray-600 text-gray-600 w-[250px] space-y-3 min-h-full flex flex-col justify-between galleryParent">
             <div className="space-y-3">
@@ -25,11 +35,11 @@ const ProductCard = ({ productDetails }) => {
                         <h2>{category}</h2>
                     </div>
                 </div>
-                <div className="flex justify-center items-center ">
+                <div onClick={handleBuy} className="flex justify-center items-center ">
                     <ButtonLight text={'Buy'} />
                 </div>
             </div>
-
+            <AddToCartProductModal openAddToCartModal={openAddToCartModal} handleCloseModal={handleCloseModal} productDetails={productDetails} />
         </div>
     );
 };
