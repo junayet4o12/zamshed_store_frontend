@@ -2,8 +2,8 @@
 
 const InputLabel = ({text}) => {
     return (
-        <label>{text} <span className="text-red-500 font-bold">*</span></label>
+        <label>{text} <span className="text-red-500 font-bold labelFont">*</span></label>
     );
-};
+}; 
 
 export default InputLabel;

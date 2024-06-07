@@ -74,11 +74,9 @@ const AddProduct = () => {
         const addedTime = new Date().getTime()
         if (name === '' || productImage0 === '' || category === 'Select Categories' || measurement === 'Select Measurement' || price === '') {
             if (name === '') {
-                console.log('error');
                 setProductNameError('Please Give a Product Name')
             }
             if (productImage0 === '') {
-                console.log('error');
                 setProductImageError('Please Select a product Image')
             }
             if (category === 'Select Categories') {
@@ -90,7 +88,6 @@ const AddProduct = () => {
             if (price === '') {
                 setPriceError('Please give a price')
             }
-            console.log('error');
             return
         }
         Swal.fire({
@@ -119,10 +116,8 @@ const AddProduct = () => {
                     return
                 }
                 const productData = { name, productImage, category, measurement, price, addedTime }
-                console.log(productData);
                 addProduct(productData)
                     .then(res => {
-                        console.log(res?.data);
                         toast.success("Product Added Successfully!!", { id: toastId });
                         setSelectedCategory('Select Categories')
                         setSelectedMeasurementType('Select Measurement')

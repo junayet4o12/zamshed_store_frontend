@@ -8,7 +8,6 @@ import { marqueCategories } from '../../Shared/productCategoriesArray/marqueCate
 const CategoryMarque = () => {
     const dispatch = useDispatch()
     const { filterCategory } = useSelector((state) => state.searchingProductsSlice);
-    console.log(filterCategory);
     const handleCategory = (category) => {
         dispatch(setFilterCategory(category))
         dispatch(setSearchingText(''))

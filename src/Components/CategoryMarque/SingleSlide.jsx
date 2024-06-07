@@ -17,7 +17,6 @@ const SingleSlide = ({ category, handleCategory, filterCategory, idx, categories
         </div>
       </div>
     }
-    console.log(data);
     return (
         <div onClick={() => handleCategory(category?.value)} className={`flex items-center gap-3   px-3 text-sm font-medium cursor-pointer hover:bg-primary/10 rounded-sm p-1 ${filterCategory === category.value && 'bg-primary/10'}`}>
             <span className="text-2xl">{category?.icon}</span>

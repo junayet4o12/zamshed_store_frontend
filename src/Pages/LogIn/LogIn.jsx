@@ -8,11 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, makeDefault } from "../../Redux/features/userSlice/userSlice";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import LogInWithGoogle from "../../Shared/LogInWithGoogle/LogInWithGoogle";
 
 const LogIn = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { isLoading, isError, error, email } = useSelector(state => state.userSlice)
+    const { isLoading, isLogInCompleted, isError, error, user } = useSelector(state => state.userSlice)
     useEffect(() => {
         dispatch(makeDefault())
         if (isError) {
@@ -20,11 +21,12 @@ const LogIn = () => {
         }
     }, [dispatch, isError, error])
     useEffect(() => {
-        if (!isLoading && email) {
+        if (isLogInCompleted && user) {
             toast.success("Logged in Successfully!!")
+            dispatch(makeDefault())
             navigate('/')
         }
-    }, [isLoading, email])
+    }, [isLogInCompleted, user])
     const { register, handleSubmit, formState: { errors }, } = useForm()
     const inputStyle = `w-full max-w-[600px] border border-gray-500 outline-none focus:border-primary px-4 py-2.5 rounded-md font-medium`
     const onSubmit = async ({ email, password }) => {
@@ -54,9 +56,12 @@ const LogIn = () => {
                     <p>Don't have an account? <Link to={'/register'}><span className="font-bold underline hover:text-primary">Register</span></Link></p>
                 </div>
 
-                <button>
-                <ButtonStrong text={isLoading ? <span className="flex items-center gap-1">Logging in <span className="loading loading-spinner loading-xs"></span></span> : 'Log in'} />
-                </button>
+                <div className="flex gap-3 items-center flex-col xs:flex-row">
+                    <button>
+                        <ButtonStrong text={isLoading ? <span className="flex items-center gap-1">Logging In <span className="loading loading-spinner loading-xs"></span></span> : 'Log In'} />
+                    </button>
+                    Or <LogInWithGoogle />
+                </div>
             </form>
         </div>
     );

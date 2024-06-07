@@ -7,7 +7,6 @@ import { setFilterCategory } from "../../Redux/features/searchingProductsSlice/s
 const Categories = () => {
     const dispatch = useDispatch()
     const { filterCategory } = useSelector((state) => state.searchingProductsSlice);
-    console.log(filterCategory);
     const handleCategory = (category) => {
         dispatch(setFilterCategory(category))
     }

@@ -14,12 +14,18 @@ const MainLayout = () => {
     const { isLoadingFullPage } = useSelector(state => state.userSlice)
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            console.log(user);
             if (user) {
-                dispatch(storeUser({name: user?.displayName, email: user?.email}))
+                const data = {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                }
+
+                dispatch(storeUser(data))
                 dispatch(toggleLoading())
             } else {
-                dispatch(toggleLoading()) 
+                dispatch(toggleLoading())
             }
         })
     }, [])
@@ -30,14 +36,17 @@ const MainLayout = () => {
 
     return (
         <div className="relative pb-10">
+
             {
-                pathname === '/' && <section className="hidden subxl:block">
+                pathname === '/' && <section className="hidden subxl:block ">
                     <AddressNavbar />
                 </section>
             }
             <section className="sticky top-0 z-10">
                 <MainNavbar />
             </section>
+
+
             <Outlet></Outlet>
         </div>
     );

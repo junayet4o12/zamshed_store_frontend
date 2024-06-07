@@ -14,7 +14,6 @@ import { restoreAddToCartData } from "../../Redux/features/productsInCartSlice/p
 const MyCarts = () => {
     const dispatch = useDispatch()
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
-    console.log(addedToCartData);
     const productIdArray = addedToCartData.map(data => data.id);
     const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
     useEffect(() => {

@@ -17,42 +17,52 @@ const allBaseApi = createApi({
             query: (category) => `/categoryWiseProductsCount/${category}`
         }),
         addProduct: builder.mutation({
-            query: (product)=> ({
-                url:'/addProducts',
+            query: (product) => ({
+                url: '/addProducts',
                 method: 'POST',
                 body: product
             })
         }),
         updateProduct: builder.mutation({
-            query: ({data, id})=> ({
-                url:`/updateProducts/${id}`,
+            query: ({ data, id }) => ({
+                url: `/updateProducts/${id}`,
                 method: 'PUT',
                 body: data
             })
         }),
         deleteProducts: builder.mutation({
-            query: (id)=> ({
-                url:`/deleteProducts/${id}`,
+            query: (id) => ({
+                url: `/deleteProducts/${id}`,
                 method: 'DELETE',
                 body: ''
             })
         }),
         getCartProducts: builder.mutation({
-            query: (data)=> ({
-                url:`/cartProducts`,
+            query: (data) => ({
+                url: `/cartProducts`,
                 method: 'POST',
                 body: data
             })
         }),
         addUsers: builder.mutation({
-            query: (data)=> ({
-                url:`/addUsers`,
+            query: (data) => ({
+                url: `/addUsers`,
                 method: 'POST',
                 body: data
             })
         }),
+        getUserData: builder.query({
+            query: (email) => `/singleUser/${email}`
+        }),
+        updateSingleUser: builder.mutation({
+            query: ({ data, id }) => ({
+                url: `/updateSingleUsers/${id}`,
+                method: 'PUT',
+                body: data
+            })
+        })
     })
 })
-export const { useGetAllProductsQuery,useGetSingleProductQuery,useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation,useGetCartProductsMutation, useAddUsersMutation } = allBaseApi
+export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery } = allBaseApi
 
 export default allBaseApi

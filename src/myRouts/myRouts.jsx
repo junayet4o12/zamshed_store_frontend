@@ -9,6 +9,7 @@ import PrivateRouts from '../PrivateRouts/PrivateRouts';
 import LogIn from '../Pages/LogIn/LogIn';
 import Register from '../Pages/Register/Register';
 import MyCarts from '../Pages/MyCarts/MyCarts';
+import Profile from '../Pages/Profile/Profile';
 
 export const myRouts = createBrowserRouter([
     {
@@ -37,15 +38,19 @@ export const myRouts = createBrowserRouter([
             },
             {
                 path: '/manageProducts',
-                element: <UpdateProduct />
+                element: <PrivateRouts><UpdateProduct /></PrivateRouts>
             },
             {
                 path: '/updateProduct/:name/:id',
-                element: <UpdateSingleProduct/>
+                element: <PrivateRouts><UpdateSingleProduct/></PrivateRouts>
             },
             {
                 path: '/myCarts',
-                element: <MyCarts/>
+                element: <PrivateRouts><MyCarts/></PrivateRouts>
+            },
+            {
+                path: '/myProfile',
+                element: <PrivateRouts><Profile/></PrivateRouts>
             },
         ]
     },

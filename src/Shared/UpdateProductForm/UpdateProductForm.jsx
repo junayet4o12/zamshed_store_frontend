@@ -79,11 +79,9 @@ const UpdateProductForm = ({ productData, refetch }) => {
         const isHaveImage = ProductImagePlaceholder ? true : false
         if (name === '' || isHaveImage === false || category === 'Select Categories' || measurement === 'Select Measurement' || price === '') {
             if (name === '') {
-                console.log('error');
                 setProductNameError('Please Give a Product Name')
             }
             if (productImage0 === '') {
-                console.log('error');
                 setProductImageError('Please Select a product Image')
             }
             if (category === 'Select Categories') {
@@ -95,10 +93,8 @@ const UpdateProductForm = ({ productData, refetch }) => {
             if (price === '') {
                 setPriceError('Please give a price')
             }
-            console.log('error');
             return
         }
-        console.log({ name, productImage0, category, measurement, price });
         Swal.fire({
             title: "Are you sure to Update this this?",
             text: " The product will be presented to clients. You can also modify or remove the product later. ",
@@ -113,10 +109,8 @@ const UpdateProductForm = ({ productData, refetch }) => {
                 const image = { image: productImage0 }
                 let productImage = '';
                 if (productImage0 === incomingProductImage) {
-                    console.log('dont need to upload');
                     productImage = productImage0
                 } else {
-                    console.log('need to upload');
                     const res = await axios.post(imgHostingApi, image, {
                         headers: {
                             'content-type': 'multipart/form-data'
@@ -134,7 +128,6 @@ const UpdateProductForm = ({ productData, refetch }) => {
                 const productData = { name, productImage, category, measurement, price }
                 updateProduct({ data: productData, id: _id })
                 .then(res => {
-                    console.log(res);
                     toast.success("Product Updated Successfully!!", { id: toastId });
                     refetch()
                     allProductRefetch()

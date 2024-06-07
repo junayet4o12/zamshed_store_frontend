@@ -11,6 +11,11 @@ import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/
 import { useSelector } from 'react-redux';
 import { useGetCartProductsMutation } from '../../Redux/features/api/allBaseApi';
 const MainNavbar = () => {
+    const navigate = useNavigate()
+    const { user } = useSelector(state => state.userSlice);
+    const [isOpen, setOpenMenu] = useState(false)
+    const location = useLocation();
+    const isHome = location?.pathname === '/'
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
     const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
@@ -20,13 +25,8 @@ const MainNavbar = () => {
     const allCartProducts = data || [];
     const allCartProductsIdArray = allCartProducts?.map(item => item?._id)
     const newAllProductsData = addedToCartData.filter(item => allCartProductsIdArray.includes(item.id));
-    const navigate = useNavigate()
-    const { email } = useSelector(state => state.userSlice)
-    const [isOpen, setOpenMenu] = useState(false)
-    const location = useLocation();
-    const isHome = location?.pathname === '/' // Current path
     return (
-        <div className='w-full bg-white pb-3 lg:pb-0'>
+        <div className='w-full bg-white shadow-md pb-3 lg:pb-0'>
             <div className="w-full flex items-center text-sm px-2 mt-5 gap-7 py-3">
                 <img onClick={() => navigate('/')} className='h-10 lg:h-14 cursor-pointer' src={logo} alt="" />
                 {
@@ -37,8 +37,8 @@ const MainNavbar = () => {
                 }
                 <div className='flex h-[50px] justify-center items-center gap-3  ml-auto'>
                     {
-                        email && <>
-                            <button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex'><CiUser /></button>
+                        user && <>
+                            <Link to={'/myProfile'}><button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex p-1'>{user?.photoURL ? <img className='w-full h-full rounded-full' src={user?.photoURL} /> : <CiUser />}</button></Link>
                             <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
                             <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={newAllProductsData?.length || 0} /></button></Link>
                             <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>

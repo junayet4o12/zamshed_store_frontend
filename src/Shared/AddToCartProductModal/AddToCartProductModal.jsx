@@ -22,7 +22,6 @@ const AddToCartProductModal = ({ handleCloseModal, openAddToCartModal, productDe
     const measurementType = measurement === 'Kilogram' ? 'Kg' : measurement === 'Quantity' ? 'Piece' : 'Litre'
     const [unitValue, setUnitValue] = useState('1');
     const [unitType, setUnitType] = useState(measurementType)
-    console.log(measurement);
     const inputStyle = `w-full max-w-[600px] border border-gray-500 outline-none focus:border-primary px-4 py-2.5 rounded-md font-medium`
     const handleUnit = (value, type) => {
         setUnitValue(value)

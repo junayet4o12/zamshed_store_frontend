@@ -5,7 +5,7 @@ import { CiUser } from "react-icons/ci";
 import LogoWithNotifications from "../../Shared/logoWithNotification/LogoWithNotifications";
 import whiteLogo from '../../assets/whiteLogo.png'
 import { FaFacebookF, FaWhatsapp, FaGoogle } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
@@ -25,8 +25,7 @@ const NavbarMenu = ({setOpenMenu}) => {
     const allCartProducts = data || [];
     const allCartProductsIdArray = allCartProducts?.map(item => item?._id)
     const newAllProductsData = addedToCartData.filter(item => allCartProductsIdArray.includes(item.id));
-    const { email } = useSelector(state => state.userSlice)
-    console.log(email);
+    const { user } = useSelector(state => state.userSlice)
     const LinkStyle = `flex items-center gap-2 cursor-pointer navLinkParent transition-all duration-300 relative`
     const StylingComponents = <div className="w-1.5 h-1.5 bg-primary navLinkStyle absolute left-0"></div>
     const handleLogOut = () => {
@@ -39,7 +38,6 @@ const NavbarMenu = ({setOpenMenu}) => {
             })
             .catch(err => {
                 toast.error(err?.message, { id: toastId });
-                console.log(err.message);
             })
     }
     return (
@@ -49,13 +47,15 @@ const NavbarMenu = ({setOpenMenu}) => {
                     <div className="pt-10 flex flex-col items-center gap-5">
 
                         {
-                            email && <>
+                            user && <>
                                 <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={newAllProductsData?.length || 0} />
                                 <LogoWithNotifications Logo={BsArrowRepeat} notification={0} />
                                 <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
-                                <LogoWithNotifications
-                                    userLogo={true}
-                                    Logo={CiUser} notification={0} />
+                                <Link to={'/myProfile'}>
+                                    <LogoWithNotifications
+                                        userLogo={true}
+                                        Logo={CiUser} notification={0} />
+                                </Link>
                             </>
                         }
                     </div>
@@ -99,7 +99,7 @@ const NavbarMenu = ({setOpenMenu}) => {
                             Contact
                         </li>
                         {
-                            email && <>
+                            user && <>
                                 <NavLink to={'/addProduct'}>
                                     <li className={`${LinkStyle}`}>
                                         {StylingComponents}
@@ -114,13 +114,13 @@ const NavbarMenu = ({setOpenMenu}) => {
                                 </NavLink>
                             </>
                         }
-                        {!email && <NavLink to={'/login'}>
+                        {!user && <NavLink to={'/login'}>
                             <li className={`${LinkStyle}`}>
                                 {StylingComponents}
                                 Login
                             </li>
                         </NavLink>}
-                        {email && <li onClick={handleLogOut} className={`flex items-center gap-2 cursor-pointer text-red-500 transition-all duration-300 relative bg-primary/10 hover:bg-primary/20 w-max pr-3 pl-1 py-1 rounded-md`}>
+                        {user && <li onClick={handleLogOut} className={`flex items-center gap-2 cursor-pointer text-red-500 transition-all duration-300 relative bg-primary/10 hover:bg-primary/20 w-max pr-3 pl-1 py-1 rounded-md`}>
                             Logout <span className="text-lg"><MdOutlineLogout /></span>
                         </li>}
                     </ul>

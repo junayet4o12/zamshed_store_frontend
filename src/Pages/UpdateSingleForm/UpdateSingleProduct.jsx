@@ -10,7 +10,6 @@ const UpdateSingleProduct = () => {
     if(isLoading){
         return <Loading/>
     }
-    console.log(singleProduct);
     return (
         <div className="px-2 space-y-5">
             <RoutesTitle removeLastElement={true} productName={name} />

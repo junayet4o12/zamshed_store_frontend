@@ -9,12 +9,14 @@ import { createUser, makeDefault } from "../../Redux/features/userSlice/userSlic
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useAddUsersMutation } from "../../Redux/features/api/allBaseApi";
+import LogInWithGoogle from "../../Shared/LogInWithGoogle/LogInWithGoogle";
+import { inputStyle } from "../../Shared/inputStyle";
 
 const Register = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [addUsers] = useAddUsersMutation()
-    const { isLoading, isError, error, email, name } = useSelector(state => state.userSlice)
+    const { isLoading, isRegisterCompleted, isError, error, user } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         dispatch(makeDefault())
@@ -23,19 +25,21 @@ const Register = () => {
         }
     }, [dispatch, isError, error])
     useEffect(() => {
-        if (!isLoading && email) {
+        if (isRegisterCompleted && user) {
             toast.success("Registered Successfully!!")
+            dispatch(makeDefault())
             navigate('/')
         }
-    }, [isLoading, email])
+    }, [isRegisterCompleted, user])
     const { register, handleSubmit, formState: { errors }, } = useForm()
-    const inputStyle = `w-full max-w-[600px] border border-gray-500 outline-none focus:border-primary px-4 py-2.5 rounded-md font-medium`
+    
 
     const onSubmit = async ({ name, email, password }) => {
         console.log(email, password);
         const userData = {
             name,
             email,
+            profilePhoto: '',
             addedTime: new Date().getTime()
         }
         addUsers(userData)
@@ -80,9 +84,13 @@ const Register = () => {
                     <p>Already have an account? <Link to={'/login'}><span className="font-bold underline hover:text-primary">Log in</span></Link></p>
                 </div>
 
-                <button>
-                    <ButtonStrong text={isLoading ? <span className="flex items-center gap-1">Registering <span className="loading loading-spinner loading-xs"></span></span> : 'Register'} />
-                </button>
+                <div className="flex gap-3 items-center flex-col xs:flex-row">
+                    <button>
+                        <ButtonStrong text={isLoading ? <span className="flex items-center gap-1">Registering <span className="loading loading-spinner loading-xs"></span></span> : 'Register'} />
+                    </button>
+                    Or
+                    <LogInWithGoogle />
+                </div>
             </form>
         </div>
     );
