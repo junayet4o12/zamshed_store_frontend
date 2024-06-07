@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { useGetUserDataQuery } from "../../Redux/features/api/allBaseApi";
 import Loading from "../../Shared/Loading/Loading";
 import UpdateProfileModal from "./UpdateProfileModal";
+import InputLabel from "../../Shared/InputLabel/InputLabel";
+import ButtonStrong from "../../Shared/Button/ButtonStrong";
 const Profile = () => {
     const [open, setOpen] = useState(false);
     const { user } = useSelector(state => state.userSlice);
@@ -19,11 +21,10 @@ const Profile = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const profileDataStyle = 'inner-border pb-1 transition-all duration-300'
-    const profileDataLabelStyle = "text-[12.5px] text-gray-600"
     return (
-        <p className="px-5">
+        <div className="px-5">
 
-            <div className="bg-gray-200 w-full max-w-[750px] m-4 px-4 py-4 rounded-sm relative mx-auto rounded-tl-[60px] rounded-br-[60px] rounded-tr-[10px] rounded-bl-[10px]">
+            <div className="bg-primary/10 w-full max-w-[750px] m-4 px-4 py-4 rounded-sm relative mx-auto rounded-tl-[60px] rounded-br-[60px] rounded-tr-[10px] rounded-bl-[10px]">
 
                 <div className=" grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-5">
                     <div className="sm:col-span-2">
@@ -43,20 +44,20 @@ const Profile = () => {
 
                         </div>
                     </div>
-                    <div className="w-full">
-                        <label className={`${profileDataLabelStyle}`}>My Name</label>
+                    <div className="w-full space-y-2">
+                        <InputLabel text={'My Name'} />
                         <p className={`${profileDataStyle}`}>{userProfile?.name}</p>
                     </div>
-                    <div className="w-full">
-                        <label className={`${profileDataLabelStyle}`}>My Email</label>
+                    <div className="w-full space-y-2">
+                    <InputLabel text={'My Email'} />
                         <p className={`${profileDataStyle}`}>{userProfile?.email}</p>
                     </div>
-                    <div className="w-full">
-                        <label className={`${profileDataLabelStyle}`}>My Contact Number</label>
+                    <div className="w-full space-y-2">
+                    <InputLabel text={'My Contact Number'} />
                         <p className={`${profileDataStyle}`}>{userProfile?.contactNumber || 'Not Updated'}</p>
                     </div>
                     <div className="flex justify-center items-center">
-                        <button onClick={handleOpen} className="transition-all duration-300 bg-primary/80 px-5 py-2.5 rounded-sm font-bold  hover:bg-primary  active:scale-90 text-white text-sm">Update Profile</button>
+                        <button onClick={handleOpen} ><ButtonStrong text={'Update Profile'} /></button>
                     </div>
 
                 </div>
@@ -65,7 +66,7 @@ const Profile = () => {
                     
                 </div> */}
             </div>
-        </p>
+        </div>
     );
 };
 

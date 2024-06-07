@@ -4,7 +4,7 @@
 import { useForm } from "react-hook-form";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Dialog } from "@material-tailwind/react";
@@ -14,19 +14,46 @@ import { inputStyle } from "../../Shared/inputStyle";
 import ButtonLight from "../../Shared/Button/ButtonLight";
 import ButtonDanger from "../../Shared/Button/ButtonDanger";
 import ButtonStrong from "../../Shared/Button/ButtonStrong";
+import { useDispatch, useSelector } from "react-redux";
+import { storeUser } from "../../Redux/features/userSlice/userSlice";
+import { useUpdateSingleUserMutation } from "../../Redux/features/api/allBaseApi";
 
 
 
 const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
-    const { register, handleSubmit, watch, reset, formState: { errors }, } = useForm()
+    const [updateIsLoading, setUpdateIsLoading] = useState(false)
+    const dispatch = useDispatch();
+    const [updateUser, { data: updateUserData }] = useUpdateSingleUserMutation()
+    const { user } = useSelector(state => state.userSlice)
+    const [imageInputValue, setImageInputValue] = useState('')
+
+    const { register, handleSubmit, formState: { errors }, } = useForm()
     const [ProfilePhotoPlaceholder, setProfilePhotoPlaceholder] = useState(profile?.profilePhoto)
-    const [showDefaultImg, setShowDefaultImg] = useState(false)
     const [profilePhoto, setProfilePhoto] = useState('')
     const [profileFile0, setProfileFile0] = useState('')
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
     const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
+    const closeModal = () => {
+        setProfilePhotoPlaceholder(profile?.profilePhoto)
+        handleClose()
+    }
+    useEffect(() => {
+        if (updateUserData) {
+            toast.success("Updated Successfully..");
+            handleClose()
+            refetch()
+            setUpdateIsLoading(false)
+        }
+    }, [updateUserData])
+
     const handleFileChange = (e) => {
+        
         const file = e.target.files[0];
+        if (!file) {
+            document.getElementById('image2').files = imageInputValue;
+            return
+        }
+        setImageInputValue(document.getElementById('image2').files)
         const reader = new FileReader();
         reader.onload = (event) => {
             setProfilePhotoPlaceholder(event.target.result);
@@ -35,20 +62,17 @@ const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
         setProfilePhoto(reader.readAsDataURL(file))
         // reader.readAsDataURL(file);
     };
-    const handleFormBg = () => {
+    const handleProfilePhoto = () => {
         const image = document.getElementById('image2')
         image?.click()
         // imageInput.current.click()
     }
-    const handleDefaultImg = (img) => {
-        setProfilePhotoPlaceholder(img)
-
-    }
     const onSubmit = async (data) => {
-        let imageUrl = profile?.image
-        const toastId = toast.loading("Updating...");
-        if (ProfilePhotoPlaceholder === profile?.image) {
-            imageUrl = profile?.image
+        setUpdateIsLoading(true)
+        let imageUrl = profile?.profilePhoto
+
+        if (ProfilePhotoPlaceholder === profile?.profilePhoto) {
+            imageUrl = profile?.profilePhoto
         } else {
             const image = { image: profileFile0 }
 
@@ -61,29 +85,34 @@ const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
                 imageUrl = res?.data?.data?.display_url
             }
             catch (err) {
-                toast.error(err?.message, { id: toastId });
+                toast.error(err?.message);
+                setUpdateIsLoading(false)
             }
         }
         const name = data?.name;
-        const image = imageUrl
-        const email = profile?.email;
+        const profilePhoto = imageUrl
         const contactNumber = data?.contactNumber;
-        const age = parseInt(data?.age);
-        const country = data?.country;
 
         const profileData = {
             name,
             contactNumber,
-            age,
-            country,
-            image
-        }
+            profilePhoto
+        };
         updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: imageUrl
 
         })
             .then(() => {
+                const data = {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: name,
+                    photoURL: imageUrl,
+                }
+
+                dispatch(storeUser(data))
+                updateUser({ data: profileData, id: profile?._id })
                 // axiosSecure.put(`/updateUserData/${profile?._id}`, profileData)
                 //     .then(res => {
                 //         if (res.status == 200) {
@@ -104,14 +133,15 @@ const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
 
             })
             .catch(err => {
-                toast.error(err?.message, { id: toastId });
+                toast.error(err?.message);
+                setUpdateIsLoading(false)
             })
 
     }
     const inputFieldStyle = `w-full p-3 px-10 rounded-sm bg-black/20 block text-white border border-primary`
     return (
         <Dialog
-            size="md" open={open} handler={handleClose} className="flex justify-center items-center"
+            size="md" open={open} handler={closeModal} className="flex justify-center items-center"
         >
             <form onSubmit={handleSubmit(onSubmit)} className="bg-white w-full h-[70vh] sm:h-max overflow-y-scroll sm:overflow-visible m-4  px-4 py-4 rounded-sm scrollable-div2 relative z-10">
 
@@ -143,7 +173,7 @@ const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
                                     </div>
                                     <div className='flex flex-col gap-5'>
                                         <div
-                                            onClick={handleFormBg}>
+                                            onClick={handleProfilePhoto}>
                                             <ButtonLight text={'Choose image'} />
                                         </div>
 
@@ -192,11 +222,8 @@ const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
                         {errors?.contactNumber?.type === 'maxLength' && <span className='text-red-500 text-sm font-bold'>Contact number must be 11 characters</span>}
                     </div>
                     <div className="text-center flex  items-end gap-5">
-                        <button ><ButtonStrong text={'Update'} /></button>
-                        <button onClick={() => {
-                            setProfilePhotoPlaceholder(profile?.image)
-                            handleClose()
-                        }} ><ButtonDanger text={'Cancel'} /></button>
+                        <button ><ButtonStrong text={updateIsLoading? <span className="flex items-center gap-1">Updating <span className="loading loading-spinner loading-xs"></span></span> : 'Update'} /></button>
+                        <div onClick={closeModal} ><ButtonDanger text={'Cancel'} /></div>
                     </div>
                 </div>
 

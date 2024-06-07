@@ -63,6 +63,6 @@ const allBaseApi = createApi({
         })
     })
 })
-export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery } = allBaseApi
+export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery, useUpdateSingleUserMutation } = allBaseApi
 
 export default allBaseApi
