@@ -60,9 +60,19 @@ const allBaseApi = createApi({
                 method: 'PUT',
                 body: data
             })
-        })
+        }),
+        getAdmin: builder.query({
+            query: (email) => `/admin/${email}`
+        }),
+        storeOrderedProduct: builder.mutation({
+            query: (data) => ({
+                url: `/storeOrderedProduct`,
+                method: 'POST',
+                body: data
+            })
+        }),
     })
 })
-export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery, useUpdateSingleUserMutation } = allBaseApi
+export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery, useUpdateSingleUserMutation, useGetAdminQuery , useStoreOrderedProductMutation} = allBaseApi
 
 export default allBaseApi

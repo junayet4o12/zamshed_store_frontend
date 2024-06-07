@@ -10,6 +10,7 @@ import LogIn from '../Pages/LogIn/LogIn';
 import Register from '../Pages/Register/Register';
 import MyCarts from '../Pages/MyCarts/MyCarts';
 import Profile from '../Pages/Profile/Profile';
+import AdminRouts from '../AdminRouts/AdminRouts';
 
 export const myRouts = createBrowserRouter([
     {
@@ -34,15 +35,15 @@ export const myRouts = createBrowserRouter([
             },
             {
                 path: '/addProduct',
-                element: <PrivateRouts><AddProduct /></PrivateRouts>
+                element: <AdminRouts><AddProduct /></AdminRouts>
             },
             {
                 path: '/manageProducts',
-                element: <PrivateRouts><UpdateProduct /></PrivateRouts>
+                element: <AdminRouts><UpdateProduct /></AdminRouts>
             },
             {
                 path: '/updateProduct/:name/:id',
-                element: <PrivateRouts><UpdateSingleProduct/></PrivateRouts>
+                element: <AdminRouts><UpdateSingleProduct/></AdminRouts>
             },
             {
                 path: '/myCarts',

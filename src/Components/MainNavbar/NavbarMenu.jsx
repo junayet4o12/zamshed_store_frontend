@@ -14,8 +14,10 @@ import { removeUserData } from "../../Redux/features/userSlice/userSlice";
 import toast from "react-hot-toast";
 import { useGetCartProductsMutation } from "../../Redux/features/api/allBaseApi";
 import { useEffect } from "react";
-const NavbarMenu = ({setOpenMenu}) => {
-    const dispatch = useDispatch()
+import useHandleLogOut from "../../Shared/useHandleLogOut";
+import useAdmin from "../../hooks/useAdmin";
+const NavbarMenu = ({ setOpenMenu }) => {
+    const [isAdmin, isAdminLoading] = useAdmin();
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
     const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
@@ -28,18 +30,8 @@ const NavbarMenu = ({setOpenMenu}) => {
     const { user } = useSelector(state => state.userSlice)
     const LinkStyle = `flex items-center gap-2 cursor-pointer navLinkParent transition-all duration-300 relative`
     const StylingComponents = <div className="w-1.5 h-1.5 bg-primary navLinkStyle absolute left-0"></div>
-    const handleLogOut = () => {
-        const toastId = toast.loading("Logging Out...");
-        signOut(auth)
-            .then(res => {
-                
-                dispatch(removeUserData())
-                toast.success("Logged Out!!", { id: toastId });
-            })
-            .catch(err => {
-                toast.error(err?.message, { id: toastId });
-            })
-    }
+    const handleLogOut = useHandleLogOut()
+
     return (
         <div className="w-80 max-w-[65%] min-h-full bg-base-200 text-base-content">
             <div className='flex min-h-full'>
@@ -74,8 +66,8 @@ const NavbarMenu = ({setOpenMenu}) => {
                 </div>
                 <div className='bg-white min-h-screen w-full'>
                     <ul className="py-10 px-5 flex flex-col gap-3 font-medium text-base">
-                        <NavLink  to={'/'}>
-                            <li  className={`${LinkStyle}`}>
+                        <NavLink to={'/'}>
+                            <li className={`${LinkStyle}`}>
                                 {StylingComponents}
                                 Home
                             </li>
@@ -99,7 +91,7 @@ const NavbarMenu = ({setOpenMenu}) => {
                             Contact
                         </li>
                         {
-                            user && <>
+                            isAdmin && <>
                                 <NavLink to={'/addProduct'}>
                                     <li className={`${LinkStyle}`}>
                                         {StylingComponents}
@@ -120,7 +112,7 @@ const NavbarMenu = ({setOpenMenu}) => {
                                 Login
                             </li>
                         </NavLink>}
-                        {user && <li onClick={handleLogOut} className={`flex items-center gap-2 cursor-pointer text-red-500 transition-all duration-300 relative bg-primary/10 hover:bg-primary/20 w-max pr-3 pl-1 py-1 rounded-md`}>
+                        {user && <li onClick={() => handleLogOut()} className={`flex items-center gap-2 cursor-pointer text-red-500 transition-all duration-300 relative bg-primary/10 hover:bg-primary/20 w-max pr-3 pl-1 py-1 rounded-md`}>
                             Logout <span className="text-lg"><MdOutlineLogout /></span>
                         </li>}
                     </ul>

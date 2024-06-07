@@ -38,9 +38,9 @@ const Register = () => {
         console.log(email, password);
         const userData = {
             name,
-            email,
+            email: email.toLowerCase(),
             profilePhoto: '',
-            addedTime: new Date().getTime()
+            addedTime: new Date().getTime(),
         }
         addUsers(userData)
         dispatch(createUser({ email, password, name }))

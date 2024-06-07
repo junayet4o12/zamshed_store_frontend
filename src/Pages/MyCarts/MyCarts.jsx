@@ -3,16 +3,18 @@ import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
 import Title from "../../Shared/Title/Title";
 import MyCartsCard from "./MyCartsCard";
 import { useGetCartProductsMutation } from "../../Redux/features/api/allBaseApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../../Shared/Loading/Loading";
 import ButtonStrong from "../../Shared/Button/ButtonStrong";
 import ButtonDanger from "../../Shared/Button/ButtonDanger";
 import NoProductFound from "../../Shared/NoProductFound/NoProductFound";
 import { removeAllProduct } from "../../localStorage/addtoCart";
 import { restoreAddToCartData } from "../../Redux/features/productsInCartSlice/productsInCartSlice";
+import BuyingModal from "./BuyingModal";
 
 const MyCarts = () => {
     const dispatch = useDispatch()
+    const [openBuyingModal, setOpenBuyingModal] = useState(false)
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
     const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
@@ -21,6 +23,9 @@ const MyCarts = () => {
     }, [addedToCartData])
     if (isLoading) {
         return <Loading />
+    }
+    const handleCloseModal = () => {
+        setOpenBuyingModal(false)
     }
     const allCartProducts = data || [];
     const allCartProductsIdArray = allCartProducts?.map(item => item?._id)
@@ -52,7 +57,7 @@ const MyCarts = () => {
                 {newAllProductsData?.length > 0 && <>
                     <h3 className="text-2xl font-medium">Total Price: <span className="font-bold">{totalPrice || 0} BDT</span></h3>
                     <data className="flex gap-3">
-                        <button><ButtonStrong text={'Buy All'} /></button>
+                        <button onClick={()=> setOpenBuyingModal(true)}><ButtonStrong text={'Buy All'} /></button>
                         <button onClick={handleRemoveAll}><ButtonDanger text={'Remove All'} /></button>
                     </data>
                 </>}
@@ -65,6 +70,7 @@ const MyCarts = () => {
                     newAllProductsData?.length < 1 && <NoProductFound />
                 }
             </div>
+            <BuyingModal openBuyingModal={openBuyingModal} handleCloseModal={handleCloseModal} newAllProductsData={newAllProductsData} price={totalPrice} handleRemoveAll={handleRemoveAll} />
         </div>
     );
 };
