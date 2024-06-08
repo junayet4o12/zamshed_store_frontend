@@ -6,4 +6,4 @@ const ButtonLight = ({text}) => {
     );
 };  
 
-export default ButtonLight;
+export default ButtonLight; 

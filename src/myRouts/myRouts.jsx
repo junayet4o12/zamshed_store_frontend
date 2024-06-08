@@ -11,6 +11,7 @@ import Register from '../Pages/Register/Register';
 import MyCarts from '../Pages/MyCarts/MyCarts';
 import Profile from '../Pages/Profile/Profile';
 import AdminRouts from '../AdminRouts/AdminRouts';
+import OrderedProduct from '../Pages/OrderedProduct/OrderedProduct';
 
 export const myRouts = createBrowserRouter([
     {
@@ -52,6 +53,10 @@ export const myRouts = createBrowserRouter([
             {
                 path: '/myProfile',
                 element: <PrivateRouts><Profile/></PrivateRouts>
+            },
+            {
+                path: '/myOrders',
+                element: <PrivateRouts><OrderedProduct/></PrivateRouts>
             },
         ]
     },

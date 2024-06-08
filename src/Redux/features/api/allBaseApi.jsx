@@ -71,8 +71,11 @@ const allBaseApi = createApi({
                 body: data
             })
         }),
+        getOrderedProductByEmail: builder.query({
+            query: (email) => `/getOrderedProductByEmail/${email}`
+        }),
     })
 })
-export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery, useUpdateSingleUserMutation, useGetAdminQuery , useStoreOrderedProductMutation} = allBaseApi
+export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery, useUpdateSingleUserMutation, useGetAdminQuery, useStoreOrderedProductMutation, useGetOrderedProductByEmailQuery } = allBaseApi
 
 export default allBaseApi

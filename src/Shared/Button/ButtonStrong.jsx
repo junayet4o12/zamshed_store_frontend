@@ -6,4 +6,4 @@ const ButtonStrong = ({text}) => {
     );
 }; 
 
-export default ButtonStrong;
+export default ButtonStrong; 

@@ -3,7 +3,7 @@ import { Dialog, DialogHeader } from "@material-tailwind/react";
 import ButtonStrong from "../../Shared/Button/ButtonStrong";
 import ButtonDanger from "../../Shared/Button/ButtonDanger";
 import { useSelector } from "react-redux";
-import { useGetUserDataQuery, useStoreOrderedProductMutation } from "../../Redux/features/api/allBaseApi";
+import { useGetOrderedProductByEmailQuery, useGetUserDataQuery, useStoreOrderedProductMutation } from "../../Redux/features/api/allBaseApi";
 import InputLabel from "../../Shared/InputLabel/InputLabel";
 import { inputStyle } from "../../Shared/inputStyle";
 import { useForm } from "react-hook-form";
@@ -11,8 +11,12 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, price, handleRemoveAll }) => {
+    const { user } = useSelector(state => state.userSlice);
+
     const [buyingLoading, setBuyingLoading] = useState(false)
+    const { data: userData } = useGetUserDataQuery(user?.email ? user?.email : 'not Logged in');
     const [storedOrderedProduct, { data: storedOrderedProductData }] = useStoreOrderedProductMutation()
+    const { refetch } = useGetOrderedProductByEmailQuery(user?.email)
     useEffect(() => {
         if (storedOrderedProductData) {
             setBuyingLoading(false)
@@ -24,11 +28,10 @@ const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, pr
                 timer: 2000
             });
             handleCloseModal()
-
+            refetch()
         }
     }, [storedOrderedProductData])
-    const { user } = useSelector(state => state.userSlice);
-    const { data: userData } = useGetUserDataQuery(user?.email ? user?.email : 'not Logged in');
+
     console.log(price);
     const { register, handleSubmit, formState: { errors }, } = useForm()
     const onSubmit = async (data) => {
