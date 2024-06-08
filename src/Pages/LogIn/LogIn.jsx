@@ -6,11 +6,13 @@ import Title from "../../Shared/Title/Title";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, makeDefault } from "../../Redux/features/userSlice/userSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import LogInWithGoogle from "../../Shared/LogInWithGoogle/LogInWithGoogle";
+import { inputStyle } from "../../Shared/inputStyle";
 
 const LogIn = () => {
+    const [showPass, setShowPass] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { isLoading, isLogInCompleted, isError, error, user } = useSelector(state => state.userSlice)
@@ -28,7 +30,6 @@ const LogIn = () => {
         }
     }, [isLogInCompleted, user])
     const { register, handleSubmit, formState: { errors }, } = useForm()
-    const inputStyle = `w-full max-w-[600px] border border-gray-500 outline-none focus:border-primary px-4 py-2.5 rounded-md font-medium`
     const onSubmit = async ({ email, password }) => {
         console.log(email, password);
         dispatch(loginUser({ email, password }))
@@ -47,10 +48,14 @@ const LogIn = () => {
                     </p>
                 </div>
                 {/* password  */}
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 relative">
                     <InputLabel text={`Password`} />
-                    <input type="password" className={`${inputStyle}`} placeholder="Password" {...register("password", { required: true, })} />
+                    <div className="flex">
+                        <input type={showPass ? 'text' : 'password'} className={`${inputStyle} rounded-r-none border-r-0`} placeholder="Password" {...register("password", { required: true, })} />
+                        <p onClick={() => setShowPass(!showPass)} className="text-xs font-medium uppercase bottom-[18px] right-2 p-1 cursor-pointer  hover:font-semibold w-[70px] border border-gray-500 flex justify-center items-center border-l-0 rounded-r-md">{showPass ? 'Hide' : 'Show'}</p>
+                    </div>
                     <p className="text-sm text-red-500">{``}</p>
+
                 </div>
                 <div className="flex flex-col gap-2">
                     <p>Don't have an account? <Link to={'/register'}><span className="font-bold underline hover:text-primary">Register</span></Link></p>

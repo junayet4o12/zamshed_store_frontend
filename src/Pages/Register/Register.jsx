@@ -6,13 +6,14 @@ import Title from "../../Shared/Title/Title";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser, makeDefault } from "../../Redux/features/userSlice/userSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAddUsersMutation } from "../../Redux/features/api/allBaseApi";
 import LogInWithGoogle from "../../Shared/LogInWithGoogle/LogInWithGoogle";
 import { inputStyle } from "../../Shared/inputStyle";
 
 const Register = () => {
+    const [showPass, setShowPass] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [addUsers] = useAddUsersMutation()
@@ -32,7 +33,7 @@ const Register = () => {
         }
     }, [isRegisterCompleted, user])
     const { register, handleSubmit, formState: { errors }, } = useForm()
-    
+
 
     const onSubmit = async ({ name, email, password }) => {
         console.log(email, password);
@@ -67,12 +68,15 @@ const Register = () => {
                 {/* password  */}
                 <div className="flex flex-col gap-2">
                     <InputLabel text={`Password`} />
-                    <input type="password" className={`${inputStyle}`} placeholder="Password" {...register("password", {
-                        required: true,
-                        minLength: 8,
-                        maxLength: 20,
-                        pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/
-                    })} />
+                    <div className="flex">
+                        <input type="password" className={`${inputStyle} rounded-r-none border-r-0`} placeholder="Password" {...register("password", {
+                            required: true,
+                            minLength: 8,
+                            maxLength: 20,
+                            pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/
+                        })} />
+                        <p onClick={() => setShowPass(!showPass)} className="text-xs font-medium uppercase bottom-[18px] right-2 p-1 cursor-pointer  hover:font-semibold w-[70px] border border-gray-500 flex justify-center items-center border-l-0 rounded-r-md">{showPass ? 'Hide' : 'Show'}</p>
+                    </div>
                     <p className="text-sm text-red-500">
                         {errors?.password?.type === 'required' && 'Password invalid'}
                         {errors?.password?.type === 'minLength' && 'Password must be minimum 8 characters'}
