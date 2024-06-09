@@ -11,9 +11,11 @@ import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/
 import { useSelector } from 'react-redux';
 import { useGetCartProductsMutation, useGetOrderedProductByEmailQuery } from '../../Redux/features/api/allBaseApi';
 import { MdOutlineShoppingCart } from "react-icons/md";
+import useAdmin from '../../hooks/useAdmin';
 const MainNavbar = () => {
     const navigate = useNavigate()
     const { user } = useSelector(state => state.userSlice);
+    const [isAdmin, isAdminLoading] = useAdmin();
     const [isOpen, setOpenMenu] = useState(false)
     const location = useLocation();
     const isHome = location?.pathname === '/'
@@ -39,15 +41,24 @@ const MainNavbar = () => {
                 }
                 <div className='flex h-[50px] justify-center items-center gap-3  ml-auto'>
                     {
-                        user && <>
+                        user &&
+                        <>
                             <Link to={'/myProfile'}><button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex p-1'>{user?.photoURL ? <img className='w-full h-full rounded-full' src={user?.photoURL} /> : <CiUser />}</button></Link>
-                            <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
-                            <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={newAllProductsData?.length || 0} /></button></Link>
-                            <Link to={'/myOrders'}>
-                                <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'>
-                                    <LogoWithNotificationBlackVersion Logo={MdOutlineShoppingCart} notification={orderedData?.length || 0} />
-                                </button>
-                            </Link>
+                            {!isAdmin ? <>
+                                <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
+                                <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={newAllProductsData?.length || 0} /></button></Link>
+                                <Link to={'/myOrders'}>
+                                    <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'>
+                                        <LogoWithNotificationBlackVersion Logo={MdOutlineShoppingCart} notification={orderedData?.length || 0} />
+                                    </button>
+                                </Link>
+                            </> : <>
+                                <Link to={'/clientOrders/onProcessing'}>
+                                    <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'>
+                                        <LogoWithNotificationBlackVersion userLogo={true} Logo={MdOutlineShoppingCart} notification={orderedData?.length || 0} />
+                                    </button>
+                                </Link>
+                            </>}
                         </>
                     }
 

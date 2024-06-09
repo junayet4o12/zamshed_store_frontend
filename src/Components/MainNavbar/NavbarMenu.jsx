@@ -6,28 +6,30 @@ import LogoWithNotifications from "../../Shared/logoWithNotification/LogoWithNot
 import whiteLogo from '../../assets/whiteLogo.png'
 import { FaFacebookF, FaWhatsapp, FaGoogle } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
-import { MdOutlineLogout } from "react-icons/md";
+import { MdOutlineLogout, MdOutlineShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import auth from "../../../firebase/firebase.config";
 import { removeUserData } from "../../Redux/features/userSlice/userSlice";
 import toast from "react-hot-toast";
-import { useGetCartProductsMutation } from "../../Redux/features/api/allBaseApi";
+import { useGetCartProductsMutation, useGetOrderedProductByEmailQuery } from "../../Redux/features/api/allBaseApi";
 import { useEffect } from "react";
 import useHandleLogOut from "../../Shared/useHandleLogOut";
 import useAdmin from "../../hooks/useAdmin";
 const NavbarMenu = ({ setOpenMenu }) => {
+    const { user } = useSelector(state => state.userSlice)
     const [isAdmin, isAdminLoading] = useAdmin();
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
     const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
+    const { data: orderedData } = useGetOrderedProductByEmailQuery(user?.email)
     useEffect(() => {
         getCartProduct(productIdArray)
     }, [addedToCartData])
     const allCartProducts = data || [];
     const allCartProductsIdArray = allCartProducts?.map(item => item?._id)
     const newAllProductsData = addedToCartData.filter(item => allCartProductsIdArray.includes(item.id));
-    const { user } = useSelector(state => state.userSlice)
+
     const LinkStyle = `flex items-center gap-2 cursor-pointer navLinkParent transition-all duration-300 relative`
     const StylingComponents = <div className="w-1.5 h-1.5 bg-primary navLinkStyle absolute left-0"></div>
     const handleLogOut = useHandleLogOut()
@@ -40,9 +42,15 @@ const NavbarMenu = ({ setOpenMenu }) => {
 
                         {
                             user && <>
-                                <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={newAllProductsData?.length || 0} />
-                                <LogoWithNotifications Logo={BsArrowRepeat} notification={0} />
-                                <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
+                                {!isAdmin && <>
+                                    <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={newAllProductsData?.length || 0} />
+                                    <Link to={'/myOrders'}>
+                                        <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'>
+                                            <LogoWithNotifications Logo={MdOutlineShoppingCart} notification={orderedData?.length || 0} />
+                                        </button>
+                                    </Link>
+                                    <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
+                                </>}
                                 <Link to={'/myProfile'}>
                                     <LogoWithNotifications
                                         userLogo={true}

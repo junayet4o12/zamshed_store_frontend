@@ -12,6 +12,10 @@ import MyCarts from '../Pages/MyCarts/MyCarts';
 import Profile from '../Pages/Profile/Profile';
 import AdminRouts from '../AdminRouts/AdminRouts';
 import OrderedProduct from '../Pages/OrderedProduct/OrderedProduct';
+import ClientOrders from '../Pages/ClientOrders/ClientOrders';
+import OnProcessingOrder from '../Pages/ClientOrders/OnProcessingOrder/OnProcessingOrder';
+import CompletedOrders from '../Pages/ClientOrders/CompletedOrders.jsx/CompletedOrders';
+import OrderDetails from '../Pages/OrderDetails/OrderDetails';
 
 export const myRouts = createBrowserRouter([
     {
@@ -57,6 +61,24 @@ export const myRouts = createBrowserRouter([
             {
                 path: '/myOrders',
                 element: <PrivateRouts><OrderedProduct/></PrivateRouts>
+            },
+            {
+                path: '/orderDetails/:id',
+                element: <PrivateRouts><OrderDetails/></PrivateRouts>
+            },
+            {
+                path: '/clientOrders',
+                element: <AdminRouts><ClientOrders/></AdminRouts>,
+                children: [
+                    {
+                        path: '/clientOrders/onProcessing',
+                        element: <OnProcessingOrder/>
+                    },
+                    {
+                        path: '/clientOrders/completed',
+                        element: <CompletedOrders/>
+                    },
+                ]
             },
         ]
     },
