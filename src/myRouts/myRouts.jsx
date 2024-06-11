@@ -16,6 +16,7 @@ import ClientOrders from '../Pages/ClientOrders/ClientOrders';
 import OnProcessingOrder from '../Pages/ClientOrders/OnProcessingOrder/OnProcessingOrder';
 import CompletedOrders from '../Pages/ClientOrders/CompletedOrders.jsx/CompletedOrders';
 import OrderDetails from '../Pages/OrderDetails/OrderDetails';
+import AdminOrderDetails from '../Pages/AdminOrderDetails/AdminOrderDetails';
 
 export const myRouts = createBrowserRouter([
     {
@@ -79,6 +80,10 @@ export const myRouts = createBrowserRouter([
                         element: <CompletedOrders/>
                     },
                 ]
+            },
+            {
+                path: '/adminOrderDetails/:id',
+                element: <AdminRouts><AdminOrderDetails/></AdminRouts>
             },
         ]
     },

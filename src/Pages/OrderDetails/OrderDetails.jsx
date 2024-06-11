@@ -12,9 +12,10 @@ const OrderDetails = () => {
     if (isLoading) {
         return <Loading />
     }
-    console.log(orderData);
 
-    const { _id, addedTime, clientEmail, contactNumber, productData, stage, totalPrice } = orderData
+    const { _id, addedTime, clientEmail, contactNumber, productData, stage, totalPrice } = orderData;
+    console.log(stage);
+
     return (
         <div className="p-2 space-y-4">
             <RoutesTitle removeLastElement={true} />
@@ -27,7 +28,7 @@ const OrderDetails = () => {
                     productData?.map((data, idx)=> <ProductPriceRow key={idx} id={idx+1} data={data} />)
                 }
                 <div className="flex gap-1 justify-between">
-                    <p>Total - </p> <p>{totalPrice} BDT</p>
+                    <p>Total - </p> <p>- {totalPrice} BDT</p>
                 </div>
             </div>
         </div>

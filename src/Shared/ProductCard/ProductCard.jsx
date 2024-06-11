@@ -4,8 +4,12 @@ import ButtonLight from "../Button/ButtonLight";
 import { addSingleProduct } from "../../localStorage/addtoCart";
 import { useState } from "react";
 import AddToCartProductModal from "../AddToCartProductModal/AddToCartProductModal";
+import { useSelector } from "react-redux";
+import useAdmin from "../../hooks/useAdmin";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ productDetails }) => {
+    const [isAdmin, isAdminLoading] = useAdmin();
     const [openAddToCartModal, setOpenAddToCartModal] = useState(false)
     const { addedTime, category, name, price, productImage, _id, measurement } = productDetails
     const showingMeasurementText = measurement === 'Quantity' ? 'Per Peace' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre'
@@ -35,9 +39,11 @@ const ProductCard = ({ productDetails }) => {
                         <h2>{category}</h2>
                     </div>
                 </div>
-                <div onClick={handleBuy} className="flex justify-center items-center ">
+                {!isAdmin ? <div onClick={handleBuy} className="flex justify-center items-center ">
                     <ButtonLight text={'Buy'} />
-                </div>
+                </div> : <Link to={`/updateProduct/${name}/${_id}`}>
+                    <div className="flex justify-center items-center "><ButtonLight text={'Update'} /></div>
+                </Link>}
             </div>
             <AddToCartProductModal openAddToCartModal={openAddToCartModal} handleCloseModal={handleCloseModal} productDetails={productDetails} />
         </div>

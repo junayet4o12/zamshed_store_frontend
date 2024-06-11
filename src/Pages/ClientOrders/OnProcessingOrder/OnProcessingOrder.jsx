@@ -2,6 +2,7 @@ import { useGetOnProcessingOrdersQuery } from "../../../Redux/features/api/allBa
 import Loading from "../../../Shared/Loading/Loading";
 import NoOrderFound from "../../../Shared/NoOrderFound/NoOrderFound";
 import OrderTableRow from "../../OrderedProduct/OrderTableRow";
+import AdminOrderTableRow from "../AdminOrderTableRow";
 
 const OnProcessingOrder = () => {
     const { data, isLoading } = useGetOnProcessingOrdersQuery();
@@ -10,7 +11,7 @@ const OnProcessingOrder = () => {
     }
     return (
         <div>
-            <div className="max-w-[700px] mx-auto space-y-4">
+            <div className="max-w-[800px] mx-auto space-y-4">
                 {data?.length > 0 ?<div className="overflow-x-auto rounded-xl">
                     <div className="min-w-max">
                         <table className="table">
@@ -27,7 +28,7 @@ const OnProcessingOrder = () => {
                             </thead>
                             <tbody>
                                 {
-                                    data?.map((data, idx) => <OrderTableRow key={data?._id} idx={idx + 1} data={data} />)
+                                    data?.map((data, idx) => <AdminOrderTableRow key={data?._id} idx={idx + 1} data={data} />)
                                 }
                             </tbody>
                         </table>

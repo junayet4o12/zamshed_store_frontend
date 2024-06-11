@@ -1,90 +1,156 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { axiosBaseQuery } from "../../../hooks/useAxiosSecure";
 import { backendUrl } from "../../../Shared/backendUrl";
-
 const allBaseApi = createApi({
     reducerPath: 'allBaseApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: backendUrl
-    }),
+    baseQuery: axiosBaseQuery({ baseUrl: backendUrl }),
     endpoints: (builder) => ({
+        // Queries
         getAllProducts: builder.query({
-            query: () => '/allProducts'
+            query: () => ({
+                url: `/allProducts`,
+                method: 'GET',
+            }),
         }),
         getSingleProduct: builder.query({
-            query: (id) => `/singleProduct/${id}`
+            query: (id) => ({
+                url: `/singleProduct/${id}`,
+                method: 'GET',
+            }),
         }),
         getCategoryWiseProductsCount: builder.query({
-            query: (category) => `/categoryWiseProductsCount/${category}`
+            query: (category) => ({
+                url: `/categoryWiseProductsCount/${category}`,
+                method: 'GET',
+            }),
         }),
+        getUserData: builder.query({
+            query: (email) => ({
+                url: `/singleUser/${email}`,
+                method: 'GET',
+            }),
+        }),
+        getAdmin: builder.query({
+            query: (email) => ({
+                url: `/admin/${email}`,
+                method: 'GET',
+            }),
+        }),
+        getOrderedProductByEmail: builder.query({
+            query: (email) => ({
+                url: `/getOrderedProductByEmail/${email}`,
+                method: 'GET',
+            }),
+        }),
+        getClientOrdersCount: builder.query({
+            query: () => ({
+                url: '/clientOrdersCount',
+                method: 'GET',
+            }),
+        }),
+        getOnProcessingOrders: builder.query({
+            query: () => ({
+                url: '/onProcessingOrders',
+                method: 'GET',
+            }),
+        }),
+        getCompletedOrders: builder.query({
+            query: () => ({
+                url: '/completedOrders',
+                method: 'GET',
+            }),
+        }),
+        getSingleOrder: builder.query({
+            query: (id) => ({
+                url: `/singleOrder/${id}`,
+                method: 'GET',
+            }),
+        }),
+
+        // Mutations
         addProduct: builder.mutation({
             query: (product) => ({
                 url: '/addProducts',
                 method: 'POST',
-                body: product
-            })
+                body: product,
+            }),
         }),
         updateProduct: builder.mutation({
             query: ({ data, id }) => ({
                 url: `/updateProducts/${id}`,
                 method: 'PUT',
-                body: data
-            })
+                body: data,
+            }),
         }),
         deleteProducts: builder.mutation({
             query: (id) => ({
                 url: `/deleteProducts/${id}`,
                 method: 'DELETE',
-                body: ''
-            })
+            }),
         }),
         getCartProducts: builder.mutation({
             query: (data) => ({
                 url: `/cartProducts`,
                 method: 'POST',
-                body: data
-            })
+                body: data,
+            }),
         }),
         addUsers: builder.mutation({
             query: (data) => ({
                 url: `/addUsers`,
                 method: 'POST',
-                body: data
-            })
-        }),
-        getUserData: builder.query({
-            query: (email) => `/singleUser/${email}`
+                body: data,
+            }),
         }),
         updateSingleUser: builder.mutation({
             query: ({ data, id }) => ({
                 url: `/updateSingleUsers/${id}`,
                 method: 'PUT',
-                body: data
-            })
-        }),
-        getAdmin: builder.query({
-            query: (email) => `/admin/${email}`
+                body: data,
+            }),
         }),
         storeOrderedProduct: builder.mutation({
             query: (data) => ({
                 url: `/storeOrderedProduct`,
                 method: 'POST',
-                body: data
-            })
+                body: data,
+            }),
         }),
-        getOrderedProductByEmail: builder.query({
-            query: (email) => `/getOrderedProductByEmail/${email}`
+        makeOrderCompleted: builder.mutation({
+            query: (id) => ({
+                url: `/makeOrderCompleted/${id}`,
+                method: 'PUT',
+            }),
         }),
-        getClientOrdersCount: builder.query({
-            query: () => `/clientOrdersCount`
+        makeOrderIncomplete: builder.mutation({
+            query: (id) => ({
+                url: `/makeOrderIncomplete/${id}`,
+                method: 'PUT',
+            }),
         }),
-        getOnProcessingOrders: builder.query({
-            query: () => `/onProcessingOrders`
-        }),
-        getSingleOrder: builder.query({
-            query: (id) => `/singleOrder/${id}`
-        }),
-    })
-})
-export const { useGetAllProductsQuery, useGetSingleProductQuery, useGetCategoryWiseProductsCountQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductsMutation, useGetCartProductsMutation, useAddUsersMutation, useGetUserDataQuery, useUpdateSingleUserMutation, useGetAdminQuery, useStoreOrderedProductMutation, useGetOrderedProductByEmailQuery, useGetClientOrdersCountQuery,useGetOnProcessingOrdersQuery, useGetSingleOrderQuery } = allBaseApi
+    }),
+});
 
-export default allBaseApi
+export const {
+    useGetAllProductsQuery,
+    useGetSingleProductQuery,
+    useGetCategoryWiseProductsCountQuery,
+    useAddProductMutation,
+    useUpdateProductMutation,
+    useDeleteProductsMutation,
+    useGetCartProductsMutation,
+    useAddUsersMutation,
+    useGetUserDataQuery,
+    useUpdateSingleUserMutation,
+    useGetAdminQuery,
+    useStoreOrderedProductMutation,
+    useGetOrderedProductByEmailQuery,
+    useGetClientOrdersCountQuery,
+    useGetOnProcessingOrdersQuery,
+    useGetCompletedOrdersQuery,
+    useGetSingleOrderQuery,
+    useMakeOrderCompletedMutation,
+    useMakeOrderIncompleteMutation,
+} = allBaseApi;
+
+export default allBaseApi;
