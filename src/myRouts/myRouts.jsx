@@ -53,7 +53,7 @@ export const myRouts = createBrowserRouter([
             },
             {
                 path: '/myCarts',
-                element: <PrivateRouts><MyCarts/></PrivateRouts>
+                element: <MyCarts/>
             },
             {
                 path: '/myProfile',

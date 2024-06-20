@@ -7,11 +7,13 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import { storeUser, toggleLoading } from "../Redux/features/userSlice/userSlice";
+import { useCreateTokenMutation } from "../Redux/features/api/allBaseApi";
 
 const MainLayout = () => {
     const dispatch = useDispatch()
     const { pathname } = useLocation();
-    const { isLoadingFullPage } = useSelector(state => state.userSlice)
+    const { isLoadingFullPage, user } = useSelector(state => state.userSlice)
+    const [createToken, { data: token }] = useCreateTokenMutation()
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -25,10 +27,23 @@ const MainLayout = () => {
                 dispatch(storeUser(data))
                 dispatch(toggleLoading())
             } else {
+                localStorage.removeItem('token')
                 dispatch(toggleLoading())
             }
         })
     }, [])
+
+    useEffect(() => {
+        if(user){
+            createToken({ email: user?.email })
+        }
+    }, [user])
+
+    useEffect(() => {
+        if (token) {
+            localStorage.setItem('token', token?.token)
+        }
+    }, [token])
     if (isLoadingFullPage) {
         return <Loading />
     }

@@ -2,58 +2,59 @@ import { signOut } from "firebase/auth";
 import axios from 'axios';
 import { backendUrl } from '../Shared/backendUrl';
 import auth from '../../firebase/firebase.config';
+import { removeUserData } from "../Redux/features/userSlice/userSlice";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 const axiosSecure = axios.create({
     baseURL: backendUrl
 });
-axiosSecure.interceptors.request.use((res) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        res.headers.authorization = `bearer ${token}`;
+
+// Adding request interceptor
+axiosSecure.interceptors.request.use(
+    (config) => {
+
+
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`; // Correct capitalization
+            // console.log('Token added to headers:', config.headers.Authorization);
+        } else {
+            // console.log('No token found in localStorage');
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
     }
-    return res;
-}, (err) => {
-    return Promise.reject(err);
-});
+);
 
-axiosSecure.interceptors.response.use((res) => {
-    return res;
-}, (err) => {
-    const status = err.response.status;
-    if (status === 401 || status === 403) {
-        signOut(auth);
+// Adding response interceptor
+axiosSecure.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        const dispatch = useDispatch()
+        const status = error.response ? error.response.status : null;
+        if (status === 401 || status === 403) {
+           const toastId = toast.loading("Logging Out...");
+            signOut(auth)
+                .then(res => {
+
+                    dispatch(removeUserData())
+                    toast.success("Logged Out!!", { id: toastId });
+                })
+                .catch(err => {
+                    toast.error(err?.message, { id: toastId });
+                })
+        }
+        return Promise.reject(error);
     }
-    return Promise.reject(err);
-});
+);
 
-// const useAxiosSecure = () => {
-//     const navigate = useNavigate();
-//     axiosSecure.interceptors.request.use((res) => {
-//         const token = localStorage.getItem('token');
-//         if (token) {
-//             res.headers.authorization = `bearer ${token}`;
-//         }
-//         return res;
-//     }, (err) => {
-//         return Promise.reject(err);
-//     });
-
-//     axiosSecure.interceptors.response.use((res) => {
-//         return res;
-//     }, (err) => {
-//         const status = err.response.status;
-//         if (status === 401 || status === 403) {
-//             signOut(auth);
-//             navigate('/login');
-//         }
-//         return Promise.reject(err);
-//     });
-
-//     return axiosSecure;
-// };
-
+// Custom axios base query function
 const axiosBaseQuery = ({ baseUrl }) => async ({ url, method, body: data, params }) => {
-    console.log(baseUrl + url, method, data);
     try {
         const config = {
             url: baseUrl + url,
@@ -67,7 +68,6 @@ const axiosBaseQuery = ({ baseUrl }) => async ({ url, method, body: data, params
         }
 
         const result = await axiosSecure(config);
-        console.log(result);
         return { data: result.data };
     } catch (axiosError) {
         let err = axiosError;

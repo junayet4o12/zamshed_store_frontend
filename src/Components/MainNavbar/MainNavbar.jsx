@@ -1,6 +1,5 @@
 import logo from '../../assets/logo.png'
 import { CiUser, CiShoppingBasket } from "react-icons/ci";
-import { IoIosHeartEmpty } from "react-icons/io";
 import { Fade as Hamburger } from 'hamburger-react'
 import { useEffect, useState } from 'react';
 import Categories from '../../Shared/Categories/Categories';
@@ -9,9 +8,10 @@ import NavbarMenu from './NavbarMenu';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/LogoWithNotificationBlackVersion';
 import { useSelector } from 'react-redux';
-import { useGetCartProductsMutation, useGetOrderedProductByEmailQuery } from '../../Redux/features/api/allBaseApi';
+import { useGetCartProductsMutation } from '../../Redux/features/api/allBaseApi';
 import { MdOutlineShoppingCart } from "react-icons/md";
 import useAdmin from '../../hooks/useAdmin';
+import OrderedProduct from '../../Shared/OrderedProduct/OrderedProduct';
 const MainNavbar = () => {
     const navigate = useNavigate()
     const { user } = useSelector(state => state.userSlice);
@@ -21,7 +21,6 @@ const MainNavbar = () => {
     const isHome = location?.pathname === '/'
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
-    const { data: orderedData, isLoading: orderedDataIsLoading } = useGetOrderedProductByEmailQuery(user?.email)
     const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
     useEffect(() => {
         getCartProduct(productIdArray)
@@ -40,25 +39,25 @@ const MainNavbar = () => {
                     </>
                 }
                 <div className='flex h-[50px] justify-center items-center gap-3  ml-auto'>
+                    {!isAdmin && <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={newAllProductsData?.length || 0} /></button></Link>}
+                    
                     {
                         user &&
                         <>
-                            <Link to={'/myProfile'}><button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex p-1'>{user?.photoURL ? <img className='w-full h-full rounded-full' src={user?.photoURL} /> : <CiUser />}</button></Link>
+                           
                             {!isAdmin ? <>
-                                <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
-                                <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={newAllProductsData?.length || 0} /></button></Link>
-                                <Link to={'/myOrders'}>
-                                    <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'>
-                                        <LogoWithNotificationBlackVersion Logo={MdOutlineShoppingCart} notification={orderedData?.length || 0} />
-                                    </button>
-                                </Link>
+                                
+
+                                <OrderedProduct />
                             </> : <>
                                 <Link to={'/clientOrders/onProcessing'}>
                                     <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'>
-                                        <LogoWithNotificationBlackVersion userLogo={true} Logo={MdOutlineShoppingCart} notification={orderedData?.length || 0} />
+                                        <LogoWithNotificationBlackVersion userLogo={true} Logo={MdOutlineShoppingCart} notification={0} />
                                     </button>
                                 </Link>
                             </>}
+                            <span className='font-medium text-gray-500 hidden xs:flex'>|</span>
+                            <Link to={'/myProfile'}><button className='w-10 h-10  justify-center items-center  text-lg rounded-full bg-primary/10 hidden xs:flex p-1'>{user?.photoURL ? <img className='w-full h-full rounded-full' src={user?.photoURL} /> : <CiUser />}</button></Link>
                         </>
                     }
 

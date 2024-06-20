@@ -11,18 +11,42 @@ import NoProductFound from "../../Shared/NoProductFound/NoProductFound";
 import { removeAllProduct } from "../../localStorage/addtoCart";
 import { restoreAddToCartData } from "../../Redux/features/productsInCartSlice/productsInCartSlice";
 import BuyingModal from "./BuyingModal";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const MyCarts = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [openBuyingModal, setOpenBuyingModal] = useState(false)
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
-    const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
+    const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation();
+    const { user } = useSelector(state => state.userSlice);
     useEffect(() => {
         getCartProduct(productIdArray)
     }, [addedToCartData])
     if (isLoading) {
         return <Loading />
+    }
+    const handleOpenBuyingModal = () => {
+        if (user?.email) {
+            setOpenBuyingModal(true)
+
+        } else {
+            Swal.fire({
+                title: "You are not Logged in yet",
+                text: "Please logged in first to completed order",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Log In!"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login')
+                }
+              });
+        }
     }
     const handleCloseModal = () => {
         setOpenBuyingModal(false)
@@ -57,7 +81,7 @@ const MyCarts = () => {
                 {newAllProductsData?.length > 0 && <>
                     <h3 className="text-2xl font-medium">Total Price: <span className="font-bold">{totalPrice || 0} BDT</span></h3>
                     <data className="flex gap-3">
-                        <button onClick={()=> setOpenBuyingModal(true)}><ButtonStrong text={'Buy All'} /></button>
+                        <button onClick={handleOpenBuyingModal}><ButtonStrong text={'Buy All'} /></button>
                         <button onClick={handleRemoveAll}><ButtonDanger text={'Remove All'} /></button>
                     </data>
                 </>}

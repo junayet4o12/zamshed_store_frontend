@@ -8,7 +8,10 @@ import NoOrderFound from "../../Shared/NoOrderFound/NoOrderFound";
 
 const OrderedProduct = () => {
     const { user } = useSelector(state => state.userSlice)
-    const { data: orderedData, isLoading: orderedDataIsLoading } = useGetOrderedProductByEmailQuery(user?.email)
+    const token = localStorage.getItem('token')
+    const { data: orderedData, isLoading: orderedDataIsLoading } = useGetOrderedProductByEmailQuery(user?.email , {
+        skip: !token
+    })
     if (orderedDataIsLoading) {
         return <Loading />
     }

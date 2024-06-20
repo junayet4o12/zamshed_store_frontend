@@ -68,6 +68,13 @@ const allBaseApi = createApi({
         }),
 
         // Mutations
+        createToken: builder.mutation({
+            query: (email) => ({
+                url: '/jwt',
+                method: 'POST',
+                body: email,
+            }),
+        }),
         addProduct: builder.mutation({
             query: (product) => ({
                 url: '/addProducts',
@@ -132,6 +139,7 @@ const allBaseApi = createApi({
 });
 
 export const {
+    useCreateTokenMutation,
     useGetAllProductsQuery,
     useGetSingleProductQuery,
     useGetCategoryWiseProductsCountQuery,

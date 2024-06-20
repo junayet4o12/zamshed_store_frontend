@@ -9,12 +9,21 @@ import toast from "react-hot-toast";
 import { useDeleteProductsMutation } from "../../Redux/features/api/allBaseApi";
 import { useDispatch } from "react-redux";
 import { restoreAddToCartData } from "../../Redux/features/productsInCartSlice/productsInCartSlice";
+import { useEffect } from "react";
 
 const UpdateProductCard = ({ productDetails, refetch }) => {
     const dispatch = useDispatch()
     const [deleteProduct, { data }] = useDeleteProductsMutation()
     const { addedTime, category, name, price, productImage, _id, measurement } = productDetails
     const showingMeasurementText = measurement === 'Quantity' ? 'Per Peace' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre'
+
+    useEffect(() => {
+        if (data) {
+            toast.success('Deleted Successfully!!')
+            refetch()
+            console.log(data);
+        }
+    }, [data])
     const handleDelete = () => {
         Swal.fire({
             title: "Are you sure?",
@@ -26,16 +35,8 @@ const UpdateProductCard = ({ productDetails, refetch }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                const toastId = toast.loading("Product is Deleting...");
                 deleteProduct(_id)
-                    .then(res => {
-                        toast.success("Deleted Successfully!!", { id: toastId });
-                        refetch()
-                        dispatch(restoreAddToCartData())
-                    })
-                    .catch(err => {
-                        toast.error(err?.message, { id: toastId });
-                    })
+
 
             }
         });

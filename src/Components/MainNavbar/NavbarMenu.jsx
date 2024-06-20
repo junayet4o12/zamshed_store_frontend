@@ -1,28 +1,23 @@
 import { RiShoppingBasket2Line } from "react-icons/ri";
-import { BsArrowRepeat } from "react-icons/bs";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { CiUser } from "react-icons/ci";
 import LogoWithNotifications from "../../Shared/logoWithNotification/LogoWithNotifications";
 import whiteLogo from '../../assets/whiteLogo.png'
 import { FaFacebookF, FaWhatsapp, FaGoogle } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
-import { MdOutlineLogout, MdOutlineShoppingCart } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "firebase/auth";
-import auth from "../../../firebase/firebase.config";
-import { removeUserData } from "../../Redux/features/userSlice/userSlice";
-import toast from "react-hot-toast";
-import { useGetCartProductsMutation, useGetOrderedProductByEmailQuery } from "../../Redux/features/api/allBaseApi";
+import { MdOutlineLogout } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useGetCartProductsMutation } from "../../Redux/features/api/allBaseApi";
 import { useEffect } from "react";
 import useHandleLogOut from "../../Shared/useHandleLogOut";
 import useAdmin from "../../hooks/useAdmin";
-const NavbarMenu = ({ setOpenMenu }) => {
+import OrderedProduct from "../../Shared/OrderedProduct/OrderedProduct";
+const NavbarMenu = () => {
     const { user } = useSelector(state => state.userSlice)
-    const [isAdmin, isAdminLoading] = useAdmin();
+    const [isAdmin] = useAdmin();
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
-    const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
-    const { data: orderedData } = useGetOrderedProductByEmailQuery(user?.email)
+    const [getCartProduct, { data }] = useGetCartProductsMutation()
     useEffect(() => {
         getCartProduct(productIdArray)
     }, [addedToCartData])
@@ -44,11 +39,7 @@ const NavbarMenu = ({ setOpenMenu }) => {
                             user && <>
                                 {!isAdmin && <>
                                     <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={newAllProductsData?.length || 0} />
-                                    <Link to={'/myOrders'}>
-                                        <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full hidden xs:flex'>
-                                            <LogoWithNotifications Logo={MdOutlineShoppingCart} notification={orderedData?.length || 0} />
-                                        </button>
-                                    </Link>
+                                    <OrderedProduct whiteVersion={true} />
                                     <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
                                 </>}
                                 <Link to={'/myProfile'}>
