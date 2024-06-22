@@ -89,3 +89,24 @@
     font-family: "Inter", sans-serif;
 
 }
+
+
+.toggleStyle {
+    transform: scale(0);
+    transition: transform 0.3s ease;
+    /* Add transition for smooth effect */
+}
+
+.toggleStyleOnActive {
+    transition: transform 0.3s ease;
+    transform: scale(1);
+}
+
+.toggleParent:hover {
+    padding-left: 16px;
+    color: #1b8057;
+}
+
+.toggleParent:hover .toggleStyle {
+    transform: scale(1);
+}

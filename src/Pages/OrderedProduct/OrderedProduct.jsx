@@ -5,22 +5,54 @@ import { useGetOrderedProductByEmailQuery } from "../../Redux/features/api/allBa
 import Loading from "../../Shared/Loading/Loading";
 import OrderTableRow from "./OrderTableRow";
 import NoOrderFound from "../../Shared/NoOrderFound/NoOrderFound";
+import { useState } from "react";
 
 const OrderedProduct = () => {
+    const [showOnProcessingHideCompleted, setShowOnProcessingHideCompleted] = useState(true)
     const { user } = useSelector(state => state.userSlice)
     const token = localStorage.getItem('token')
-    const { data: orderedData, isLoading: orderedDataIsLoading } = useGetOrderedProductByEmailQuery(user?.email , {
+    const { data: orderedData, isLoading: orderedDataIsLoading } = useGetOrderedProductByEmailQuery(user?.email, {
         skip: !token
     })
     if (orderedDataIsLoading) {
         return <Loading />
     }
+    const onProcessingData = orderedData?.filter(item => item?.stage === 'processing');
+    const completedData = orderedData?.filter(item => item?.stage === 'completed');
+    const showingProduct = showOnProcessingHideCompleted ? onProcessingData : completedData
+    console.log(orderedData);
+    const LinkStyle = `flex items-center gap-2 cursor-pointer toggleParent transition-all duration-300 relative`
+    const StylingComponents = ({ isShow }) => {
+        return <div className={`w-1.5 h-1.5 bg-primary ${isShow ? 'toggleStyleOnActive' : 'toggleStyle'} absolute left-0`}></div>
+    }
+
     return (
         <div className="p-2 space-y-7">
             <RoutesTitle />
+
             <div className="max-w-[700px] mx-auto space-y-4">
                 <Title text={'My Orders'} />
-                {orderedData?.length > 0 ?<div className="overflow-x-auto rounded-xl">
+                <div>
+                    <ul className="flex gap-4">
+
+                        <li onClick={() =>
+                            setShowOnProcessingHideCompleted(true)
+                        } className={`${LinkStyle} ${showOnProcessingHideCompleted && 'pl-4 text-primary'}`}>
+                            <StylingComponents isShow={showOnProcessingHideCompleted ? true : false} />
+                            On Processing ({onProcessingData?.length})
+                        </li>
+
+
+                        <li onClick={() =>
+                            setShowOnProcessingHideCompleted(false)
+                        } className={`${LinkStyle} ${!showOnProcessingHideCompleted && 'pl-4 text-primary'}`}>
+                            <StylingComponents isShow={!showOnProcessingHideCompleted ? true : false} />
+                            Completed ({completedData?.length})
+                        </li>
+
+                    </ul>
+                </div>
+                {showingProduct?.length > 0 ? <div className="overflow-x-auto rounded-xl">
                     <div className="min-w-max">
                         <table className="table">
                             {/* head */}
@@ -36,12 +68,12 @@ const OrderedProduct = () => {
                             </thead>
                             <tbody>
                                 {
-                                    orderedData?.map((data, idx) => <OrderTableRow key={data?._id} idx={idx + 1} data={data} />)
+                                    showingProduct?.map((data, idx) => <OrderTableRow key={data?._id} idx={idx + 1} data={data} />)
                                 }
                             </tbody>
                         </table>
                     </div>
-                </div> : <div className="w-full flex justify-center items-center"><NoOrderFound/></div>}
+                </div> : <div className="w-full flex justify-center items-center"><NoOrderFound /></div>}
             </div>
         </div>
     );

@@ -11,19 +11,24 @@ const OnProcessingOrder = () => {
     }
     return (
         <div>
-            <div className="max-w-[800px] mx-auto space-y-4">
-                {data?.length > 0 ?<div className="overflow-x-auto rounded-xl">
+            <div className="max-w-[1100px] mx-auto space-y-4">
+                {data?.length > 0 ? <div className="overflow-x-auto rounded-xl">
                     <div className="min-w-max">
                         <table className="table">
                             {/* head */}
                             <thead>
                                 <tr className="bg-primary text-white">
+
                                     <th></th>
+                                    <th>Client Name</th>
+                                    <th>Contact Number</th>
+                                    <th>Location</th>
                                     <th>Products</th>
                                     <th>Total Price</th>
                                     <th>Order Time</th>
                                     <th>Stage</th>
                                     <th>Action</th>
+                                    <th>Cancel</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +38,7 @@ const OnProcessingOrder = () => {
                             </tbody>
                         </table>
                     </div>
-                </div> : <div className="w-full flex justify-center items-center"><NoOrderFound/></div>}
+                </div> : <div className="w-full flex justify-center items-center"><NoOrderFound /></div>}
             </div>
         </div>
     );

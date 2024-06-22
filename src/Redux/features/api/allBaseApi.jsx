@@ -135,6 +135,12 @@ const allBaseApi = createApi({
                 method: 'PUT',
             }),
         }),
+        deleteOrders: builder.mutation({
+            query: (id) => ({
+                url: `/deleteOrders/${id}`,
+                method: 'DELETE',
+            }),
+        }),
     }),
 });
 
@@ -159,6 +165,7 @@ export const {
     useGetSingleOrderQuery,
     useMakeOrderCompletedMutation,
     useMakeOrderIncompleteMutation,
+    useDeleteOrdersMutation,
 } = allBaseApi;
 
 export default allBaseApi;

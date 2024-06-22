@@ -9,7 +9,7 @@ import ButtonStrongMini from "../../Shared/Button/ButtonStrongMini";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import ButtonSecondaryStrongMini from "../../Shared/Button/ButtonSecondaryStrongMini";
-
+import logo from '../../assets/logo.png'
 
 const AdminOrderDetails = () => {
     const { refetch: clientOrdersCountRefetch } = useGetClientOrdersCountQuery()
@@ -87,16 +87,24 @@ const AdminOrderDetails = () => {
         <div className="p-2 space-y-4">
             <RoutesTitle removeLastElement={true} />
             <div className="w-full max-w-[400px] p-2 border border-black mx-auto  rounded-lg text-sm font-medium">
-                <div className="">
-                    <div className="flex xs:items-center flex-col xs:flex-row justify-between py-2 gap-4">
-                        <p className="flex flex-col">
-                            <span>Date: {makeVisibleTime(addedTime)}</span>
-                            <span className={`text-base font-bold w-max px-4 mt-2 rounded-full  ${stage === 'processing' ? 'text-black bg-secondary' : 'text-white bg-primary'}`}>{stage === 'processing' ? 'On Processing' : 'Completed'}</span>
-                        </p>
-                        {stage === 'processing' ? <button onClick={handleOrderCompleted} className="w-max"><ButtonStrongMini text={'Complete'} /></button> : <button onClick={handleOrderIncomplete} className="w-max"><ButtonSecondaryStrongMini text={'Incomplete'} /></button>}
-
+                <div className="relative min-h-24">
+                    <div className="w-full h-full absolute -z-20 flex justify-center items-center">
+                        <img className="h-20 " src={logo} alt="" />
                     </div>
-                    <hr className="border-gray-500 my-1" />
+                    <div className="w-full h-full absolute -z-10 flex justify-center items-center bg-white/85">
+                    </div>
+                    <h2 className="text-primary uppercase text-base font-bold"><span className="text-xl">Z</span>amshed <span className="text-xl">S</span>tore</h2>
+                    <div className="">
+                        <div className="flex xs:items-center flex-col xs:flex-row justify-between py-2 gap-4">
+                            <p className="flex flex-col">
+                                <span>Date: {makeVisibleTime(addedTime)}</span>
+                                <span className={`text-base font-bold w-max px-4 mt-2 rounded-full  ${stage === 'processing' ? 'text-black bg-secondary' : 'text-white bg-primary'}`}>{stage === 'processing' ? 'On Processing' : 'Completed'}</span>
+                            </p>
+                            {stage === 'processing' ? <button onClick={handleOrderCompleted} className="w-max"><ButtonStrongMini text={'Complete'} /></button> : <button onClick={handleOrderIncomplete} className="w-max"><ButtonSecondaryStrongMini text={'Incomplete'} /></button>}
+
+                        </div>
+                        <hr className="border-gray-500 my-1" />
+                    </div>
                 </div>
                 {
                     productData?.map((data, idx) => <AdminProductPriceRow key={idx} id={idx + 1} data={data} />)

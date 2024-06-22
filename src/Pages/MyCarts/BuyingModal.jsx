@@ -40,7 +40,6 @@ const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, pr
         }
     }, [storedOrderedProductData])
 
-    console.log(location);
     const { register, handleSubmit, formState: { errors }, getValues, control } = useForm()
     const handleCloseAlertModal = () => {
         setOpenBuyingAlertModal(false)
@@ -71,6 +70,18 @@ const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, pr
         <Dialog size="sm" open={openBuyingModal} handler={handleCloseModal} className="p-5">
             <DialogHeader>Buy your products.</DialogHeader>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div className="space-y-2">
+                    <InputLabel text={'Your Name'} />
+                    <input
+                        placeholder="Your Name"
+                        {...register("clientName", {
+                            required: true,
+                        })}
+                        type="text"
+                        defaultValue={userData?.name}
+                        className={`${inputStyle}`}
+                    />
+                </div>
                 <div className="space-y-2">
                     <InputLabel text={'Your Contact Number'} />
                     <input
