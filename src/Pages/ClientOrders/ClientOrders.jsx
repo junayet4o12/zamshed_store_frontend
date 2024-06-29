@@ -18,6 +18,12 @@ const ClientOrders = () => {
             <Title text={`Client Products (${data?.all})`} />
             <div>
                 <ul className="flex gap-4">
+                    <NavLink to={'/clientOrders/pending'}>
+                        <li className={`${LinkStyle}`}>
+                            {StylingComponents}
+                            Pending ({data?.pending})
+                        </li>
+                    </NavLink>
                     <NavLink to={'/clientOrders/onProcessing'}>
                         <li className={`${LinkStyle}`}>
                             {StylingComponents}

@@ -50,7 +50,7 @@ const AdminOrderDetails = () => {
         return <Loading />
     }
 
-    const { _id, addedTime, clientEmail, contactNumber, productData, stage, totalPrice } = orderData;
+    const { _id, addedTime, clientEmail, contactNumber, productData, stage, totalPrice, clientName, writtenLocation, location } = orderData;
     const handleOrderCompleted = () => {
         Swal.fire({
             title: "Are you sure?",
@@ -98,9 +98,11 @@ const AdminOrderDetails = () => {
                         <div className="flex xs:items-center flex-col xs:flex-row justify-between py-2 gap-4">
                             <p className="flex flex-col">
                                 <span>Date: {makeVisibleTime(addedTime)}</span>
-                                <span className={`text-base font-bold w-max px-4 mt-2 rounded-full  ${stage === 'processing' ? 'text-black bg-secondary' : 'text-white bg-primary'}`}>{stage === 'processing' ? 'On Processing' : 'Completed'}</span>
+                                <span>Name: {clientName || 'Not Given'}</span>
+                                <span>Location: {!location ? 'Not Given' : location === 'Other' ? (writtenLocation || 'Not Given') : location}</span>
+                                <span className={`text-base font-bold w-max px-4 mt-2 rounded-full  ${stage === 'processing' ? 'text-black bg-secondary' : 'text-white bg-primary'}`}>{stage === 'processing' ? 'On Processing' : stage === 'pending' ? 'On Pending' : 'Completed'}</span>
                             </p>
-                            {stage === 'processing' ? <button onClick={handleOrderCompleted} className="w-max"><ButtonStrongMini text={'Complete'} /></button> : <button onClick={handleOrderIncomplete} className="w-max"><ButtonSecondaryStrongMini text={'Incomplete'} /></button>}
+                            {stage !== 'pending' && <>{stage === 'processing' ? <button onClick={handleOrderCompleted} className="w-max"><ButtonStrongMini text={'Complete'} /></button> : <button onClick={handleOrderIncomplete} className="w-max"><ButtonSecondaryStrongMini text={'On Processing'} /></button>}</>}
 
                         </div>
                         <hr className="border-gray-500 my-1" />

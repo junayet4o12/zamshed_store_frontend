@@ -36,7 +36,9 @@ const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, pr
                 timer: 2000
             });
             handleCloseModal()
-            refetch()
+            if (user?.email) {
+                refetch()
+            }
         }
     }, [storedOrderedProductData])
 
@@ -54,7 +56,7 @@ const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, pr
             ...data,
             productData,
             totalPrice: price,
-            stage: 'processing',
+            stage: 'pending',
             addedTime: new Date().getTime()
         };
         setOpenBuyingAlertModal(true)

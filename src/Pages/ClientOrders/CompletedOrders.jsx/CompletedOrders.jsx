@@ -25,7 +25,8 @@ const CompletedOrders = () => {
                                     <th>Total Price</th>
                                     <th>Order Time</th>
                                     <th>Stage</th>
-                                    <th>Action</th>
+                                    <th>Details</th>
+                                    <th>Make processing</th>
                                     <th>Cancel</th>
                                 </tr>
                             </thead>

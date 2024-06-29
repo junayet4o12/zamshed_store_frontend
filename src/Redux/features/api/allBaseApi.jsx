@@ -48,6 +48,12 @@ const allBaseApi = createApi({
                 method: 'GET',
             }),
         }),
+        getPendingOrders: builder.query({
+            query: () => ({
+                url: '/pendingOrders',
+                method: 'GET',
+            }),
+        }),
         getOnProcessingOrders: builder.query({
             query: () => ({
                 url: '/onProcessingOrders',
@@ -123,6 +129,18 @@ const allBaseApi = createApi({
                 body: data,
             }),
         }),
+        makeOrderPending: builder.mutation({
+            query: (id) => ({
+                url: `/makeOrderPending/${id}`,
+                method: 'PUT',
+            }),
+        }),
+        makeOrderOnProcessing: builder.mutation({
+            query: (id) => ({
+                url: `/makeOrderOnProcessing/${id}`,
+                method: 'PUT',
+            }),
+        }),
         makeOrderCompleted: builder.mutation({
             query: (id) => ({
                 url: `/makeOrderCompleted/${id}`,
@@ -160,9 +178,12 @@ export const {
     useStoreOrderedProductMutation,
     useGetOrderedProductByEmailQuery,
     useGetClientOrdersCountQuery,
+    useGetPendingOrdersQuery,
     useGetOnProcessingOrdersQuery,
     useGetCompletedOrdersQuery,
     useGetSingleOrderQuery,
+    useMakeOrderPendingMutation,
+    useMakeOrderOnProcessingMutation,
     useMakeOrderCompletedMutation,
     useMakeOrderIncompleteMutation,
     useDeleteOrdersMutation,

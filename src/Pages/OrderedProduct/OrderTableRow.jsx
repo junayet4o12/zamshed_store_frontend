@@ -13,7 +13,7 @@ const OrderTableRow = ({ data, idx }) => {
             <td className=""><span className="font-bold">{data?.productData?.length}</span> Items</td>
             <td className="">{data?.totalPrice} BDT</td>
             <td className="">{makeVisibleTime(data?.addedTime)}</td>
-            <td className="">{data?.stage === 'processing' ? 'On Processing' : 'Completed'}</td>
+            <td className="">{data?.stage === 'pending' ? 'Pending' : data?.stage === 'processing' ? 'On Processing' : 'Completed'}</td>
             <td><Link to={`/orderDetails/${data?._id}`}><ButtonStrongMini text={'Details'} /></Link></td>
         </tr>
     );

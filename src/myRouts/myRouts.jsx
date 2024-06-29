@@ -17,6 +17,9 @@ import OnProcessingOrder from '../Pages/ClientOrders/OnProcessingOrder/OnProcess
 import CompletedOrders from '../Pages/ClientOrders/CompletedOrders.jsx/CompletedOrders';
 import OrderDetails from '../Pages/OrderDetails/OrderDetails';
 import AdminOrderDetails from '../Pages/AdminOrderDetails/AdminOrderDetails';
+import AboutShop from '../Pages/AboutShop/AboutShop';
+import Proprietor from '../Pages/Proprietor/Proprietor';
+import PendingOrders from '../Pages/ClientOrders/PendingOrders/PendingOrders';
 
 export const myRouts = createBrowserRouter([
     {
@@ -38,6 +41,14 @@ export const myRouts = createBrowserRouter([
             {
                 path: '/gallery',
                 element: <Gallery />
+            },
+            {
+                path: '/aboutShop',
+                element: <AboutShop />
+            },
+            {
+                path: '/proprietor',
+                element: <Proprietor />
             },
             {
                 path: '/addProduct',
@@ -71,6 +82,10 @@ export const myRouts = createBrowserRouter([
                 path: '/clientOrders',
                 element: <AdminRouts><ClientOrders/></AdminRouts>,
                 children: [
+                    {
+                        path: '/clientOrders/pending',
+                        element: <PendingOrders/>
+                    },
                     {
                         path: '/clientOrders/onProcessing',
                         element: <OnProcessingOrder/>

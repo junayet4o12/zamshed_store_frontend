@@ -77,18 +77,18 @@ const NavbarMenu = () => {
                                 Gallery
                             </li>
                         </NavLink>
-                        <li className={`${LinkStyle}`}>
-                            {StylingComponents}
-                            About Us
-                        </li>
-                        <li className={`${LinkStyle}`}>
-                            {StylingComponents}
-                            Proprietor
-                        </li>
-                        <li className={`${LinkStyle}`}>
-                            {StylingComponents}
-                            Contact
-                        </li>
+                        <NavLink to={'/aboutShop'}>
+                            <li className={`${LinkStyle}`}>
+                                {StylingComponents}
+                                About Shop
+                            </li>
+                        </NavLink>
+                        <NavLink to={'/proprietor'}>
+                            <li className={`${LinkStyle}`}>
+                                {StylingComponents}
+                                Proprietor
+                            </li>
+                        </NavLink>
                         {
                             isAdmin && <>
                                 <NavLink to={'/addProduct'}>

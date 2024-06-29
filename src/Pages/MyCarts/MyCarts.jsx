@@ -29,24 +29,7 @@ const MyCarts = () => {
         return <Loading />
     }
     const handleOpenBuyingModal = () => {
-        if (user?.email) {
-            setOpenBuyingModal(true)
-
-        } else {
-            Swal.fire({
-                title: "You are not Logged in yet",
-                text: "Please logged in first to completed order",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Log In!"
-              }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/login')
-                }
-              });
-        }
+        setOpenBuyingModal(true)
     }
     const handleCloseModal = () => {
         setOpenBuyingModal(false)

@@ -1,14 +1,14 @@
-import { useGetOnProcessingOrdersQuery } from "../../../Redux/features/api/allBaseApi";
+import { useGetPendingOrdersQuery } from "../../../Redux/features/api/allBaseApi";
 import Loading from "../../../Shared/Loading/Loading";
 import NoOrderFound from "../../../Shared/NoOrderFound/NoOrderFound";
-import OrderTableRow from "../../OrderedProduct/OrderTableRow";
 import AdminOrderTableRow from "../AdminOrderTableRow";
 
-const OnProcessingOrder = () => {
-    const { data, isLoading } = useGetOnProcessingOrdersQuery();
+const PendingOrders = () => {
+    const { data, isLoading } = useGetPendingOrdersQuery();
     if (isLoading) {
         return <Loading />
     }
+    console.log(data);
     return (
         <div>
             <div className="max-w-[1100px] mx-auto space-y-4">
@@ -28,7 +28,6 @@ const OnProcessingOrder = () => {
                                     <th>Order Time</th>
                                     <th>Stage</th>
                                     <th>Action</th>
-                                    <th>Make Pending</th>
                                     <th>Cancel</th>
                                 </tr>
                             </thead>
@@ -45,4 +44,4 @@ const OnProcessingOrder = () => {
     );
 };
 
-export default OnProcessingOrder;
+export default PendingOrders;

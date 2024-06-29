@@ -8,7 +8,7 @@ import NoOrderFound from "../../Shared/NoOrderFound/NoOrderFound";
 import { useState } from "react";
 
 const OrderedProduct = () => {
-    const [showOnProcessingHideCompleted, setShowOnProcessingHideCompleted] = useState(true)
+    const [showStageWiseOrders, setShowStageWiseOrders] = useState('pending')
     const { user } = useSelector(state => state.userSlice)
     const token = localStorage.getItem('token')
     const { data: orderedData, isLoading: orderedDataIsLoading } = useGetOrderedProductByEmailQuery(user?.email, {
@@ -17,9 +17,11 @@ const OrderedProduct = () => {
     if (orderedDataIsLoading) {
         return <Loading />
     }
+    const pendingData = orderedData?.filter(item => item?.stage === 'pending');
     const onProcessingData = orderedData?.filter(item => item?.stage === 'processing');
     const completedData = orderedData?.filter(item => item?.stage === 'completed');
-    const showingProduct = showOnProcessingHideCompleted ? onProcessingData : completedData
+    console.log(completedData); 
+    const showingProduct = showStageWiseOrders === 'pending' ? pendingData : showStageWiseOrders === 'processing' ? onProcessingData : completedData
     console.log(orderedData);
     const LinkStyle = `flex items-center gap-2 cursor-pointer toggleParent transition-all duration-300 relative`
     const StylingComponents = ({ isShow }) => {
@@ -36,17 +38,24 @@ const OrderedProduct = () => {
                     <ul className="flex gap-4">
 
                         <li onClick={() =>
-                            setShowOnProcessingHideCompleted(true)
-                        } className={`${LinkStyle} ${showOnProcessingHideCompleted && 'pl-4 text-primary'}`}>
-                            <StylingComponents isShow={showOnProcessingHideCompleted ? true : false} />
+                            setShowStageWiseOrders('pending')
+                        } className={`${LinkStyle} ${showStageWiseOrders === 'pending' && 'pl-4 text-primary'}`}>
+                            <StylingComponents isShow={showStageWiseOrders === 'pending' ? true : false} />
+                            Pending ({pendingData?.length})
+                        </li>
+
+                        <li onClick={() =>
+                            setShowStageWiseOrders('processing')
+                        } className={`${LinkStyle} ${showStageWiseOrders === 'processing' && 'pl-4 text-primary'}`}>
+                            <StylingComponents isShow={showStageWiseOrders === 'processing' ? true : false} />
                             On Processing ({onProcessingData?.length})
                         </li>
 
 
                         <li onClick={() =>
-                            setShowOnProcessingHideCompleted(false)
-                        } className={`${LinkStyle} ${!showOnProcessingHideCompleted && 'pl-4 text-primary'}`}>
-                            <StylingComponents isShow={!showOnProcessingHideCompleted ? true : false} />
+                            setShowStageWiseOrders('completed')
+                        } className={`${LinkStyle} ${showStageWiseOrders === 'completed' && 'pl-4 text-primary'}`}>
+                            <StylingComponents isShow={showStageWiseOrders === 'completed' ? true : false} />
                             Completed ({completedData?.length})
                         </li>
 
