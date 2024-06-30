@@ -6,21 +6,23 @@ const Proprietor = () => {
         { field: 'Age', value: '45+' },
         { field: 'Address', value: 'Fakhir Bari, Durgapur Chhagalnaiya, Feni' },
         { field: 'Contact Number', value: '+880-1632-884012' },
-        { field: 'Email', value: 'zamshed@gmail.com' },
+        { field: 'Email', value: 'zamshed4325@gmail.com' },
         
     ];
     return (
-        <div className="p-2 space-y-4">
-            <RoutesTitle />
-            <Title text={'Proprietor'} />
+        <div className=" space-y-4">
+            <div className="p-2">
+                <RoutesTitle />
+                <Title text={'Proprietor'} />
+            </div>
             <div className="grid lg:grid-cols-5 gap-y-10">
-                <div className="col-span-2 overflow-hidden w-full max-w-[400px] mx-auto"><img src={proprietor} alt="" /></div>
-                <div className=" col-span-3 px-5 flex flex-col gap-2 py-2 text-lg">
-                    <h2 className="text-primary uppercase text-xl font-bold"><span className="text-4xl">Z</span>amshed <span className="text-4xl">A</span>lom</h2>
+                <div className="col-span-2 overflow-hidden w-full max-w-[400px] mx-auto px-2"><img src={proprietor} alt="" /></div>
+                <div className=" col-span-3 flex flex-col gap-2 py-2 text-lg sm:p-10">
+                    <h2 className="text-primary uppercase text-xl font-bold px-2"><span className="text-4xl">Z</span>amshed <span className="text-4xl">A</span>lam</h2>
                     {
-                        shopDetails?.map((item, idx) => <div className=" w-full flex  gap-x-4 gap-y-2 flex-wrap" key={idx}>
-                            <p className="min-w-[150px] max-w-[150px] flex gap-1 justify-between"><span className="underline">{item?.field}</span> <span>:</span></p>
-                            <p className="font-medium pl-10 sm:pl-0">{item?.value}</p>
+                        shopDetails?.map((item, idx) => <div className="w-full flex gap-y-2  px-2" key={idx}>
+                            <p className="min-w-[90px] max-w-[90px] flex gap-1 justify-between "><span className="underline">{item?.field}</span> <span className="min-w-[5px] max-w-[5px]">:</span></p>
+                            <p className="font-medium break-words w-[calc(100vw-140px)] sm:w-full">{item?.value}</p>
                         </div>)
                     }
                 </div>

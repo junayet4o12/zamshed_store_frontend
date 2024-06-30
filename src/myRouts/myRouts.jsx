@@ -11,7 +11,7 @@ import Register from '../Pages/Register/Register';
 import MyCarts from '../Pages/MyCarts/MyCarts';
 import Profile from '../Pages/Profile/Profile';
 import AdminRouts from '../AdminRouts/AdminRouts';
-import OrderedProduct from '../Pages/OrderedProduct/OrderedProduct';
+import ClientOrderedProduct from '../Pages/ClientOrderedProduct/ClientOrderedProduct';
 import ClientOrders from '../Pages/ClientOrders/ClientOrders';
 import OnProcessingOrder from '../Pages/ClientOrders/OnProcessingOrder/OnProcessingOrder';
 import CompletedOrders from '../Pages/ClientOrders/CompletedOrders.jsx/CompletedOrders';
@@ -72,7 +72,7 @@ export const myRouts = createBrowserRouter([
             },
             {
                 path: '/myOrders',
-                element: <PrivateRouts><OrderedProduct/></PrivateRouts>
+                element: <PrivateRouts><ClientOrderedProduct/></PrivateRouts>
             },
             {
                 path: '/orderDetails/:id',

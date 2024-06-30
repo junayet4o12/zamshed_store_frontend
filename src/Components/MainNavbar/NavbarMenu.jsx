@@ -38,9 +38,10 @@ const NavbarMenu = () => {
                         {
                             user && <>
                                 {!isAdmin && <>
-                                    <LogoWithNotifications Logo={RiShoppingBasket2Line} notification={newAllProductsData?.length || 0} />
+                                    <Link to={'/myCarts'}><LogoWithNotifications Logo={RiShoppingBasket2Line} notification={newAllProductsData?.length || 0} /></Link>
+                                    
                                     <OrderedProduct whiteVersion={true} />
-                                    <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} />
+                                    {/* <LogoWithNotifications Logo={IoIosHeartEmpty} notification={0} /> */}
                                 </>}
                                 <Link to={'/myProfile'}>
                                     <LogoWithNotifications

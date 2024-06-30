@@ -8,7 +8,6 @@ const PendingOrders = () => {
     if (isLoading) {
         return <Loading />
     }
-    console.log(data);
     return (
         <div>
             <div className="max-w-[1100px] mx-auto space-y-4">

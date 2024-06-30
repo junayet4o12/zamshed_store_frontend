@@ -21,7 +21,6 @@ const UpdateProductCard = ({ productDetails, refetch }) => {
         if (data) {
             toast.success('Deleted Successfully!!')
             refetch()
-            console.log(data);
         }
     }, [data])
     const handleDelete = () => {

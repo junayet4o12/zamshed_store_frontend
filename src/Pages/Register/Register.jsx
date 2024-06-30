@@ -36,7 +36,6 @@ const Register = () => {
 
 
     const onSubmit = async ({ name, email, password }) => {
-        console.log(email, password);
         const userData = {
             name,
             email: email.toLowerCase(),

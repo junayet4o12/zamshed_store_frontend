@@ -1,6 +1,5 @@
 
 const AdminProductPriceRow = ({data, id}) => {
-    console.log(data);
     const { unitValue, unitType, addedTime} = data[0];
     const {name, price, measurement, category} = data[1]
 

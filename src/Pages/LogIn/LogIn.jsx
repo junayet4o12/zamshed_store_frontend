@@ -31,7 +31,6 @@ const LogIn = () => {
     }, [isLogInCompleted, user])
     const { register, handleSubmit, formState: { errors }, } = useForm()
     const onSubmit = async ({ email, password }) => {
-        console.log(email, password);
         dispatch(loginUser({ email, password }))
     }
     return (

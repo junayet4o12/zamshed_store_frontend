@@ -9,7 +9,6 @@ const ClientOrders = () => {
     if (isLoading) {
         return <Loading />
     }
-    console.log(data);
     const LinkStyle = `flex items-center gap-2 cursor-pointer navLinkParent transition-all duration-300 relative`
     const StylingComponents = <div className="w-1.5 h-1.5 bg-primary navLinkStyle absolute left-0"></div>
     return (

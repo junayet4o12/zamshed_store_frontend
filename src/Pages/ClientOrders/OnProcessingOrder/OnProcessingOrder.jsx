@@ -1,7 +1,7 @@
 import { useGetOnProcessingOrdersQuery } from "../../../Redux/features/api/allBaseApi";
 import Loading from "../../../Shared/Loading/Loading";
 import NoOrderFound from "../../../Shared/NoOrderFound/NoOrderFound";
-import OrderTableRow from "../../OrderedProduct/OrderTableRow";
+import OrderTableRow from "../../ClientOrderedProduct/OrderTableRow";
 import AdminOrderTableRow from "../AdminOrderTableRow";
 
 const OnProcessingOrder = () => {

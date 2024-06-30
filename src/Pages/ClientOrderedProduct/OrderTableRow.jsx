@@ -6,7 +6,6 @@ import ButtonStrongMini from "../../Shared/Button/ButtonStrongMini";
 import { makeVisibleTime } from "../../Shared/makeVisibleTime";
 
 const OrderTableRow = ({ data, idx }) => {
-    console.log(data?._id);
     return (
         <tr className={`${idx % 2 !== 0 ? 'bg-secondary/70' : 'bg-secondary/40'}`}>
             <th className="">{idx}</th>

@@ -7,7 +7,7 @@ import OrderTableRow from "./OrderTableRow";
 import NoOrderFound from "../../Shared/NoOrderFound/NoOrderFound";
 import { useState } from "react";
 
-const OrderedProduct = () => {
+const ClientOrderedProduct = () => {
     const [showStageWiseOrders, setShowStageWiseOrders] = useState('pending')
     const { user } = useSelector(state => state.userSlice)
     const token = localStorage.getItem('token')
@@ -20,9 +20,7 @@ const OrderedProduct = () => {
     const pendingData = orderedData?.filter(item => item?.stage === 'pending');
     const onProcessingData = orderedData?.filter(item => item?.stage === 'processing');
     const completedData = orderedData?.filter(item => item?.stage === 'completed');
-    console.log(completedData); 
     const showingProduct = showStageWiseOrders === 'pending' ? pendingData : showStageWiseOrders === 'processing' ? onProcessingData : completedData
-    console.log(orderedData);
     const LinkStyle = `flex items-center gap-2 cursor-pointer toggleParent transition-all duration-300 relative`
     const StylingComponents = ({ isShow }) => {
         return <div className={`w-1.5 h-1.5 bg-primary ${isShow ? 'toggleStyleOnActive' : 'toggleStyle'} absolute left-0`}></div>
@@ -88,4 +86,4 @@ const OrderedProduct = () => {
     );
 };
 
-export default OrderedProduct;
+export default ClientOrderedProduct;

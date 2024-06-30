@@ -7,7 +7,6 @@ import ProductPriceRow from "./ProductPriceRow";
 import logo from '../../assets/logo.png'
 const OrderDetails = () => {
     const { id } = useParams();
-    console.log(id);
     const { data: orderData, isLoading } = useGetSingleOrderQuery(id);
     if (isLoading) {
         return <Loading />
@@ -15,7 +14,6 @@ const OrderDetails = () => {
 
     const { _id, addedTime, clientEmail, contactNumber, productData, stage, totalPrice,clientName
 , location, writtenLocation    } = orderData;
-console.log(orderData); 
     return ( 
         <div className="p-2 space-y-4 ">
 

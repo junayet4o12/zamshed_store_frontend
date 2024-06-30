@@ -12,12 +12,10 @@ import ButtonStrong from "../../Shared/Button/ButtonStrong";
 const Profile = () => {
     const [open, setOpen] = useState(false);
     const { user } = useSelector(state => state.userSlice);
-    console.log(user.email);
     const {data: userProfile, isLoading, refetch} = useGetUserDataQuery(user.email)
     if (isLoading) {
         return <Loading />
     }
-    console.log(userProfile);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const profileDataStyle = 'inner-border pb-1 transition-all duration-300'
@@ -50,7 +48,7 @@ const Profile = () => {
                     </div>
                     <div className="w-full space-y-2">
                     <InputLabel text={'My Email'} />
-                        <p className={`${profileDataStyle}`}>{userProfile?.email}</p>
+                        <p className={`${profileDataStyle} break-words`}>{userProfile?.email}</p>
                     </div>
                     <div className="w-full space-y-2">
                     <InputLabel text={'My Contact Number'} />
