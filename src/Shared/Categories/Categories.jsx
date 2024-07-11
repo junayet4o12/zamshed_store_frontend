@@ -18,10 +18,10 @@ const Categories = () => {
                 <p className='text-sm font-semibold'>{filterCategory}</p>
             </div>
             <p className='text-2xl text-primary'><GoChevronDown /></p>
-            <div className='w-full absolute left-0 top-0 mt-[50px] bg-white categories shadow-2xl pt-2 flex flex-col'>
-                <div onClick={() => handleCategory('All')} className="flex items-center gap-3 h-10 border-b border-gray-500 px-3 text-sm font-medium hover:bg-primary/10"><span className="text-2xl"><TbCategory/></span><span>All</span></div>
+            <div className='w-full absolute left-0 top-0 mt-[50px] bg-white categories shadow-2xl pt-2 flex flex-col max-h-[70vh] overflow-x-auto'>
+                <div onClick={() => handleCategory('All')} className="flex items-center gap-3 min-h-10 border-b border-gray-500 px-3 text-sm font-medium hover:bg-primary/10"><span className="text-2xl"><TbCategory/></span><span>All</span></div>
                 {
-                    categories?.map((category, idx) => <div onClick={() => handleCategory(category.value)} key={idx} className={`flex items-center gap-3 h-10 border-b border-gray-500 px-3 text-sm font-medium ${filterCategory===category.value && 'bg-primary/10'} hover:bg-primary/10`}><span className="text-2xl">{category?.icon}</span> <span>{category?.value}</span></div>)
+                    categories?.map((category, idx) => <div onClick={() => handleCategory(category.value)} key={idx} className={`flex items-center gap-3 min-h-10 border-b border-gray-500 px-3 text-sm font-medium ${filterCategory===category.value && 'bg-primary/10'} hover:bg-primary/10`}><span className="text-2xl">{category?.icon}</span> <span>{category?.value}</span></div>)
                 }
             </div>
         </div>

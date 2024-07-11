@@ -7,6 +7,7 @@ import AddToCartProductModal from "../AddToCartProductModal/AddToCartProductModa
 import { useSelector } from "react-redux";
 import useAdmin from "../../hooks/useAdmin";
 import { Link } from "react-router-dom";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 const ProductCard = ({ productDetails }) => {
     const [isAdmin, isAdminLoading] = useAdmin();
@@ -27,8 +28,13 @@ const ProductCard = ({ productDetails }) => {
                     <button className='w-7 h-7  justify-center items-center  text-xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>
                 </div>
                 <div className="w-32 overflow-hidden mx-auto">
-                    <img className="w-full h-full object-cover galleryImage transition-all duration-200" src={productImage} alt="" />
+                    <PhotoProvider>
+                        <PhotoView src={productImage}>
+                            <img className="w-full h-full object-cover galleryImage transition-all duration-200 cursor-pointer" src={productImage} alt="" />
+                        </PhotoView>
+                    </PhotoProvider>
                 </div>
+
             </div>
             <div className="flex justify-between flex-col gap-3">
                 <div className="space-y-3">

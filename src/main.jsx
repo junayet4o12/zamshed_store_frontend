@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/a11y';
+import 'react-photo-view/dist/react-photo-view.css';
 import {
   RouterProvider,
 } from "react-router-dom";
