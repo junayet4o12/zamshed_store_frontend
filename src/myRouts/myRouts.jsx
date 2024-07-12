@@ -20,6 +20,9 @@ import AdminOrderDetails from '../Pages/AdminOrderDetails/AdminOrderDetails';
 import AboutShop from '../Pages/AboutShop/AboutShop';
 import Proprietor from '../Pages/Proprietor/Proprietor';
 import PendingOrders from '../Pages/ClientOrders/PendingOrders/PendingOrders';
+import DashBoard from '../Pages/DashBoard/DashBoard';
+import ManageShop from '../Pages/ManageShop/ManageShop';
+import ManageProprietor from '../Pages/ManageProprietor/ManageProprietor';
 
 export const myRouts = createBrowserRouter([
     {
@@ -50,56 +53,76 @@ export const myRouts = createBrowserRouter([
                 path: '/proprietor',
                 element: <Proprietor />
             },
-            {
-                path: '/addProduct',
-                element: <AdminRouts><AddProduct /></AdminRouts>
-            },
-            {
-                path: '/manageProducts',
-                element: <AdminRouts><UpdateProduct /></AdminRouts>
-            },
-            {
-                path: '/updateProduct/:name/:id',
-                element: <AdminRouts><UpdateSingleProduct/></AdminRouts>
-            },
+
             {
                 path: '/myCarts',
-                element: <MyCarts/>
+                element: <MyCarts />
             },
             {
                 path: '/myProfile',
-                element: <PrivateRouts><Profile/></PrivateRouts>
+                element: <PrivateRouts><Profile /></PrivateRouts>
             },
             {
                 path: '/myOrders',
-                element: <PrivateRouts><ClientOrderedProduct/></PrivateRouts>
+                element: <PrivateRouts><ClientOrderedProduct /></PrivateRouts>
             },
             {
                 path: '/orderDetails/:id',
-                element: <PrivateRouts><OrderDetails/></PrivateRouts>
+                element: <PrivateRouts><OrderDetails /></PrivateRouts>
             },
-            {
-                path: '/clientOrders',
-                element: <AdminRouts><ClientOrders/></AdminRouts>,
-                children: [
-                    {
-                        path: '/clientOrders/pending',
-                        element: <PendingOrders/>
-                    },
-                    {
-                        path: '/clientOrders/onProcessing',
-                        element: <OnProcessingOrder/>
-                    },
-                    {
-                        path: '/clientOrders/completed',
-                        element: <CompletedOrders/>
-                    },
-                ]
-            },
+
             {
                 path: '/adminOrderDetails/:id',
-                element: <AdminRouts><AdminOrderDetails/></AdminRouts>
+                element: <AdminRouts><AdminOrderDetails /></AdminRouts>
             },
+            {
+                path: 'dashboard',
+                element: <AdminRouts><DashBoard /></AdminRouts>,
+                children: [
+                    {
+                        path: 'addProduct',
+                        element: <AdminRouts><AddProduct /></AdminRouts>
+                    },
+                    {
+                        path: 'adminProfile',
+                        element: <Profile />
+                    },
+                    {
+                        path: 'manageProducts',
+                        element: <UpdateProduct />
+                    },
+                    {
+                        path: '/dashboard/updateProduct/:name/:id',
+                        element: <UpdateSingleProduct />
+                    },
+                    {
+                        path: 'clientOrders',
+                        element: <ClientOrders />,
+                        children: [
+                            {
+                                path: '/dashboard/clientOrders/pending',
+                                element: <PendingOrders />
+                            },
+                            {
+                                path: '/dashboard/clientOrders/onProcessing',
+                                element: <OnProcessingOrder />
+                            },
+                            {
+                                path: '/dashboard/clientOrders/completed',
+                                element: <CompletedOrders />
+                            },
+                        ]
+                    },
+                    {
+                        path: 'manageShop',
+                        element: <ManageShop/>
+                    },
+                    {
+                        path: 'manageProprietor',
+                        element: <ManageProprietor/>
+                    },
+                ]
+            }
         ]
     },
 ]);

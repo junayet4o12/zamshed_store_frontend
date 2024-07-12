@@ -47,7 +47,7 @@ const ProductCard = ({ productDetails }) => {
                 </div>
                 {!isAdmin ? <div onClick={handleBuy} className="flex justify-center items-center ">
                     <ButtonLight text={'Buy'} />
-                </div> : <Link to={`/updateProduct/${name}/${_id}`}>
+                </div> : <Link to={`/dashboard/updateProduct/${name}/${_id}`}>
                     <div className="flex justify-center items-center "><ButtonLight text={'Update'} /></div>
                 </Link>}
             </div>

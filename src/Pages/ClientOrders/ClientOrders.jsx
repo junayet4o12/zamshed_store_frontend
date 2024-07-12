@@ -1,11 +1,19 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useGetClientOrdersCountQuery } from "../../Redux/features/api/allBaseApi";
 import Loading from "../../Shared/Loading/Loading";
 import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
 import Title from "../../Shared/Title/Title";
+import { useEffect } from "react";
 
 const ClientOrders = () => {
+    const { pathname } = useLocation();
+    const navigate = useNavigate()
     const { data, isLoading } = useGetClientOrdersCountQuery()
+    useEffect(() => {
+        if (pathname === '/dashboard/clientOrders'){
+            navigate('/dashboard/clientOrders/pending')
+        }
+    }, [pathname])
     if (isLoading) {
         return <Loading />
     }
@@ -14,22 +22,22 @@ const ClientOrders = () => {
     return (
         <div className="p-2 space-y-4">
             <RoutesTitle />
-            <Title text={`Client Products (${data?.all})`} />
+            <Title text={`Client Orders (${data?.all})`} />
             <div>
                 <ul className="flex gap-4">
-                    <NavLink to={'/clientOrders/pending'}>
+                    <NavLink to={'/dashboard/clientOrders/pending'}>
                         <li className={`${LinkStyle}`}>
                             {StylingComponents}
                             Pending ({data?.pending})
                         </li>
                     </NavLink>
-                    <NavLink to={'/clientOrders/onProcessing'}>
+                    <NavLink to={'/dashboard/clientOrders/onProcessing'}>
                         <li className={`${LinkStyle}`}>
                             {StylingComponents}
                             On Processing ({data?.onProcessing})
                         </li>
                     </NavLink>
-                    <NavLink to={'/clientOrders/completed'}>
+                    <NavLink to={'/dashboard/clientOrders/completed'}>
                         <li className={`${LinkStyle}`}>
                             {StylingComponents}
                             Completed ({data?.completed})

@@ -92,16 +92,10 @@ const NavbarMenu = () => {
                         </NavLink>
                         {
                             isAdmin && <>
-                                <NavLink to={'/addProduct'}>
+                                <NavLink to={'/dashboard/adminProfile'}>
                                     <li className={`${LinkStyle}`}>
                                         {StylingComponents}
-                                        Add Product
-                                    </li>
-                                </NavLink>
-                                <NavLink to={'/manageProducts'}>
-                                    <li className={`${LinkStyle}`}>
-                                        {StylingComponents}
-                                        Manage Products
+                                        Dashboard
                                     </li>
                                 </NavLink>
                             </>

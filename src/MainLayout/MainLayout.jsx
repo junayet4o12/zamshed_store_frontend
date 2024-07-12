@@ -34,7 +34,7 @@ const MainLayout = () => {
     }, [])
 
     useEffect(() => {
-        if(user){
+        if (user) {
             createToken({ email: user?.email })
         }
     }, [user])
@@ -48,18 +48,21 @@ const MainLayout = () => {
         return <Loading />
     }
 
-
     return (
         <div className="relative pb-10">
-
             {
-                pathname === '/' && <section className="hidden subxl:block ">
-                    <AddressNavbar />
-                </section>
+                pathname.split('/')[1] !== 'dashboard' && <>
+                    {
+                        pathname === '/' && <section className="hidden subxl:block ">
+                            <AddressNavbar />
+                        </section>
+                    }
+                    <section className="sticky top-0 z-10">
+                        <MainNavbar />
+                    </section>
+                </>
             }
-            <section className="sticky top-0 z-10">
-                <MainNavbar />
-            </section>
+
 
 
             <Outlet></Outlet>

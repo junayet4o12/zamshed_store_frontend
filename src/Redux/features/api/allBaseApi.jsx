@@ -72,6 +72,12 @@ const allBaseApi = createApi({
                 method: 'GET',
             }),
         }),
+        getHomeContent: builder.query({
+            query: () => ({
+                url: `/homeContent`,
+                method: 'GET',
+            }),
+        }),
 
         // Mutations
         createToken: builder.mutation({
@@ -187,6 +193,7 @@ export const {
     useMakeOrderCompletedMutation,
     useMakeOrderIncompleteMutation,
     useDeleteOrdersMutation,
+    useGetHomeContentQuery
 } = allBaseApi;
 
 export default allBaseApi;

@@ -61,7 +61,7 @@ const UpdateProductCard = ({ productDetails, refetch }) => {
                     </div>
                 </div>
                 <div className="flex justify-center items-center gap-4">
-                    <Link to={`/updateProduct/${name}/${_id}`}>
+                    <Link to={`/dashboard/updateProduct/${name}/${_id}`}>
                         <ButtonLight text={'Update'} />
                     </Link>
 
