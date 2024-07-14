@@ -24,7 +24,7 @@ const AboutShop = () => {
 
             <div className="w-full max-w-[800px] mx-auto space-y-5">
                 <h2 className="text-primary uppercase text-xl font-bold"><span className="text-4xl">Z</span>amshed <span className="text-4xl">S</span>tore</h2>
-                <div className="col-span-3 overflow-hidden w-full mx-auto object-cover max-h-[450px] flex justify-center items-center rounded-lg"><img className="w-full h-full object-cover " src={shopImage2} alt="" /></div>
+                <div className="col-span-3 overflow-hidden w-full mx-auto object-cover max-h-[450px] flex justify-center items-center rounded-lg"><img className="w-full h-full object-cover " src={shopImage} alt="" /></div>
 
             </div>
             <div className="pt-5 px-10">

@@ -165,6 +165,13 @@ const allBaseApi = createApi({
                 method: 'DELETE',
             }),
         }),
+        updateHomeContent: builder.mutation({
+            query: ({id, data}) => ({
+                url: `/updateHomeContent/${id}`,
+                method: 'PUT',
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -193,7 +200,8 @@ export const {
     useMakeOrderCompletedMutation,
     useMakeOrderIncompleteMutation,
     useDeleteOrdersMutation,
-    useGetHomeContentQuery
+    useGetHomeContentQuery,
+    useUpdateHomeContentMutation
 } = allBaseApi;
 
 export default allBaseApi;
