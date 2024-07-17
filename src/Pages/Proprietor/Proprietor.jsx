@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { PhotoProvider, PhotoView } from "react-photo-view";
 import { useGetHomeContentQuery } from "../../Redux/features/api/allBaseApi";
 import Loading from "../../Shared/Loading/Loading";
 import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
@@ -57,8 +58,13 @@ const Proprietor = () => {
                 <Title text={'Proprietor'} />
             </div>
             <div className="grid lg:grid-cols-5 gap-y-10">
-                <div className="col-span-2 overflow-hidden w-full max-w-[400px] mx-auto px-2 ">
-                    <img className="rounded-lg" src={proprietorImage || proprietorImg} alt="" />
+                <div className="col-span-2 overflow-hidden w-[200px] h-[230px]  xs:w-[300px] xs:h-[345px] sm:h-[460px] sm:w-[400px] mx-auto px-2 ">
+                    <PhotoProvider>
+                        <PhotoView src={proprietorImage || proprietorImg}>
+                            <img className="rounded-lg w-full h-full object-cover cursor-pointer" src={proprietorImage || proprietorImg} alt="" />
+                        </PhotoView>
+                    </PhotoProvider>
+
                 </div>
                 <div className=" col-span-3 flex flex-col gap-2 py-2 text-lg sm:p-10">
                     <StylishName text={proprietor} />
