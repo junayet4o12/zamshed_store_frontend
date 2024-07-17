@@ -131,7 +131,7 @@ const UpdateProductForm = ({ productData, refetch }) => {
                     toast.success("Product Updated Successfully!!", { id: toastId });
                     refetch()
                     allProductRefetch()
-                    navigate('/manageProducts')
+                    navigate('/dashboard/manageProducts')
 
 
                 })

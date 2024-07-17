@@ -22,7 +22,7 @@ const ManageShop = () => {
     const [ShopImagePlaceholder, setShopImagePlaceholder] = useState(selectPhoto)
     const [ShopFile0, setShopFile0] = useState('')
     const [ShopImage, setShopImage] = useState('')
-    const { data: homeContent, isLoading } = useGetHomeContentQuery();
+    const { data: homeContent, isLoading, refetch } = useGetHomeContentQuery();
     const [updateHomeContent, { data: updatedData }] = useUpdateHomeContentMutation()
     useEffect(() => {
         if (homeContent?.length > 0) {
@@ -30,7 +30,6 @@ const ManageShop = () => {
         }
     }, [isLoading, homeContent,])
     // useEffect(() => {
-    //     console.log(updatedData);
     // }, [status])
     if (isLoading) {
         return <Loading />
@@ -69,13 +68,11 @@ const ManageShop = () => {
                 return
             }
         }
-        console.log(shopImage);
         const ShopData = { ...data, shopImage }
-        console.log(homeContent, ShopData);
         updateHomeContent({ data: ShopData, id: _id })
             .then(res => {
-                console.log(res);
                 toast.success("Shop data has updated Successfully!!", { id: toastId });
+                refetch()
             })
             .catch(err => {
                 toast.error(err?.message, { id: toastId });

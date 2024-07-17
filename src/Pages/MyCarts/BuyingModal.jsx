@@ -10,8 +10,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import BuyingAlertModal from "./BuyingAlertModal";
+import { useNavigate } from "react-router-dom";
 
 const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, price, handleRemoveAll }) => {
+    const navigate = useNavigate()
     const [location, setLocation] = useState('Shop')
     const [buyingAllData, setBuyingAllData] = useState({})
     const [openBuyingAlertModal, setOpenBuyingAlertModal] = useState(false)
@@ -30,11 +32,18 @@ const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, pr
             setBuyingLoading(false)
             handleRemoveAll()
             Swal.fire({
+                title: "Completed",
+                text: "Your ordered Product is on Pending.",
                 icon: "success",
-                title: "Your ordered Product is on processing.",
-                showConfirmButton: false,
-                timer: 2000
-            });
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Show Order Details"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                 navigate(`/orderDetails/${storedOrderedProductData?._id}`)
+                }
+              });
             handleCloseModal()
             if (user?.email) {
                 refetch()
@@ -144,12 +153,12 @@ const BuyingModal = ({ openBuyingModal, handleCloseModal, newAllProductsData, pr
                         />
                     </div>
                 }
-                <div className="w-full flex gap-5 pt-4 items-center">
+                <div className="w-full flex gap-5 pt-4 items-center flex-col xs:flex-row">
                     <button>
                         <ButtonStrong text={buyingLoading ? <span className="flex items-center gap-1">Buying <span className="loading loading-spinner loading-xs"></span></span> : `Buy ( ${price} BDT )`} />
 
                     </button>
-                    Or
+                    <span> Or</span>
                     <div onClick={handleCloseModal}>
                         <ButtonDanger text={'Cancel'} />
                     </div>

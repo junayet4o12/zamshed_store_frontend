@@ -155,7 +155,7 @@ const AddToCartProductModal = ({ handleCloseModal, openAddToCartModal, productDe
                             <p>{priceForLitre} BDT</p>
                         </div>
                     </>}
-                    <div className="w-full flex gap-5 pt-4 items-center">
+                    <div className="w-full flex gap-5 pt-4 items-center flex-col xs:flex-row">
                         <button>
                             <ButtonStrong text={'Add To Cart'} />
 

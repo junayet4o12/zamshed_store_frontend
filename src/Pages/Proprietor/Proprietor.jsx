@@ -9,7 +9,7 @@ const Proprietor = () => {
     if (isLoading) {
         return <Loading />
     }
-    const { proprietor, address, contactNumber, dateOfBirth, proprietorImage,email } = data[0];
+    const { proprietor, address, contactNumber, dateOfBirth, proprietorImage, email } = data[0];
     // const formatDate = (time) => {
     //     const date = new Date(time);
 
@@ -57,14 +57,14 @@ const Proprietor = () => {
             </div>
             <div className="grid lg:grid-cols-5 gap-y-10">
                 <div className="col-span-2 overflow-hidden w-full max-w-[400px] mx-auto px-2 ">
-                    <img className="rounded-lg" src={proprietorImg} alt="" />
+                    <img className="rounded-lg" src={proprietorImage || proprietorImg} alt="" />
                 </div>
                 <div className=" col-span-3 flex flex-col gap-2 py-2 text-lg sm:p-10">
                     <h2 className="text-primary uppercase text-xl font-bold px-2"><span className="text-4xl">Z</span>amshed <span className="text-4xl">A</span>lam</h2>
                     <ShowingData field={'Age'} value={`${calculateAge(dateOfBirth)} Years`} />
                     <ShowingData field={'Address'} value={address} />
                     <ShowingData field={'Contact Number'} value={contactNumber} />
-                    <ShowingData field={'field'} value={email} />
+                    <ShowingData field={'Email'} value={email} />
                 </div>
             </div>
         </div>

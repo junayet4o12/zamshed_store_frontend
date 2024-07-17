@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useGetClientOrdersCountQuery, useGetCompletedOrdersQuery, useGetOnProcessingOrdersQuery, useGetSingleOrderQuery, useMakeOrderCompletedMutation, useMakeOrderIncompleteMutation } from "../../Redux/features/api/allBaseApi";
 import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
 import { makeVisibleTime } from "../../Shared/makeVisibleTime";
-import AdminOrderTableRow from "../ClientOrders/AdminOrderTableRow";
 import Loading from "../../Shared/Loading/Loading";
 import AdminProductPriceRow from "./AdminProductPriceRow";
 import ButtonStrongMini from "../../Shared/Button/ButtonStrongMini";
@@ -10,6 +9,7 @@ import Swal from "sweetalert2";
 import { useEffect } from "react";
 import ButtonSecondaryStrongMini from "../../Shared/Button/ButtonSecondaryStrongMini";
 import logo from '../../assets/logo.png'
+import StatusProgress from "../../Shared/StatusProgress/StatusProgress";
 
 const AdminOrderDetails = () => {
     const { refetch: clientOrdersCountRefetch } = useGetClientOrdersCountQuery()
@@ -86,6 +86,7 @@ const AdminOrderDetails = () => {
     return (
         <div className="p-2 space-y-4">
             <RoutesTitle removeLastElement={true} />
+            <StatusProgress stage={stage}/>
             <div className="w-full max-w-[400px] p-2 border border-black mx-auto  rounded-lg text-sm font-medium">
                 <div className="relative min-h-24">
                     <div className="w-full h-full absolute -z-20 flex justify-center items-center">
@@ -100,7 +101,7 @@ const AdminOrderDetails = () => {
                                 <span>Date: {makeVisibleTime(addedTime)}</span>
                                 <span>Name: {clientName || 'Not Given'}</span>
                                 <span>Location: {!location ? 'Not Given' : location === 'Other' ? (writtenLocation || 'Not Given') : location}</span>
-                                <span className={`text-base font-bold w-max px-4 mt-2 rounded-full  ${stage === 'processing' ? 'text-black bg-secondary' : 'text-white bg-primary'}`}>{stage === 'processing' ? 'On Processing' : stage === 'pending' ? 'On Pending' : 'Completed'}</span>
+                                
                             </p>
                             {stage !== 'pending' && <>{stage === 'processing' ? <button onClick={handleOrderCompleted} className="w-max"><ButtonStrongMini text={'Complete'} /></button> : <button onClick={handleOrderIncomplete} className="w-max"><ButtonSecondaryStrongMini text={'On Processing'} /></button>}</>}
 
