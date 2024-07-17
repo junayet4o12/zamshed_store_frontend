@@ -5,6 +5,7 @@ import Title from "../../Shared/Title/Title";
 import shopImage2 from '../../assets/shopImage.jpg'
 import { useGetHomeContentQuery } from "../../Redux/features/api/allBaseApi";
 import Loading from "../../Shared/Loading/Loading";
+import StylishName from "../../Shared/StylishName";
 const AboutShop = () => {
     const { data, isLoading } = useGetHomeContentQuery();
     if (isLoading) {
@@ -23,7 +24,7 @@ const AboutShop = () => {
             <Title text={'About Shop'} />
 
             <div className="w-full max-w-[800px] mx-auto space-y-5">
-                <h2 className="text-primary uppercase text-xl font-bold"><span className="text-4xl">Z</span>amshed <span className="text-4xl">S</span>tore</h2>
+               <StylishName text={shopName} />
                 <div className="col-span-3 overflow-hidden w-full mx-auto object-cover max-h-[450px] flex justify-center items-center rounded-lg"><img className="w-full h-full object-cover " src={shopImage} alt="" /></div>
 
             </div>

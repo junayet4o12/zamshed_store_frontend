@@ -2,6 +2,7 @@
 import { useGetHomeContentQuery } from "../../Redux/features/api/allBaseApi";
 import Loading from "../../Shared/Loading/Loading";
 import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
+import StylishName from "../../Shared/StylishName";
 import Title from "../../Shared/Title/Title";
 import proprietorImg from '../../assets/proprietor.jpg'
 const Proprietor = () => {
@@ -60,7 +61,7 @@ const Proprietor = () => {
                     <img className="rounded-lg" src={proprietorImage || proprietorImg} alt="" />
                 </div>
                 <div className=" col-span-3 flex flex-col gap-2 py-2 text-lg sm:p-10">
-                    <h2 className="text-primary uppercase text-xl font-bold px-2"><span className="text-4xl">Z</span>amshed <span className="text-4xl">A</span>lam</h2>
+                    <StylishName text={proprietor} />
                     <ShowingData field={'Age'} value={`${calculateAge(dateOfBirth)} Years`} />
                     <ShowingData field={'Address'} value={address} />
                     <ShowingData field={'Contact Number'} value={contactNumber} />
