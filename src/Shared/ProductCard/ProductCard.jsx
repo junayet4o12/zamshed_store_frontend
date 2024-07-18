@@ -8,11 +8,12 @@ import { useSelector } from "react-redux";
 import useAdmin from "../../hooks/useAdmin";
 import { Link } from "react-router-dom";
 import { PhotoProvider, PhotoView } from "react-photo-view";
+import { FaFire } from "react-icons/fa";
 
 const ProductCard = ({ productDetails }) => {
     const [isAdmin, isAdminLoading] = useAdmin();
     const [openAddToCartModal, setOpenAddToCartModal] = useState(false)
-    const { addedTime, category, name, price, productImage, _id, measurement } = productDetails
+    const { addedTime, category, name, price, productImage, _id, measurement, isHot = false } = productDetails;
     const showingMeasurementText = measurement === 'Quantity' ? 'Per Peace' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre'
     const handleBuy = () => {
         setOpenAddToCartModal(true)
@@ -25,12 +26,18 @@ const ProductCard = ({ productDetails }) => {
             <div className="space-y-3">
                 <div className="flex items-center justify-between ">
                     <h2 className="text-sm font-medium ">{name}</h2>
-                    <button className='w-7 h-7  justify-center items-center  text-xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>
+                    {
+                        isHot && <p className="flex items-center text-sm text-[#FF4500] font-extrabold">
+                            HOT
+                            <span className="text-base"> <FaFire /></span>
+                        </p>
+                    }
+
                 </div>
                 <div className="w-32 overflow-hidden mx-auto">
                     <PhotoProvider>
                         <PhotoView src={productImage}>
-                            <img className="w-full h-full object-cover galleryImage transition-all duration-200 cursor-pointer" src={productImage} alt="" />
+                            <img className="w-32 max-h-36 object-cover galleryImage transition-all duration-200 cursor-pointer" src={productImage} alt="" />
                         </PhotoView>
                     </PhotoProvider>
                 </div>

@@ -1,28 +1,30 @@
 /* eslint-disable react/prop-types */
-import { IoIosHeartEmpty } from "react-icons/io";
 import ButtonLight from "../Button/ButtonLight";
 import { Link } from "react-router-dom";
 import ButtonDanger from "../Button/ButtonDanger";
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
-import { useDeleteProductsMutation } from "../../Redux/features/api/allBaseApi";
+import { useDeleteProductsMutation, useUpdateProductMutation } from "../../Redux/features/api/allBaseApi";
 import { useDispatch } from "react-redux";
-import { restoreAddToCartData } from "../../Redux/features/productsInCartSlice/productsInCartSlice";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
+import { FaFire } from "react-icons/fa";
+import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
 const UpdateProductCard = ({ productDetails, refetch }) => {
-    const dispatch = useDispatch()
-    const [deleteProduct, { data }] = useDeleteProductsMutation()
-    const { addedTime, category, name, price, productImage, _id, measurement } = productDetails
-    const showingMeasurementText = measurement === 'Quantity' ? 'Per Peace' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre'
+    const [updateProduct, all] = useUpdateProductMutation()
+    const { allProductRefetch } = useAllProductsRefetch()
+    const dispatch = useDispatch();
+    const [deleteProduct, { data }] = useDeleteProductsMutation();
+    const { addedTime, category, name, price, productImage, _id, measurement, isHot = false } = productDetails;
+    const showingMeasurementText = measurement === 'Quantity' ? 'Per Piece' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre';
+    const [toggleState, setToggleState] = useState(false);
 
     useEffect(() => {
         if (data) {
-            toast.success('Deleted Successfully!!')
-            refetch()
+            toast.success('Deleted Successfully!!');
+            refetch();
         }
-    }, [data])
+    }, [data, refetch]);
+
     const handleDelete = () => {
         Swal.fire({
             title: "Are you sure?",
@@ -34,18 +36,42 @@ const UpdateProductCard = ({ productDetails, refetch }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteProduct(_id)
-
-
+                deleteProduct(_id);
             }
         });
-    }
+    };
+
+    const handleToggleChange = () => {
+        const toastId = toast.loading("Product status is updating...");
+        updateProduct({ data: { isHot: !isHot }, id: _id })
+            .then(res => {
+                toast.success("Product status Updated Successfully!!", { id: toastId });
+                refetch()
+                allProductRefetch()
+            })
+            .catch(err => {
+                toast.error(err?.message, { id: toastId });
+            })
+    };
+
     return (
         <div className="p-3 rounded-lg border border-gray-600 text-gray-600 w-[280px] space-y-3 min-h-full flex flex-col justify-between galleryParent">
             <div className="space-y-3">
                 <div className="flex items-center justify-between ">
                     <h2 className="text-sm font-medium ">{name}</h2>
-                    <button className='w-7 h-7  justify-center items-center  text-xl rounded-full hidden xs:flex'><IoIosHeartEmpty /></button>
+                    <div className="form-control">
+                        <div className="flex items-center gap-2">
+                            <label className="label cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="toggle toggle-error toggle-sm"
+                                    checked={isHot}
+                                    onChange={handleToggleChange}
+                                />
+                            </label>
+                            <span className={`text-xl ${isHot ? 'text-[#FF4500] ' : 'text-gray-600'}`}><FaFire /></span>
+                        </div>
+                    </div>
                 </div>
                 <div className="w-32 overflow-hidden mx-auto">
                     <img className="w-full h-full object-cover galleryImage transition-all duration-200" src={productImage} alt="" />
@@ -68,10 +94,8 @@ const UpdateProductCard = ({ productDetails, refetch }) => {
                     <button onClick={handleDelete}>
                         <ButtonDanger text={'Delete'} />
                     </button>
-
                 </div>
             </div>
-
         </div>
     );
 };
