@@ -14,6 +14,7 @@ import Title from "../../Shared/Title/Title";
 import Loading from "../../Shared/Loading/Loading";
 import ShopImageInputField from "../../Shared/ShopImageInputField/ShopImageInputField";
 import { useForm } from "react-hook-form";
+import { uploadImg } from "../../UploadFile/uploadImg";
 const ManageShop = () => {
     const axiosPublic = useAxiosPublic()
     const { register, handleSubmit, formState: { errors }, } = useForm()
@@ -52,21 +53,7 @@ const ManageShop = () => {
         if (!isSelectANewImage) {
             shopImage = incomingShopImage
         } else {
-
-            const image = { image: ShopFile0 }
-
-            const res = await axios.post(imgHostingApi, image, {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            })
-            try {
-                shopImage = res?.data?.data?.display_url
-            }
-            catch (err) {
-                toast.error(err?.message, { id: toastId });
-                return
-            }
+            shopImage = await uploadImg(ShopFile0)
         }
         const ShopData = { ...data, shopImage }
         updateHomeContent({ data: ShopData, id: _id })

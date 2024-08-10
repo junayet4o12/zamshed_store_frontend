@@ -1,16 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
-import { useGetCategoryQuery, useGetSingleCategoryQuery, useUpdateCategoryMutation } from "../../Redux/features/api/allBaseApi";
+import {  useGetSingleCategoryQuery, useUpdateCategoryMutation } from "../../Redux/features/api/allBaseApi";
 import Loading from "../../Shared/Loading/Loading";
 import { useEffect, useState } from "react";
 import Title from "../../Shared/Title/Title";
 import selectPhoto from '../../assets/selectPhoto.png'
 import Swal from "sweetalert2";
-import axios from "axios";
 import toast from "react-hot-toast";
 import InputLabel from "../../Shared/InputLabel/InputLabel";
 import ProductImageInputField from "../../Shared/ProductImageInputField/ProductImageInputFIeld";
-import { hostImage } from "../../hostImage";
+import { uploadImg } from "../../UploadFile/uploadImg";
 const UpdateCategory = () => {
     const navigate = useNavigate()
     const [CategoryImagePlaceholder, setCategoryImagePlaceholder] = useState(selectPhoto)
@@ -81,12 +80,12 @@ const UpdateCategory = () => {
                 if (categoryPhoto === category?.image) {
                     image = category?.image
                 } else {
-                    image = await hostImage(categoryPhoto);
+                    image = await uploadImg(categoryPhoto);
                 }
                 if (categoryLogoPhoto === category?.logo) {
                     logo = category?.logo
                 } else {
-                    logo = await hostImage(categoryLogoPhoto);
+                    logo = await uploadImg(categoryLogoPhoto);
                 }
 
 

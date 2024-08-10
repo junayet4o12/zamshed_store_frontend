@@ -17,6 +17,7 @@ import ButtonStrong from "../../Shared/Button/ButtonStrong";
 import { useDispatch, useSelector } from "react-redux";
 import { storeUser } from "../../Redux/features/userSlice/userSlice";
 import { useUpdateSingleUserMutation } from "../../Redux/features/api/allBaseApi";
+import { uploadImg } from "../../UploadFile/uploadImg";
 
 
 
@@ -31,8 +32,6 @@ const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
     const [ProfilePhotoPlaceholder, setProfilePhotoPlaceholder] = useState(profile?.profilePhoto)
     const [profilePhoto, setProfilePhoto] = useState('')
     const [profileFile0, setProfileFile0] = useState('')
-    const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
-    const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
     const closeModal = () => {
         setProfilePhotoPlaceholder(profile?.profilePhoto)
         handleClose()
@@ -76,18 +75,7 @@ const UpdateProfileModal = ({ handleClose, open, profile, refetch }) => {
         } else {
             const image = { image: profileFile0 }
 
-            const res = await axios.post(imgHostingApi, image, {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            })
-            try {
-                imageUrl = res?.data?.data?.display_url
-            }
-            catch (err) {
-                toast.error(err?.message);
-                setUpdateIsLoading(false)
-            }
+            imageUrl = await uploadImg(profileFile0)
         }
         const name = data?.name;
         const profilePhoto = imageUrl

@@ -17,8 +17,9 @@ import { useNavigate } from "react-router-dom";
 import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
 import { useUpdateProductMutation } from "../../Redux/features/api/allBaseApi";
 import useProductsCategoriesArray from "../../hooks/useProductsCategoriesArray";
+import { uploadImg } from "../../UploadFile/uploadImg";
 const UpdateProductForm = ({ productData, refetch }) => {
-    const {categories=[]} = useProductsCategoriesArray()
+    const { categories = [] } = useProductsCategoriesArray()
     const [updateProduct, all] = useUpdateProductMutation()
     const navigate = useNavigate()
     const { allProductRefetch } = useAllProductsRefetch()
@@ -112,33 +113,21 @@ const UpdateProductForm = ({ productData, refetch }) => {
                 if (productImage0 === incomingProductImage) {
                     productImage = productImage0
                 } else {
-                    const res = await axios.post(imgHostingApi, image, {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
-                    })
-                    try {
-                        productImage = res?.data?.data?.display_url
-
-                    }
-                    catch (err) {
-                        toast.error(err?.message, { id: toastId });
-                        return
-                    }
+                    productImage = await uploadImg(productImage0)
                 }
                 const productData = { name, productImage, category, measurement, price }
                 updateProduct({ data: productData, id: _id })
-                .then(res => {
-                    toast.success("Product Updated Successfully!!", { id: toastId });
-                    refetch()
-                    allProductRefetch()
-                    navigate('/dashboard/manageProducts')
+                    .then(res => {
+                        toast.success("Product Updated Successfully!!", { id: toastId });
+                        refetch()
+                        allProductRefetch()
+                        navigate('/dashboard/manageProducts')
 
 
-                })
-                .catch(err => {
-                    toast.error(err?.message, { id: toastId });
-                })  
+                    })
+                    .catch(err => {
+                        toast.error(err?.message, { id: toastId });
+                    })
             }
         });
 

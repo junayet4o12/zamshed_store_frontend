@@ -2,7 +2,6 @@
 import CountUp from "react-countup";
 import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
 import Title from "../../Shared/Title/Title";
-import shopImage2 from '../../assets/shopImage.jpg'
 import { useGetHomeContentQuery } from "../../Redux/features/api/allBaseApi";
 import Loading from "../../Shared/Loading/Loading";
 import StylishName from "../../Shared/StylishName";

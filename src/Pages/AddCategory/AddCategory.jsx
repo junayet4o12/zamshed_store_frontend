@@ -5,10 +5,9 @@ import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
 import Title from "../../Shared/Title/Title";
 import selectPhoto from '../../assets/selectPhoto.png'
 import Swal from "sweetalert2";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useAddCategoryMutation } from "../../Redux/features/api/allBaseApi";
-import { hostImage } from "../../hostImage";
+import { uploadImg } from "../../UploadFile/uploadImg";
 const AddCategory = () => {
     const [addCategory] = useAddCategoryMutation()
     const [CategoryImagePlaceholder, setCategoryImagePlaceholder] = useState(selectPhoto)
@@ -45,8 +44,8 @@ const AddCategory = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const toastId = toast.loading("Category is Adding...");
-                const image = await hostImage(categoryFile0);
-                const logo = await hostImage(categoryLogoFile0);
+                const image = await uploadImg(categoryFile0);
+                const logo = await uploadImg(categoryLogoFile0);
 
                 const data = { name, image, logo }
                 try {

@@ -5,7 +5,6 @@ import Loading from "../../Shared/Loading/Loading";
 import RoutesTitle from "../../Shared/RoutesTitle/RoutesTitle";
 import StylishName from "../../Shared/StylishName";
 import Title from "../../Shared/Title/Title";
-import proprietorImg from '../../assets/proprietor.jpg'
 const Proprietor = () => {
     const { data, isLoading } = useGetHomeContentQuery();
     if (isLoading) {
@@ -60,8 +59,8 @@ const Proprietor = () => {
             <div className="grid lg:grid-cols-5 gap-y-10">
                 <div className="col-span-2 overflow-hidden w-[200px] h-[230px]  xs:w-[300px] xs:h-[345px] sm:h-[460px] sm:w-[400px] mx-auto px-2 ">
                     <PhotoProvider>
-                        <PhotoView src={proprietorImage || proprietorImg}>
-                            <img className="rounded-lg w-full h-full object-cover cursor-pointer" src={proprietorImage || proprietorImg} alt="" />
+                        <PhotoView src={proprietorImage}>
+                            <img className="rounded-lg w-full h-full object-cover cursor-pointer" src={proprietorImage} alt="" />
                         </PhotoView>
                     </PhotoProvider>
 

@@ -16,6 +16,7 @@ import ShopImageInputField from "../../Shared/ShopImageInputField/ShopImageInput
 import { useForm } from "react-hook-form";
 import ProprietorImageInputField from "../../Shared/ProprietorImageInputField/ProprietorImageInputField";
 import { formatTimestamp } from "../../Shared/makeInputFieldDate";
+import { uploadImg } from "../../UploadFile/uploadImg";
 const ManageProprietor = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm()
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
@@ -49,7 +50,6 @@ const ManageProprietor = () => {
     const handleShopImage = () => {
         const image = document.getElementById('shopImage')
         image?.click()
-        // imageInput.current.click()
     }
 
     const onSubmit = async (data) => {
@@ -59,21 +59,7 @@ const ManageProprietor = () => {
         if (!isSelectANewImage) {
             proprietorImageUrl = incomingProprietorImage
         } else {
-
-            const image = { image: ShopFile0 }
-
-            const res = await axios.post(imgHostingApi, image, {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            })
-            try {
-                proprietorImageUrl = res?.data?.data?.display_url
-            }
-            catch (err) {
-                toast.error(err?.message, { id: toastId });
-                return
-            }
+            proprietorImageUrl = await uploadImg(ShopFile0)
         }
         const dateOfBirth = new Date(data.dateOfBirth).getTime()
         const proprietorData = { ...data, proprietorImage: proprietorImageUrl, dateOfBirth }

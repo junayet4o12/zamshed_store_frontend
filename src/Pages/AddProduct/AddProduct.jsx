@@ -9,17 +9,16 @@ import { useState } from "react";
 import { measurements } from "../../Shared/productMeasurement/measurements";
 import ProductImageInputField from "../../Shared/ProductImageInputField/ProductImageInputFIeld";
 import selectPhoto from '../../assets/selectPhoto.png'
-import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useAddProductMutation } from "../../Redux/features/api/allBaseApi";
 import InputLabel from "../../Shared/InputLabel/InputLabel";
 import useProductsCategoriesArray from "../../hooks/useProductsCategoriesArray";
+import { uploadImg } from "../../UploadFile/uploadImg";
 const AddProduct = () => {
-    const {categories} = useProductsCategoriesArray()
+    const { categories } = useProductsCategoriesArray()
     const [addProduct] = useAddProductMutation()
-    const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
-    const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
+   
     const [showCategory, setShowCategory] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState('Select Categories')
     const [showMeasurementType, setShowCMeasurementType] = useState(false)
@@ -98,20 +97,7 @@ const AddProduct = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const toastId = toast.loading("Product is Adding...");
-                const image = { image: productImage0 }
-                let productImage = ''
-                const res = await axios.post(imgHostingApi, image, {
-                    headers: {
-                        'content-type': 'multipart/form-data'
-                    }
-                })
-                try {
-                    productImage = res?.data?.data?.display_url
-                }
-                catch (err) {
-                    toast.error(err?.message, { id: toastId });
-                    return
-                }
+                let productImage = await uploadImg(productImage0)
                 const productData = { name, productImage, category, measurement, price, addedTime }
                 try {
                     const res = await addProduct(productData).unwrap();
