@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import useHandleLogOut from "../../Shared/useHandleLogOut";
 import useAdmin from "../../hooks/useAdmin";
 import OrderedProduct from "../../Shared/OrderedProduct/OrderedProduct";
+import SocialIcons from "../../Shared/SocialIcons/SocialIcons";
 const NavbarMenu = () => {
     const { user } = useSelector(state => state.userSlice)
     const [isAdmin] = useAdmin();
@@ -51,17 +52,9 @@ const NavbarMenu = () => {
                             </>
                         }
                     </div>
-                    <div className=" pb-10 flex flex-col gap-3 items-center">
+                    <div className=" pb-10 flex flex-col gap-3 items-center text-white">
                         <img className="h-[130px] w-max" src={whiteLogo} alt="" />
-                        <p className=" text-white w-max p-1 text-lg relative">
-                            <FaFacebookF />
-                        </p>
-                        <p className=" text-white w-max p-1 text-lg relative">
-                            <FaWhatsapp />
-                        </p>
-                        <p className=" text-white w-max p-1 text-lg relative">
-                            <FaGoogle />
-                        </p>
+                        <SocialIcons/>
                     </div>
                 </div>
                 <div className='bg-white min-h-screen w-full'>

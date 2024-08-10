@@ -9,13 +9,14 @@ import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/
 import { useSelector } from 'react-redux';
 import { MdOutlineShoppingCart } from "react-icons/md";
 import DashBoardNavBarMenu from './DashBoardNavBarMenu';
+import { useGetClientOrdersCountQuery } from '../../Redux/features/api/allBaseApi';
 const DashBoardNavBar = () => {
     const navigate = useNavigate()
     const { user } = useSelector(state => state.userSlice);
     const [isOpen, setOpenMenu] = useState(false)
     const location = useLocation();
     const isHome = location?.pathname === '/'
-    
+    const { data: orderCount = {} } = useGetClientOrdersCountQuery();
     return (
         <div className='w-full bg-white shadow-md'>
             <div className="w-full flex items-center text-sm px-2 mt-3 gap-7 py-3">
@@ -29,7 +30,7 @@ const DashBoardNavBar = () => {
                 <div className='flex h-[50px] justify-center items-center gap-3  ml-auto'>
                     <Link to={'/dashboard/clientOrders/onProcessing'}>
                         <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full flex'>
-                            <LogoWithNotificationBlackVersion userLogo={true} Logo={MdOutlineShoppingCart} notification={0} />
+                            <LogoWithNotificationBlackVersion userLogo={false} Logo={MdOutlineShoppingCart} notification={orderCount?.pending || 0} />
                         </button>
                     </Link>
                     <span className='font-medium text-gray-500 hidden xs:flex'>|</span>

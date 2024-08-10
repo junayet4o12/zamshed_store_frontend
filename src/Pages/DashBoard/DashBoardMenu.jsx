@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { FaFacebookF, FaGoogle, FaWhatsapp } from 'react-icons/fa6';
 import useHandleLogOut from '../../Shared/useHandleLogOut';
 import { MdOutlineLogout } from 'react-icons/md';
+import SocialIcons from '../../Shared/SocialIcons/SocialIcons';
 
 const DashBoardMenu = () => {
     const handleLogOut = useHandleLogOut()
@@ -12,17 +13,9 @@ const DashBoardMenu = () => {
         <div className='flex min-h-full'>
             <div className=' w-[70px] min-h-screen bg-primary flex justify-center items-center flex-col'>
 
-                <div className=" pb-10 flex flex-col gap-3 items-center">
+                <div className=" pb-10 flex flex-col gap-3 items-center text-white">
                     <img className="h-[130px] w-max" src={whiteLogo} alt="" />
-                    <p className=" text-white w-max p-1 text-lg relative">
-                        <FaFacebookF />
-                    </p>
-                    <p className=" text-white w-max p-1 text-lg relative">
-                        <FaWhatsapp />
-                    </p>
-                    <p className=" text-white w-max p-1 text-lg relative">
-                        <FaGoogle />
-                    </p>
+                    <SocialIcons />
                 </div>
             </div>
             <div className='bg-white min-h-screen w-full'>
@@ -46,6 +39,19 @@ const DashBoardMenu = () => {
                             Manage Products
                         </li>
                     </NavLink>
+                    <NavLink to={'addCategory'}>
+                        <li className={`${LinkStyle}`}>
+                            {StylingComponents}
+                            Add Category
+                        </li>
+                    </NavLink>
+                    <NavLink to={'manageCategory'}>
+                        <li className={`${LinkStyle}`}>
+                            {StylingComponents}
+                            Manage Category
+                        </li>
+                    </NavLink>
+
                     <NavLink to={'clientOrders'}>
                         <li className={`${LinkStyle}`}>
                             {StylingComponents}
@@ -97,7 +103,7 @@ const DashBoardMenu = () => {
                     </li>
                 </ul>
             </div>
-        </div>
+        </div >
     );
 };
 

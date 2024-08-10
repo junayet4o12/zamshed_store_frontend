@@ -1,10 +1,11 @@
 import { GoChevronDown } from "react-icons/go";
 import { TbMenuDeep, TbCategory } from "react-icons/tb";
-import { categories } from "../productCategoriesArray/categories";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilterCategory } from "../../Redux/features/searchingProductsSlice/searchingProductsSlice";
+import useProductsCategoriesArray from "../../hooks/useProductsCategoriesArray";
 
 const Categories = () => {
+    const {categories=[]} = useProductsCategoriesArray()
     const dispatch = useDispatch()
     const { filterCategory } = useSelector((state) => state.searchingProductsSlice);
     const handleCategory = (category) => {

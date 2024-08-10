@@ -8,6 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import { storeUser, toggleLoading } from "../Redux/features/userSlice/userSlice";
 import { useCreateTokenMutation } from "../Redux/features/api/allBaseApi";
+import Footer from "../Shared/Footer/Footer";
 
 const MainLayout = () => {
     const dispatch = useDispatch()
@@ -49,7 +50,7 @@ const MainLayout = () => {
     }
 
     return (
-        <div className="relative pb-10">
+        <div className="relative">
             {
                 pathname.split('/')[1] !== 'dashboard' && <>
                     {
@@ -65,7 +66,11 @@ const MainLayout = () => {
 
 
 
-            <Outlet></Outlet>
+            <div className="min-h-[73vh]"><Outlet></Outlet></div>
+            {
+                pathname.split('/')[1] == 'login' || pathname.split('/')[1] == 'register' || pathname.split('/')[1] == 'dashboard' ? '' : <Footer />
+            }
+
         </div>
     );
 };

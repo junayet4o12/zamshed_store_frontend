@@ -6,21 +6,18 @@ import { TbMenuDeep } from "react-icons/tb";
 import { FaChevronDown } from "react-icons/fa6";
 
 import { useState } from "react";
-import { categories } from "../../Shared/productCategoriesArray/categories";
 import { measurements } from "../../Shared/productMeasurement/measurements";
 import ProductImageInputField from "../../Shared/ProductImageInputField/ProductImageInputFIeld";
 import selectPhoto from '../../assets/selectPhoto.png'
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
 import { useAddProductMutation } from "../../Redux/features/api/allBaseApi";
 import InputLabel from "../../Shared/InputLabel/InputLabel";
+import useProductsCategoriesArray from "../../hooks/useProductsCategoriesArray";
 const AddProduct = () => {
-    const axiosPublic = useAxiosPublic()
-    const { allProductRefetch } = useAllProductsRefetch()
-    const [addProduct, { data }] = useAddProductMutation()
+    const {categories} = useProductsCategoriesArray()
+    const [addProduct] = useAddProductMutation()
     const imgHostingKey = import.meta.env.VITE_IMG_HOSTING_KEY;
     const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
     const [showCategory, setShowCategory] = useState(false)
@@ -54,7 +51,7 @@ const AddProduct = () => {
         setSelectedMeasurementType(measurement)
     }
     const handleProductImage = () => {
-        const image = document.getElementById('image')
+        const image = document.getElementById('addProduct')
         image?.click()
         // imageInput.current.click()
     }
@@ -116,8 +113,9 @@ const AddProduct = () => {
                     return
                 }
                 const productData = { name, productImage, category, measurement, price, addedTime }
-                addProduct(productData)
-                    .then(res => {
+                try {
+                    const res = await addProduct(productData).unwrap();
+                    if (res?._id) {
                         toast.success("Product Added Successfully!!", { id: toastId });
                         setSelectedCategory('Select Categories')
                         setSelectedMeasurementType('Select Measurement')
@@ -126,12 +124,17 @@ const AddProduct = () => {
                         setProductImage('')
                         e.target.name.value = ''
                         e.target.price.value = ''
-                        document.getElementById('image').value = ''
-                        allProductRefetch()
-                    })
-                    .catch(err => {
-                        toast.error(err?.message, { id: toastId });
-                    })
+                        document.getElementById('addProduct').value = ''
+                        // allProductRefetch()
+                    }
+
+                }
+                catch (err) {
+                    toast.error(err?.message, { id: toastId });
+                }
+
+
+
             }
         });
     }
@@ -147,13 +150,13 @@ const AddProduct = () => {
                     <p className="text-sm text-red-500">{productNameError}</p>
                 </div>
                 <div className="flex flex-col gap-2">
-                    
+
                     <InputLabel text={'Product Image'} />
-                    <ProductImageInputField allImgData={{ ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0, productFile0, handleProductImage }} />
+                    <ProductImageInputField allImgData={{ ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0, productFile0, handleProductImage }} id={'addProduct'} />
                     <p className="text-sm text-red-500">{productImageError}</p>
                 </div>
                 <div onClick={handleShowCategory} className="flex flex-col gap-2">
-                    
+
                     <InputLabel text={'Product Category'} />
                     <div className='h-[48px] border border-gray-500 hover:border-primary rounded-md p-2 px-5 flex gap-3 items-center justify-between cursor-pointer relative'>
                         <div className='flex items-center gap-3 '>
@@ -170,7 +173,7 @@ const AddProduct = () => {
                     <p className="text-sm text-red-500">{categoryError}</p>
                 </div>
                 <div onClick={handleShowMeasurement} className="flex flex-col gap-2 ">
-                    
+
                     <InputLabel text={'Select Measurement'} />
                     <div className='h-[48px] border border-gray-500 hover:border-primary rounded-md p-2 px-5 flex gap-3 items-center justify-between cursor-pointer relative bg-white'>
                         <div className='flex items-center gap-3 '>
@@ -187,7 +190,7 @@ const AddProduct = () => {
                     <p className="text-sm text-red-500">{measurementError}</p>
                 </div>
                 <div className="flex flex-col gap-2">
-                    
+
                     <InputLabel text={'Price (BDT)'} />
                     <input type="number" className={`${inputStyle}`} placeholder="Price" name="price" />
                     <p className="text-sm text-red-500">{priceError}</p>

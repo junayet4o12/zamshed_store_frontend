@@ -4,16 +4,17 @@ import { FreeMode, Pagination } from 'swiper/modules';
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilterCategory, setSearchingText } from '../../Redux/features/searchingProductsSlice/searchingProductsSlice'
 import SingleSlide from './SingleSlide'
-import { marqueCategories } from '../../Shared/productCategoriesArray/marqueCategories';
+import useProductsCategoriesArray from '../../hooks/useProductsCategoriesArray';
 const CategoryMarque = () => {
+    const { categoriesLoading, marqueCategories } = useProductsCategoriesArray();
     const dispatch = useDispatch()
     const { filterCategory } = useSelector((state) => state.searchingProductsSlice);
     const handleCategory = (category) => {
         dispatch(setFilterCategory(category))
         dispatch(setSearchingText(''))
     }
-    
-    
+
+
     return (
         <div className="px-2">
             <Swiper

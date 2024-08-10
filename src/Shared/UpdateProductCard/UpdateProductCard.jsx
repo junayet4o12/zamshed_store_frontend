@@ -5,25 +5,16 @@ import ButtonDanger from "../Button/ButtonDanger";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { useDeleteProductsMutation, useUpdateProductMutation } from "../../Redux/features/api/allBaseApi";
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
 import { FaFire } from "react-icons/fa";
 import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
 const UpdateProductCard = ({ productDetails, refetch }) => {
-    const [updateProduct, all] = useUpdateProductMutation()
+    const [updateProduct] = useUpdateProductMutation()
     const { allProductRefetch } = useAllProductsRefetch()
-    const dispatch = useDispatch();
-    const [deleteProduct, { data }] = useDeleteProductsMutation();
-    const { addedTime, category, name, price, productImage, _id, measurement, isHot = false } = productDetails;
+    const [deleteProduct] = useDeleteProductsMutation();
+    const { category, name, price, productImage, _id, measurement, isHot = false } = productDetails;
     const showingMeasurementText = measurement === 'Quantity' ? 'Per Piece' : measurement === 'Kilogram' ? 'Per Kg' : 'Per Litre';
-    const [toggleState, setToggleState] = useState(false);
 
-    useEffect(() => {
-        if (data) {
-            toast.success('Deleted Successfully!!');
-            refetch();
-        }
-    }, [data, refetch]);
+
 
     const handleDelete = () => {
         Swal.fire({
@@ -36,18 +27,31 @@ const UpdateProductCard = ({ productDetails, refetch }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteProduct(_id);
+                deleteProduct(_id).unwrap()
+                    .then(res => {
+                        if (res?._id) {
+                            toast.success('Deleted Successfully!!');
+                            refetch();
+                        }
+
+                    })
+                    .catch(err => {
+                        return
+                    })
             }
         });
     };
 
     const handleToggleChange = () => {
         const toastId = toast.loading("Product status is updating...");
-        updateProduct({ data: { isHot: !isHot }, id: _id })
+        updateProduct({ data: { isHot: !isHot }, id: _id }).unwrap()
             .then(res => {
-                toast.success("Product status Updated Successfully!!", { id: toastId });
-                refetch()
-                allProductRefetch()
+                if(res?._id){
+                    toast.success("Product status Updated Successfully!!", { id: toastId });
+                    refetch()
+                    allProductRefetch()
+                }
+                
             })
             .catch(err => {
                 toast.error(err?.message, { id: toastId });

@@ -23,6 +23,9 @@ import PendingOrders from '../Pages/ClientOrders/PendingOrders/PendingOrders';
 import DashBoard from '../Pages/DashBoard/DashBoard';
 import ManageShop from '../Pages/ManageShop/ManageShop';
 import ManageProprietor from '../Pages/ManageProprietor/ManageProprietor';
+import AddCategory from '../Pages/AddCategory/AddCategory';
+import UpdateCategory from '../Pages/UpdateCategory/UpdateCategory';
+import ManageCategory from '../Pages/ManageCategory/ManageCategory';
 
 export const myRouts = createBrowserRouter([
     {
@@ -90,6 +93,18 @@ export const myRouts = createBrowserRouter([
                     {
                         path: 'manageProducts',
                         element: <UpdateProduct />
+                    },
+                    {
+                        path: 'addCategory',
+                        element: <AddCategory />
+                    },
+                    {
+                        path: 'updateCategory/:name/:id',
+                        element: <UpdateCategory />
+                    },
+                    {
+                        path: 'manageCategory',
+                        element: <ManageCategory />
                     },
                     {
                         path: '/dashboard/updateProduct/:name/:id',

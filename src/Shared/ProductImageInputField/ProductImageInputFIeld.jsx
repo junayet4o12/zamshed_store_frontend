@@ -3,7 +3,7 @@
 
 import { useRef, useState } from "react";
 
-const ProductImageInputField = ({ allImgData }) => {
+const ProductImageInputField = ({ allImgData, id }) => {
     const [imageInputValue, setImageInputValue] = useState('')
     const imageInput = useRef(null)
     const { ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, productFile0, setProductFile0, handleProductImage } = allImgData
@@ -12,10 +12,10 @@ const ProductImageInputField = ({ allImgData }) => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (!file) {
-            document.getElementById('image').files = imageInputValue
+            document.getElementById(id).files = imageInputValue
             return
         }
-        setImageInputValue(document.getElementById('image').files)
+        setImageInputValue(document.getElementById(id).files)
         const reader = new FileReader();
         reader.onload = (event) => {
             // setPhotoError('')
@@ -34,7 +34,7 @@ const ProductImageInputField = ({ allImgData }) => {
 
                     <div className="-z-10 absolute top-0 left-0 hidden">
                         <input
-                            id="image"
+                            id={id}
                             ref={imageInput}
                             onChange={handleFileChange}
                             // required

@@ -8,12 +8,13 @@ import NavbarMenu from './NavbarMenu';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LogoWithNotificationBlackVersion from '../../Shared/logoWithNotification/LogoWithNotificationBlackVersion';
 import { useSelector } from 'react-redux';
-import { useGetCartProductsMutation } from '../../Redux/features/api/allBaseApi';
+import { useGetCartProductsMutation, useGetClientOrdersCountQuery } from '../../Redux/features/api/allBaseApi';
 import { MdOutlineShoppingCart } from "react-icons/md";
 import useAdmin from '../../hooks/useAdmin';
 import OrderedProduct from '../../Shared/OrderedProduct/OrderedProduct';
 const MainNavbar = () => {
     const navigate = useNavigate()
+    const token = localStorage.getItem('token')
     const { user } = useSelector(state => state.userSlice);
     const [isAdmin, isAdminLoading] = useAdmin();
     const [isOpen, setOpenMenu] = useState(false)
@@ -22,6 +23,9 @@ const MainNavbar = () => {
     const { addedToCartData } = useSelector(state => state.productsInCartSlice)
     const productIdArray = addedToCartData.map(data => data.id);
     const [getCartProduct, { data, isLoading }] = useGetCartProductsMutation()
+    const { data: orderCount = {} } = useGetClientOrdersCountQuery({
+        skip: !isAdmin
+    });
     useEffect(() => {
         getCartProduct(productIdArray)
     }, [addedToCartData])
@@ -31,7 +35,7 @@ const MainNavbar = () => {
     return (
         <div className='w-full bg-white shadow-md pb-3 lg:pb-0'>
             <div className="w-full flex items-center text-sm px-2 mt-5 gap-7 py-3">
-                <img onClick={() => navigate('/')} className='h-10 lg:h-14 cursor-pointer' src={logo} alt="" />
+                <img onClick={() => navigate('/')} className='h-10 lg:h-14 cursor-pointer object-cover' src={logo} alt="" />
                 {
                     isHome && <>
                         <div className='hidden  lg:block z-10'><Categories /></div>
@@ -40,19 +44,19 @@ const MainNavbar = () => {
                 }
                 <div className='flex h-[50px] justify-center items-center gap-3  ml-auto'>
                     {!isAdmin && <Link to={'/myCarts'}><button className='w-10 h-10 flex justify-center items-center  text-2xl rounded-full'><LogoWithNotificationBlackVersion Logo={CiShoppingBasket} notification={newAllProductsData?.length || 0} /></button></Link>}
-                    
+
                     {
                         user &&
                         <>
-                           
+
                             {!isAdmin ? <>
-                                
+
 
                                 <p className='hidden xs:flex'><OrderedProduct /></p>
                             </> : <>
                                 <Link to={'dashboard/clientOrders/onProcessing'}>
                                     <button className='w-10 h-10  justify-center items-center  text-2xl rounded-full flex'>
-                                        <LogoWithNotificationBlackVersion userLogo={true} Logo={MdOutlineShoppingCart} notification={0} />
+                                        <LogoWithNotificationBlackVersion userLogo={false} Logo={MdOutlineShoppingCart} notification={orderCount?.pending || 0} />
                                     </button>
                                 </Link>
                             </>}

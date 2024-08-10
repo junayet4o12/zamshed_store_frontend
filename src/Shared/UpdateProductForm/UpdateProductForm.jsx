@@ -6,7 +6,6 @@ import { TbMenuDeep } from "react-icons/tb";
 import { FaChevronDown } from "react-icons/fa6";
 
 import { useState } from "react";
-import { categories } from "../../Shared/productCategoriesArray/categories";
 import { measurements } from "../../Shared/productMeasurement/measurements";
 import ProductImageInputField from "../../Shared/ProductImageInputField/ProductImageInputFIeld";
 import selectPhoto from '../../assets/selectPhoto.png'
@@ -17,7 +16,9 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAllProductsRefetch from "../../hooks/useAllProductsRefetch";
 import { useUpdateProductMutation } from "../../Redux/features/api/allBaseApi";
+import useProductsCategoriesArray from "../../hooks/useProductsCategoriesArray";
 const UpdateProductForm = ({ productData, refetch }) => {
+    const {categories=[]} = useProductsCategoriesArray()
     const [updateProduct, all] = useUpdateProductMutation()
     const navigate = useNavigate()
     const { allProductRefetch } = useAllProductsRefetch()
@@ -59,7 +60,7 @@ const UpdateProductForm = ({ productData, refetch }) => {
         setSelectedMeasurementType(measurement)
     }
     const handleProductImage = () => {
-        const image = document.getElementById('image')
+        const image = document.getElementById('updateProduct')
         image?.click()
         // imageInput.current.click()
     }
@@ -153,7 +154,7 @@ const UpdateProductForm = ({ productData, refetch }) => {
             </div>
             <div className="flex flex-col gap-2">
                 {labelMaker('Product Image')}
-                <ProductImageInputField allImgData={{ ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0, productFile0, handleProductImage }} />
+                <ProductImageInputField allImgData={{ ProductImagePlaceholder, setProductImagePlaceholder, setProductImage, setProductFile0, productFile0, handleProductImage }} id={'updateProduct'} />
                 <p className="text-sm text-red-500">{productImageError}</p>
             </div>
             <div onClick={handleShowCategory} className="flex flex-col gap-2">

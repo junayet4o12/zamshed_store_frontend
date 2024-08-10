@@ -57,7 +57,7 @@ const MyCarts = () => {
         dispatch(restoreAddToCartData())
     }
     return (
-        <div className="px-2 space-y-5">
+        <div className="px-2 space-y-5 pb-10">
             <RoutesTitle />
             <div className="px-10 space-y-5">
                 <div><Title text={'My Cart'} /></div>
