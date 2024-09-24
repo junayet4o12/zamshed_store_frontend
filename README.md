@@ -114,6 +114,8 @@ The proprietor can maintain accurate shop and personal information:
 
 5. **Open your browser:**
    Navigate to [http://localhost:5173](http://localhost:5173) to see the app in action.
+   Or
+   Navigate to [https://zamshed-store.web.app/](https://zamshed-store.web.app/) to see the app in action.
 
 ## ⚙️ Usage
 1. **Sign Up / Login**: Users can create an account or log in using Firebase authentication. (Optional but recommended)
